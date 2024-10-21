@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-
-
 const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }) => {
   useEffect(() => {
     if (clienteEditado) {
@@ -21,10 +19,15 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
     rfc: cliente.rfc || '',
   };
 
-  const handleSubmit = (values) => {
-    console.log(values)
-    onSave(values); // Llama a la función onSave con los valores del formulario
-    closeModal(); // Cierra el modal después de guardar
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      await onSave(values); // Espera a que onSave se complete correctamente
+      //closeModal(); // Solo cierra el modal si se guardó correctamente
+    } catch (error) {
+      console.error("Error al guardar los datos:", error);
+    } finally {
+      setSubmitting(false); // Permite que el botón vuelva a estar habilitado
+    }
   };
 
   const validationSchema = Yup.object().shape({
@@ -42,16 +45,18 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
       .required('El RFC es obligatorio')
       .matches(/^([A-ZÑ&]{3,4}) ?(?:-?(\d{2})(\d{2})(\d{2})) ?((?:[A-Z\d]{3}))$/, 'El RFC no es válido'),
   });
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
-      enableReinitialize={false} // Permite reinicializar el formulario si los valores cambian
+      enableReinitialize={false}
     >
       {({ isSubmitting }) => (
         <Form>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Nombre */}
             <div>
               <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
               <Field
@@ -61,6 +66,7 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
               />
               <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
             </div>
+            {/* Dirección */}
             <div>
               <label className="block text-gray-700 dark:text-gray-300">Dirección</label>
               <Field
@@ -70,6 +76,7 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
               />
               <ErrorMessage name="address" component="div" className="text-red-500 text-sm mt-1" />
             </div>
+            {/* Municipio */}
             <div>
               <label className="block text-gray-700 dark:text-gray-300">Municipio</label>
               <Field
@@ -79,6 +86,7 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
               />
               <ErrorMessage name="municipality" component="div" className="text-red-500 text-sm mt-1" />
             </div>
+            {/* Estado */}
             <div>
               <label className="block text-gray-700 dark:text-gray-300">Estado</label>
               <Field
@@ -88,6 +96,7 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
               />
               <ErrorMessage name="state" component="div" className="text-red-500 text-sm mt-1" />
             </div>
+            {/* Teléfono */}
             <div>
               <label className="block text-gray-700 dark:text-gray-300">Teléfono</label>
               <Field
@@ -99,6 +108,7 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
               />
               <ErrorMessage name="phone" component="div" className="text-red-500 text-sm mt-1" />
             </div>
+            {/* Email */}
             <div>
               <label className="block text-gray-700 dark:text-gray-300">Email</label>
               <Field
@@ -108,6 +118,7 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
               />
               <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
             </div>
+            {/* RFC */}
             <div>
               <label className="block text-gray-700 dark:text-gray-300">RFC</label>
               <Field
@@ -132,7 +143,7 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
               type="submit"
               className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
               disabled={isSubmitting}>
-              Guardar
+              {isSubmitting ? 'Guardando...' : 'Guardar'}
             </button>
           </div>
         </Form>
