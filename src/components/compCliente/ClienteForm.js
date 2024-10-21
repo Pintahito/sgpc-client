@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 
+// Santiago Priego Barrios
+
 
 const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }) => {
   useEffect(() => {
@@ -21,11 +23,17 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
     rfc: cliente.rfc || '',
   };
 
-  const handleSubmit = (values) => {
-    console.log(values)
-    onSave(values); // Llama a la función onSave con los valores del formulario
-    closeModal(); // Cierra el modal después de guardar
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      await onSave(values); // Espera a que onSave se complete correctamente
+      closeModal(); // Solo cierra el modal si se guardó correctamente
+    } catch (error) {
+      console.error("Error al guardar los datos:", error);
+    } finally {
+      setSubmitting(false); // Permite que el botón vuelva a estar habilitado
+    }
   };
+  
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('El nombre es obligatorio'),
