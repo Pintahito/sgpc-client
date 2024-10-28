@@ -7,6 +7,7 @@ import './css/Modal.css';
 import './css/App.css';
 import Empleados from './components/compEmpleado/Empleados';
 import Inventario from './components/compInvetario/Inventario';
+import EmpleadoExt from './components/compServicio/EmpleadoExt';
 
 
 
@@ -23,16 +24,18 @@ const App = () => {
     switch (activePage) {
       case 'home':
         return <Home onNavigate={handleNavigate} />;
-        case 'clientes':
-          return <Clientes />;
+      case 'clientes':
+        return <Clientes />;
       case 'recursoshumanos':
         return <div>Recursos Humanos</div>;
       case 'empleados':
         return <Empleados />;
+        case 'empleadoext':
+          return <EmpleadoExt />;
       case 'inventario':
         return <Inventario />;
       default:
-        return <Home onNavigate={handleNavigate}/>;
+        return <Home onNavigate={handleNavigate} />;
     }
   };
 

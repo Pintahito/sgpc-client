@@ -38,10 +38,10 @@ const Sidebar = ({ onNavigate, active }) => {
               Gestión Empleados
             </button>
             <button
-              onClick={() => onNavigate('nomina')}
-              className={`w-full py-2 px-4 text-left rounded-none border-b ${active === 'nomina' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
+              onClick={() => onNavigate('empleadoext')}
+              className={`w-full py-2 px-4 text-left rounded-none border-b ${active === 'empleadoext' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
             >
-              Gestión Nómina
+              Gestión Servicios
             </button>
             <button
               onClick={() => onNavigate('puesto')}
@@ -50,10 +50,10 @@ const Sidebar = ({ onNavigate, active }) => {
               Gestión Puestos
             </button>
             <button
-              onClick={() => onNavigate('servicios')}
-              className={`w-full py-2 px-4 text-left rounded-none border-b ${active === 'servicios' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
+              onClick={() => onNavigate('nomina')}
+              className={`w-full py-2 px-4 text-left rounded-none border-b ${active === 'nomina' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
             >
-              Gestión Servicios
+              Gestión Nomina
             </button>
           </div>
         )}
