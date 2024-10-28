@@ -27,7 +27,6 @@ const App = () => {
           return <Clientes />;
       case 'recursoshumanos':
         return <div>Recursos Humanos</div>;
-
       case 'empleados':
         return <Empleados />;
       case 'inventario':
