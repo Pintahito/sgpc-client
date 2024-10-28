@@ -59,10 +59,10 @@ const Sidebar = ({ onNavigate, active }) => {
         )}
 
         <button
-          onClick={() => onNavigate('configuracion')}
-          className={`w-full py-2 px-4 text-left rounded-none border-b ${active === 'configuracion' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
+          onClick={() => onNavigate('inventario')}
+          className={`w-full py-2 px-4 text-left rounded-none border-b ${active === 'inventario' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
         >
-          Configuración
+          Gestión Inventario
         </button>
         <button
           onClick={() => onNavigate('dashboard')}

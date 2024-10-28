@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Home from './components/Home';
-import Dashboard from './components/Dashboard';
 import Clientes from './components/compCliente/Clientes';
 
 import './css/Modal.css';
 import './css/App.css';
 import Empleados from './components/compEmpleado/Empleados';
+import Inventario from './components/compInvetario/Inventario';
 
 
 
@@ -30,8 +30,8 @@ const App = () => {
 
       case 'empleados':
         return <Empleados />;
-      case 'dashboard':
-        return <Dashboard />;
+      case 'inventario':
+        return <Inventario />;
       default:
         return <Home onNavigate={handleNavigate}/>;
     }

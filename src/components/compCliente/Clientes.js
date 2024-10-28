@@ -25,7 +25,7 @@ const Clientes = () => {
   // Obtener todos los clientes
   const fetchClientes = async () => {
     try {
-      const response = await axios.get('http://10.73.1.36:8081/api/v1/clients');
+      const response = await axios.get('http://10.73.1.34:8081/api/v1/clients');
       setClientes(response.data);
     } catch (error) {
       console.error('Error al obtener clientes:', error);
@@ -40,11 +40,11 @@ const Clientes = () => {
   const saveCliente = async (values) => {
     try {
       if (clienteEditado) {
-        await axios.put(`http://10.73.1.36:8081/api/v1/clients/${clienteEditado.id_client}`, values);
+        await axios.put(`http://10.73.1.34:8081/api/v1/clients/${clienteEditado.id_client}`, values);
        // window.alert('Cliente editado con éxito');
         Swal.fire("!Cliente editado con exito!");
       } else {
-        await axios.post('http://10.73.1.36:8081/api/v1/clients', values);
+        await axios.post('http://10.73.1.34:8081/api/v1/clients', values);
         //window.alert('Cliente agregado con éxito');
         Swal.fire("!Cliente agregado con exito!");
       }
@@ -66,7 +66,7 @@ const Clientes = () => {
   // Eliminar un cliente
   const deleteCliente = async () => {
     try {
-      await axios.delete(`http://10.73.1.36:8081/api/v1/clients/${clienteSeleccionado.id_client}`);
+      await axios.delete(`http://10.73.1.34:8081/api/v1/clients/${clienteSeleccionado.id_client}`);
       //window.alert('Cliente eliminado con éxito');
       Swal.fire("!Cliente eliminado con exito!");
       fetchClientes();
