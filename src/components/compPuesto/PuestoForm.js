@@ -11,7 +11,7 @@ const PuestoForm = ({ puesto, setPuesto, onSave, puestoEditado, closeModal }) =>
 
   const initialValues = {
     name: puesto.name || '',
-    descripcion: puesto.descripcion || '',
+    description: puesto.description || '',
     statusType: puesto.statusType || '',
   };
 
@@ -27,9 +27,9 @@ const PuestoForm = ({ puesto, setPuesto, onSave, puestoEditado, closeModal }) =>
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('El nombre es obligatorio'),
-    descripcion: Yup.string().required('La descripción es obligatoria'),
+    description: Yup.string().required('La descripción es obligatoria'),
     statusType: Yup.string()
-      .oneOf(['Activo', 'Inactivo'], 'Selecciona un estado válido')
+      .oneOf(['ACTIVO', 'INACTIVO','VACANTE'], 'Selecciona un estado válido')
       .required('El estado es obligatorio'),
   });
 
@@ -59,10 +59,10 @@ const PuestoForm = ({ puesto, setPuesto, onSave, puestoEditado, closeModal }) =>
               <label className="block text-gray-700 dark:text-gray-300">Descripción</label>
               <Field
                 as="textarea"
-                name="descripcion"
+                name="description"
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
               />
-              <ErrorMessage name="descripcion" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
             {/* Estado */}
@@ -74,8 +74,9 @@ const PuestoForm = ({ puesto, setPuesto, onSave, puestoEditado, closeModal }) =>
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
               >
                 <option value="">Selecciona un estado</option>
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
+                <option value="ACTIVO">Activo</option>
+                <option value="INACTIVO">Inactivo</option>
+                <option value="VACANTE">Vacante</option>
               </Field>
               <ErrorMessage name="statusType" component="div" className="text-red-500 text-sm mt-1" />
             </div>

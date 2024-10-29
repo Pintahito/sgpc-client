@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PuestoList from './PuestoList'; // Lista de puestos
 import PuestoForm from './PuestoForm'; // Formulario de agregar/editar puestos
-import Modal from '../compEmpleado/Modal'; // Modal para agregar, editar y eliminar
+import Modal from './Modal'; // Modal para agregar, editar y eliminar
 import Swal from 'sweetalert2';
 
 const PuestoEmp = () => {
@@ -14,14 +14,14 @@ const PuestoEmp = () => {
   const [puestoSeleccionado, setPuestoSeleccionado] = useState(null); // Puesto seleccionado para eliminar o editar
   const [newPuesto, setNewPuesto] = useState({
     name: '',
-    descripcion: '',
+    description: '',
     statusType: '',
   });
 
   // Obtener todos los puestos
   const fetchPuestos = async () => {
     try {
-      const response = await axios.get('http://10.73.1.34:8081/api/v1/puestos');
+      const response = await axios.get('http://10.73.1.35:8081/api/v1/positions');
       setPuestos(response.data);
     } catch (error) {
       console.error('Error al obtener los puestos:', error);
@@ -36,10 +36,10 @@ const PuestoEmp = () => {
   const savePuesto = async (values) => {
     try {
       if (puestoEditado) {
-        await axios.put(`http://10.73.1.34:8081/api/v1/puestos/${puestoEditado.id}`, values);
+        await axios.put(`http://10.73.1.35:8081/api/v1/positions/${puestoEditado.id_position}`, values);
         Swal.fire("¡Puesto editado con éxito!");
       } else {
-        await axios.post('http://10.73.1.34:8081/api/v1/puestos', values);
+        await axios.post('http://10.73.1.35:8081/api/v1/positions', values);
         Swal.fire("¡Puesto agregado con éxito!");
       }
       fetchPuestos();
@@ -57,7 +57,7 @@ const PuestoEmp = () => {
   // Eliminar puesto
   const deletePuesto = async () => {
     try {
-      await axios.delete(`http://10.73.1.34:8081/api/v1/puestos/${puestoSeleccionado.id}`);
+      await axios.delete(`http://10.73.1.35:8081/api/v1/positions/${puestoSeleccionado.id_position}`);
       Swal.fire("¡Puesto eliminado con éxito!");
       fetchPuestos();
       closeDeleteModal();
@@ -72,7 +72,7 @@ const PuestoEmp = () => {
     setPuestoEditado(null);
     setNewPuesto({
       name: '',
-      descripcion: '',
+      description: '',
       statusType: '',
     });
   };
@@ -145,6 +145,7 @@ const PuestoEmp = () => {
           setModalType('delete');
           setIsDeleteModalOpen(true);
         }}
+        setModalType={setModalType} // Pasar el setModalType a PuestoList
       />
     </div>
   );

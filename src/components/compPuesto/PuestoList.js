@@ -21,7 +21,7 @@ function PuestoList({ puestos, setPuestoEditado, setModalType, setPuestoSeleccio
     },
     {
       name: 'Descripción',
-      selector: (row) => row.descripcion,
+      selector: (row) => row.description,
       sortable: true,
     },
     {
