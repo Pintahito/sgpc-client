@@ -44,8 +44,8 @@ const Sidebar = ({ onNavigate, active }) => {
               Gestión Servicios
             </button>
             <button
-              onClick={() => onNavigate('puesto')}
-              className={`w-full py-2 px-4 text-left rounded-none border-b ${active === 'puesto' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
+              onClick={() => onNavigate('puestoemp')}
+              className={`w-full py-2 px-4 text-left rounded-none border-b ${active === 'puestoemp' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
             >
               Gestión Puestos
             </button>

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Home from './components/Home';
-import Clientes from './components/compCliente/Clientes';
 
-import './css/Modal.css';
-import './css/App.css';
+import Clientes from './components/compCliente/Clientes';
 import Empleados from './components/compEmpleado/Empleados';
 import Inventario from './components/compInvetario/Inventario';
 import EmpleadoExt from './components/compServicio/EmpleadoExt';
+import PuestoEmp from './components/compPuesto/PuestoEmp';
+
+import './css/Modal.css';
+import './css/App.css';
 
 
 
-const App = () => {
+function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [activePage, setActivePage] = useState('home');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Controla si la barra lateral está abierta
@@ -30,8 +32,10 @@ const App = () => {
         return <div>Recursos Humanos</div>;
       case 'empleados':
         return <Empleados />;
-        case 'empleadoext':
-          return <EmpleadoExt />;
+      case 'empleadoext':
+        return <EmpleadoExt />;
+      case 'puestoemp':
+        return <PuestoEmp />;
       case 'inventario':
         return <Inventario />;
       default:
@@ -74,6 +78,6 @@ const App = () => {
       </div>
     </div>
   );
-};
+}
 
 export default App;
