@@ -58,6 +58,23 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                             />
                             <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
+
+                        <div>
+                            <label className="block text-gray-700 dark:text-gray-300">Bodega</label>
+                            <Field
+                                as="select"
+                                name="bodega"
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            >
+                                <option value="" label="Seleccione un proveedor" />
+                                <option value="Bodega1" label="Bodega1" />
+                                <option value="Bodega2" label="Bodega2" />
+                                <option value="Bodega3" label="Bodega3" />
+                            </Field>
+                            <ErrorMessage name="bodega" component="div" className="text-red-500 text-sm mt-1" />
+                        </div>
+
+
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Cantidad</label>
                             <Field
@@ -67,6 +84,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                             />
                             <ErrorMessage name="quantity" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
+
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Precio</label>
                             <Field
@@ -76,20 +94,6 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
                             />
                             <ErrorMessage name="price" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Tipo Insumo</label>
-                            <Field
-                                as="select"
-                                name="tipoInsumo"
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                            >
-                                <option value="" label="Seleccione un tipo de insumo" />
-                                <option value="insumo1" label="Material" />
-                                <option value="insumo2" label="Herramienta Pesada" />
-                                <option value="insumo3" label="Herramienta Ligera" />
-                            </Field>
-                            <ErrorMessage name="tipoInsumo" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Descripción</label>
@@ -111,6 +115,21 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                                 <option value="insumo1" label="Trupper" />
                                 <option value="insumo2" label="Construccciones Pesadas" />
                                 <option value="insumo3" label="Casa de materiales" />
+                            </Field>
+                            <ErrorMessage name="proveedor" component="div" className="text-red-500 text-sm mt-1" />
+                        </div>
+
+                        <div>
+                            <label className="block text-gray-700 dark:text-gray-300">Tipo Insumo</label>
+                            <Field
+                                as="select"
+                                name="tipoInsumo"
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            >
+                                <option value="" label="Seleccione un tipo de insumo" />
+                                <option value="insumo1" label="Material" />
+                                <option value="insumo2" label="Herramienta Pesada" />
+                                <option value="insumo3" label="Herramienta Ligera" />
                             </Field>
                             <ErrorMessage name="tipoInsumo" component="div" className="text-red-500 text-sm mt-1" />
                         </div>

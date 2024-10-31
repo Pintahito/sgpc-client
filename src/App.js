@@ -7,9 +7,11 @@ import Empleados from './components/compEmpleado/Empleados';
 import Inventario from './components/compInvetario/Inventario';
 import EmpleadoExt from './components/compServicio/EmpleadoExt';
 import PuestoEmp from './components/compPuesto/PuestoEmp';
+import Maquinaria from './components/compMaquinaria/Maquinaria';
 
 import './css/Modal.css';
 import './css/App.css';
+
 
 
 
@@ -38,6 +40,8 @@ function App() {
         return <PuestoEmp />;
       case 'inventario':
         return <Inventario />;
+      case 'maquinaria':
+        return <Maquinaria />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }
@@ -66,7 +70,7 @@ function App() {
               onClick={() => setDarkMode(!darkMode)}
               className="text-iosBlue text-sm font-medium"
             >
-              {darkMode ? 'Dia' : 'Noche'}
+              {darkMode ? 'Modo Claro' : 'Modo Noche'}
             </button>
           </header>
 
