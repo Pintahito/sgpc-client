@@ -86,7 +86,7 @@ const MaquinariaForm = ({ maquinaria, setMaquinaria, onSave, maquinariaEditada, 
 
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Estado</label>
-                            <Field as="select" name="estado" className="input-field">
+                            <Field as="select" name="estado" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md" >
                                 <option value="" label="Seleccione el estado" />
                                 <option value="operativo" label="Operativo" />
                                 <option value="en reparación" label="En Reparación" />

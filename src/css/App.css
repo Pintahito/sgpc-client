@@ -190,7 +190,7 @@ label {
   color: #333;
 }
 
-input[type="text"], input[type="email"], input[type="date"] {
+input[type="text"], input[type="email"], input[type="date"],input[type="number"],input[type="select"] {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;

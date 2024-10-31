@@ -11,6 +11,7 @@ import Maquinaria from './components/compMaquinaria/Maquinaria';
 
 import './css/Modal.css';
 import './css/App.css';
+import Departamentos from './components/compDepartamento/Departamentos';
 
 
 
@@ -42,6 +43,8 @@ function App() {
         return <Inventario />;
       case 'maquinaria':
         return <Maquinaria />;
+        case 'departamento':
+          return <Departamentos />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }

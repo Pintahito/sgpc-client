@@ -60,6 +60,12 @@ const Sidebar = ({ onNavigate, active }) => {
               Gestión Puestos
             </button>
             <button
+              onClick={() => onNavigate('departamento')}
+              className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'departamento' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
+            >
+              Gestión Departamento
+            </button>
+            <button
               onClick={() => onNavigate('nomina')}
               className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'nomina' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
             >
