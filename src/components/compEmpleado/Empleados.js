@@ -84,7 +84,7 @@ const Empleados = () => {
   // Funciones para Categorias
   const fetchCategorias = async () => {
     try {
-      const response = await axios.get('http://10.73.1.34:8081/api/v1/category');
+      const response = await axios.get('http://10.73.1.34:8081/api/v1/categories');
       setCategorias(response.data);
     } catch (error) {
       console.error('Error al obtener la categoria:', error);
@@ -94,10 +94,10 @@ const Empleados = () => {
   const saveCategoria = async (values) => {
     try {
       if (categoriaEditada) {
-        await axios.put(`http://10.73.1.34:8081/api/v1/vehiculos/${categoriaEditada.id}`, values);
+        await axios.put(`http://10.73.1.34:8081/api/v1/categories/${categoriaEditada.id_category}`, values);
         Swal.fire("¡Categoria editada con éxito!");
       } else {
-        await axios.post(`http://10.73.1.34:8081/api/v1/vehiculos`, values);
+        await axios.post(`http://10.73.1.34:8081/api/v1/categories`, values);
         Swal.fire("¡Categoria agregada con éxito!");
       }
       fetchCategorias();
@@ -114,7 +114,7 @@ const Empleados = () => {
 
   const deleteCategoria = async () => {
     try {
-      await axios.delete(`http://10.73.1.34:8081/api/v1/vehiculos/${categoriaSeleccionada.id}`);
+      await axios.delete(`http://10.73.1.34:8081/api/v1/categories/${categoriaSeleccionada.id_category}`);
       Swal.fire("¡Categoria eliminada con éxito!");
       fetchCategorias();
       closeDeleteModal();
@@ -255,11 +255,11 @@ const Empleados = () => {
           ) : (
             <CategoriaForm
               categoria={newCategoria}
-              setCategorias={setNewCategoria}
+              setCategoria={setNewCategoria}
               onSave={saveCategoria}
               categoriaEditada={categoriaEditada}
               handleInputChange={handleInputChange}
-              initialValues={newCategoria}
+              //initialValues={newCategoria}
               closeModal={closeModal}
             />
           )}
@@ -268,7 +268,7 @@ const Empleados = () => {
 
       {isDeleteModalOpen && (
         <Modal isOpen={isDeleteModalOpen} closeModal={closeDeleteModal}>
-          <p>¿Estás seguro de que deseas eliminar este artículo?</p>
+          <p>¿Estás seguro de que deseas eliminar?</p>
           <div className="flex justify-end mt-4">
             <button
               className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 mr-2"
