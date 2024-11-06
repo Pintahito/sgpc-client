@@ -45,7 +45,7 @@ const DepartamentoForm = ({ departamento, setDepartamento, onSave, departamentoE
                     <div className="grid grid-cols-1 gap-4">
                         {/* Nombre */}
                         <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Nombre De Departamento</label>
                             <Field
                                 minLength={0}
                                 maxLength={80}

@@ -21,7 +21,7 @@ const Departamentos = () => {
   // Obtener todos los departamentos
   const fetchDepartamentos = async () => {
     try {
-      const response = await axios.get('http://10.73.1.35:8081/api/v1/departments');
+      const response = await axios.get('http://192.168.218.195:8081/api/v1/departments');
       setDepartamentos(response.data);
     } catch (error) {
       console.error('Error al obtener departamentos:', error);
@@ -36,10 +36,10 @@ const Departamentos = () => {
   const saveDepartamento = async (values) => {
     try {
       if (departamentoEditado) {
-        await axios.put(`http://10.73.1.35:8081/api/v1/departments/${departamentoEditado.id_departament}`, values);
+        await axios.put(`http://192.168.218.195:8081/api/v1/departments/${departamentoEditado.id_departament}`, values);
         Swal.fire("¡Departamento editado con éxito!");
       } else {
-        await axios.post('http://10.73.1.35:8081/api/v1/departments', values);
+        await axios.post('http://192.168.218.195:8081/api/v1/departments', values);
         Swal.fire("¡Departamento agregado con éxito!");
       }
       fetchDepartamentos();
@@ -57,7 +57,7 @@ const Departamentos = () => {
   // Eliminar un departamento
   const deleteDepartamento = async () => {
     try {
-      await axios.delete(`http://10.73.1.35:8081/api/v1/departments/${departamentoSeleccionado.id_departament}`);
+      await axios.delete(`http://192.168.218.195:8081/api/v1/departments/${departamentoSeleccionado.id_departament}`);
       Swal.fire("¡Departamento eliminado con éxito!");
       fetchDepartamentos();
       closeDeleteModal();

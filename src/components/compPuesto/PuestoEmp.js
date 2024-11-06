@@ -21,7 +21,7 @@ const PuestoEmp = () => {
   // Obtener todos los puestos
   const fetchPuestos = async () => {
     try {
-      const response = await axios.get('http://10.73.1.35:8081/api/v1/positions');
+      const response = await axios.get('http://192.168.218.195:8081/api/v1/positions');
       setPuestos(response.data);
     } catch (error) {
       console.error('Error al obtener los puestos:', error);
@@ -36,10 +36,10 @@ const PuestoEmp = () => {
   const savePuesto = async (values) => {
     try {
       if (puestoEditado) {
-        await axios.put(`http://10.73.1.35:8081/api/v1/positions/${puestoEditado.id_position}`, values);
+        await axios.put(`http://192.168.218.195:8081/api/v1/positions/${puestoEditado.id_position}`, values);
         Swal.fire("¡Puesto editado con éxito!");
       } else {
-        await axios.post('http://10.73.1.35:8081/api/v1/positions', values);
+        await axios.post('http://192.168.218.195:8081/api/v1/positions', values);
         Swal.fire("¡Puesto agregado con éxito!");
       }
       fetchPuestos();
@@ -57,7 +57,7 @@ const PuestoEmp = () => {
   // Eliminar puesto
   const deletePuesto = async () => {
     try {
-      await axios.delete(`http://10.73.1.35:8081/api/v1/positions/${puestoSeleccionado.id_position}`);
+      await axios.delete(`http://192.168.218.195:8081/api/v1/positions/${puestoSeleccionado.id_position}`);
       Swal.fire("¡Puesto eliminado con éxito!");
       fetchPuestos();
       closeDeleteModal();
