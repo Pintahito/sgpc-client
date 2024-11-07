@@ -12,6 +12,7 @@ import Maquinaria from './components/compMaquinaria/Maquinaria';
 import './css/Modal.css';
 import './css/App.css';
 import Departamentos from './components/compDepartamento/Departamentos';
+import Proveedores from './components/Proveedor/Proveedores';
 
 
 
@@ -43,8 +44,10 @@ function App() {
         return <Inventario />;
       case 'maquinaria':
         return <Maquinaria />;
-        case 'departamento':
-          return <Departamentos />;
+      case 'departamento':
+        return <Departamentos />;
+      case 'proveedores':
+        return <Proveedores />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }

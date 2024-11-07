@@ -29,8 +29,9 @@ const DepartamentoForm = ({ departamento, setDepartamento, onSave, departamentoE
         name: Yup.string().required('El nombre es obligatorio'),
         description: Yup.string().required('La descripción es obligatoria'),
         email: Yup.string()
-            .email('Correo electrónico inválido')
-            .required('El correo es obligatorio'),
+            .email('El formato del correo no es válido')
+            .matches(/^[^@]+@[^@]+\.[^@.]+$/, 'El correo debe contener un punto en el dominio')
+            .required('El email es obligatorio'),
     });
 
     return (
@@ -72,7 +73,7 @@ const DepartamentoForm = ({ departamento, setDepartamento, onSave, departamentoE
                             <label className="block text-gray-700 dark:text-gray-300">Email</label>
                             <Field
                                 minLength={0}
-                                maxLength={150}
+                                maxLength={100}
                                 type="email"
                                 name="email"
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"

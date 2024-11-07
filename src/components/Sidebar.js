@@ -86,6 +86,12 @@ const Sidebar = ({ onNavigate, active }) => {
         >
           Gestión Maquinaria y Vehiculos
         </button>
+        <button
+          onClick={() => onNavigate('proveedores')}
+          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'proveedores' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'} focus:outline-none focus:bg-iosBlue focus:text-white`}
+        >
+          Proveedores
+        </button>
       </nav>
     </div>
   );

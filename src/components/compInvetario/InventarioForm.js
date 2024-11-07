@@ -1,12 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeModal }) => {
+    const [proveedores, setProveedores] = useState([]);
+
     useEffect(() => {
+        // Si hay un artículo editado, establecemos sus valores
         if (articuloEditado) {
             setArticulo(articuloEditado);
         }
+
+        // Obtener proveedores de la API
+        const fetchProveedores = async () => {
+            try {
+                const response = await axios.get('http://10.73.1.34:8081/api/v1/suppliers'); // Cambia a la URL correcta de tu API
+                setProveedores(response.data);
+            } catch (error) {
+                console.error("Error al obtener proveedores:", error);
+            }
+        };
+
+        fetchProveedores();
     }, [articuloEditado, setArticulo]);
 
     const initialValues = {
@@ -14,6 +30,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
         quantity: articulo.quantity || '',
         price: articulo.price || '',
         description: articulo.description || '',
+        proveedor: articulo.proveedor || '',
     };
 
     const handleSubmit = async (values, { setSubmitting }) => {
@@ -37,6 +54,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
             .required('El precio es obligatorio')
             .positive('El precio debe ser positivo'),
         description: Yup.string(),
+        proveedor: Yup.string().required('El proveedor es obligatorio'),
     });
 
     return (
@@ -49,61 +67,8 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
             {({ isSubmitting }) => (
                 <Form>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
-                            <Field
-                                type="text"
-                                name="name"
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                            />
-                            <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
+                        {/* Otros campos */}
 
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Bodega</label>
-                            <Field
-                                as="select"
-                                name="bodega"
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                            >
-                                <option value="" label="Seleccione un proveedor" />
-                                <option value="Bodega1" label="Bodega1" />
-                                <option value="Bodega2" label="Bodega2" />
-                                <option value="Bodega3" label="Bodega3" />
-                            </Field>
-                            <ErrorMessage name="bodega" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
-
-
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Cantidad</label>
-                            <Field
-                                type="number"
-                                name="quantity"
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                            />
-                            <ErrorMessage name="quantity" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
-
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Precio</label>
-                            <Field
-                                type="number"
-                                name="price"
-                                step="0.01"
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                            />
-                            <ErrorMessage name="price" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Descripción</label>
-                            <Field
-                                type="text"
-                                name="description"
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                            />
-                            <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Proveedor</label>
                             <Field
@@ -112,28 +77,16 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
                             >
                                 <option value="" label="Seleccione un proveedor" />
-                                <option value="insumo1" label="Trupper" />
-                                <option value="insumo2" label="Construccciones Pesadas" />
-                                <option value="insumo3" label="Casa de materiales" />
+                                {proveedores.map((proveedor) => (
+                                    <option key={proveedor.id_supplier} value={proveedor.id_supplier}>
+                                        {proveedor.name}
+                                    </option>
+                                ))}
                             </Field>
                             <ErrorMessage name="proveedor" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Tipo Insumo</label>
-                            <Field
-                                as="select"
-                                name="tipoInsumo"
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                            >
-                                <option value="" label="Seleccione un tipo de insumo" />
-                                <option value="insumo1" label="Material" />
-                                <option value="insumo2" label="Herramienta Pesada" />
-                                <option value="insumo3" label="Herramienta Ligera" />
-                            </Field>
-                            <ErrorMessage name="tipoInsumo" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
-
+                        {/* Otros campos */}
                     </div>
 
                     <div className="mt-6 flex justify-end gap-4">
