@@ -16,7 +16,7 @@ function InventarioList({ inventario, setArticuloEditado, setModalType, setArtic
     },
     {
       name: 'Cantidad',
-      selector: (row) => row.quantity,
+      selector: (row) => row.amount,
       sortable: true,
     },
     {
@@ -31,13 +31,28 @@ function InventarioList({ inventario, setArticuloEditado, setModalType, setArtic
       sortable: true,
     },
     {
+      name: 'Tipo Insumo',
+      selector: (row) => row.inputType,
+      sortable: true,
+    },
+    {
+      name: 'Bodega',
+      selector: (row) => row.wineryName,
+      sortable: true,
+    },
+    {
+      name: 'idSupp',
+      selector: (row) => row.supplierId,
+      sortable: true,
+    },
+    {
       name: 'Acciones',
       cell: (row) => (
         <div className="flex space-x-2">
           <button
             className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 transition"
             onClick={() => {
-                setArticuloEditado(row);
+              setArticuloEditado(row);
               setModalType('edit');
             }}>
             Editar
@@ -45,7 +60,7 @@ function InventarioList({ inventario, setArticuloEditado, setModalType, setArtic
           <button
             className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition"
             onClick={() => {
-                setArticuloSeleccionado(row);
+              setArticuloSeleccionado(row);
               setModalType('delete');
             }}>
             Eliminar

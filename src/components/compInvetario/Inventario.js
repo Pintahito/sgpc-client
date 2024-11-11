@@ -15,14 +15,17 @@ const Inventario = () => {
   const [articuloSeleccionado, setArticuloSeleccionado] = useState(null);
   const [newArticulo, setNewArticulo] = useState({
     name: '',
+    amount: 0,
     description: '',
-    quantity: 0,
     price: 0,
+    inputType: '',
+    wineryName: '',
+    supplierId: ''
   });
 
   const fetchInventario = async () => {
     try {
-      const response = await axios.get('http://10.73.1.34:8081/api/v1/inventory');
+      const response = await axios.get('http://10.73.1.36:8081/api/v1/inventories');
       setInventario(response.data);
     } catch (error) {
       console.error('Error al obtener el inventario:', error);
@@ -36,10 +39,10 @@ const Inventario = () => {
   const saveArticulo = async (values) => {
     try {
       if (articuloEditado) {
-        await axios.put(`http://10.73.1.34:8081/api/v1/inventory/${articuloEditado.id}`, values);
+        await axios.put(`http://10.73.1.36:8081/api/v1/inventories/${articuloEditado.id_inventory}`, values);
         Swal.fire("¡Artículo editado con éxito!");
       } else {
-        await axios.post('http://10.73.1.34:8081/api/v1/inventory', values);
+        await axios.post('http://10.73.1.36:8081/api/v1/inventories', values);
         Swal.fire("¡Artículo agregado con éxito!");
       }
       fetchInventario();
@@ -56,7 +59,7 @@ const Inventario = () => {
 
   const deleteArticulo = async () => {
     try {
-      await axios.delete(`http://10.73.1.34:8081/api/v1/inventory/${articuloSeleccionado.id}`);
+      await axios.delete(`http://10.73.1.36:8081/api/v1/inventory/${articuloSeleccionado.id_inventory}`);
       Swal.fire("¡Artículo eliminado con éxito!");
       fetchInventario();
       closeDeleteModal();
@@ -70,9 +73,12 @@ const Inventario = () => {
     setArticuloEditado(null);
     setNewArticulo({
       name: '',
+      amount: 0,
       description: '',
-      quantity: 0,
       price: 0,
+      inputType: '',
+      wineryName: '',
+      supplierId: ''
     });
   };
 
@@ -107,6 +113,7 @@ const Inventario = () => {
                 setModalType('delete');
                 setIsDeleteModalOpen(true);
               }}
+              setModalType={setModalType} // Pasar el setModalType
             />
           </div>
         );
