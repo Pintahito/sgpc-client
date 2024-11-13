@@ -3,6 +3,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
+
 const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeModal }) => {
     const [proveedores, setProveedores] = useState([]);
 
@@ -15,7 +18,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
         // Obtener proveedores de la API
         const fetchProveedores = async () => {
             try {
-                const response = await axios.get('http://10.73.1.36:8081/api/v1/suppliers'); // Cambia a la URL correcta de tu API
+                const response = await axios.get(`${apiUrl}/api/v1/suppliers`); // Cambia a la URL correcta de tu API
                 setProveedores(response.data);
             } catch (error) {
                 console.error("Error al obtener proveedores:", error);
@@ -52,11 +55,12 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
             .required('La cantidad es obligatoria')
             .positive('La cantidad debe ser positiva')
             .integer('La cantidad debe ser un número entero'),
+        description: Yup.string().required('La Descripcion es obligatoria'),
         price: Yup.number()
             .required('El precio es obligatorio')
             .positive('El precio debe ser positivo'),
-        description: Yup.string(),
-        proveedor: Yup.string().required('El proveedor es obligatorio'),
+
+        supplierId: Yup.string().required('El proveedor es obligatorio'),
     });
 
     return (
@@ -86,12 +90,12 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                                 name="wineryName"
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
                             >
-                                <option value="" label="Seleccione un proveedor" />
-                                <option value="BODEGA_1" label="Bodega1" />
-                                <option value="BODEGA_2" label="Bodega2" />
-                                <option value="BODEGA_3" label="Bodega3" />
-                                <option value="BODEGA_4" label="Bodega4" />
-                                <option value="BODEGA_5" label="Bodega5" />
+                                <option value="" label="Seleccione una bodega" />
+                                <option value="BODEGA_1" label="Bodega 1" />
+                                <option value="BODEGA_2" label="Bodega 2" />
+                                <option value="BODEGA_3" label="Bodega 3" />
+                                <option value="BODEGA_4" label="Bodega 4" />
+                                <option value="BODEGA_5" label="Bodega 5" />
                             </Field>
                             <ErrorMessage name="wineryName" component="div" className="text-red-500 text-sm mt-1" />
                         </div>

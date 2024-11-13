@@ -9,6 +9,9 @@ import MaquinariaList from './MaquinariaList';
 import Modal from './Modal';
 import Swal from 'sweetalert2';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
+
 const Maquinaria = () => {
   const [activeTab, setActiveTab] = useState("maquinaria");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +49,7 @@ const Maquinaria = () => {
   // Funciones para Maquinaria
   const fetchMaquinarias = async () => {
     try {
-      const response = await axios.get('http://10.73.1.34:8081/api/v1/maquinaria');
+      const response = await axios.get(`${apiUrl}/api/v1/maquinaria`);
       setMaquinarias(response.data);
     } catch (error) {
       console.error('Error al obtener la maquinaria:', error);
@@ -56,10 +59,10 @@ const Maquinaria = () => {
   const saveMaquinaria = async (values) => {
     try {
       if (maquinariaEditada) {
-        await axios.put(`http://10.73.1.34:8081/api/v1/maquinaria/${maquinariaEditada.id}`, values);
+        await axios.put(`${apiUrl}/api/v1/maquinaria/${maquinariaEditada.id}`, values);
         Swal.fire("¡Maquinaria editada con éxito!");
       } else {
-        await axios.post(`http://10.73.1.34:8081/api/v1/maquinaria`, values);
+        await axios.post(`${apiUrl}/api/v1/maquinaria`, values);
         Swal.fire("¡Maquinaria agregada con éxito!");
       }
       fetchMaquinarias();
@@ -76,7 +79,7 @@ const Maquinaria = () => {
 
   const deleteMaquinaria = async () => {
     try {
-      await axios.delete(`http://10.73.1.34:8081/api/v1/maquinaria/${maquinariaSeleccionada.id}`);
+      await axios.delete(`${apiUrl}/api/v1/maquinaria/${maquinariaSeleccionada.id}`);
       Swal.fire("¡Maquinaria eliminada con éxito!");
       fetchMaquinarias();
       closeDeleteModal();
@@ -88,7 +91,7 @@ const Maquinaria = () => {
   // Funciones para Vehículos
   const fetchVehiculos = async () => {
     try {
-      const response = await axios.get('http://10.73.1.34:8081/api/v1/vehiculos');
+      const response = await axios.get(`${apiUrl}/api/v1/vehiculos`);
       setVehiculos(response.data);
     } catch (error) {
       console.error('Error al obtener los vehículos:', error);
@@ -98,10 +101,10 @@ const Maquinaria = () => {
   const saveVehiculo = async (values) => {
     try {
       if (vehiculoEditado) {
-        await axios.put(`http://10.73.1.34:8081/api/v1/vehiculos/${vehiculoEditado.id}`, values);
+        await axios.put(`${apiUrl}/api/v1/vehiculos/${vehiculoEditado.id}`, values);
         Swal.fire("¡Vehículo editado con éxito!");
       } else {
-        await axios.post(`http://10.73.1.34:8081/api/v1/vehiculos`, values);
+        await axios.post(`${apiUrl}/api/v1/vehiculos`, values);
         Swal.fire("¡Vehículo agregado con éxito!");
       }
       fetchVehiculos();
@@ -118,7 +121,7 @@ const Maquinaria = () => {
 
   const deleteVehiculo = async () => {
     try {
-      await axios.delete(`http://10.73.1.34:8081/api/v1/vehiculos/${vehiculoSeleccionado.id}`);
+      await axios.delete(`${apiUrl}/api/v1/vehiculos/${vehiculoSeleccionado.id}`);
       Swal.fire("¡Vehículo eliminado con éxito!");
       fetchVehiculos();
       closeDeleteModal();

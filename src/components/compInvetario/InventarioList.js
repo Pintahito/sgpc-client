@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import DataTable from 'react-data-table-component';
+
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
 
 function InventarioList({ inventario, setArticuloEditado, setModalType, setArticuloSeleccionado }) {
   const [filterText, setFilterText] = useState('');
 
+  // Filtrar los artículos del inventario según el texto ingresado
   const filteredItems = inventario.filter(
     (articulo) => articulo.name && articulo.name.toLowerCase().includes(filterText.toLowerCase())
   );
 
+  // Definición de columnas para la tabla
   const columns = [
     {
       name: 'Nombre',
@@ -21,9 +26,8 @@ function InventarioList({ inventario, setArticuloEditado, setModalType, setArtic
     },
     {
       name: 'Precio',
-      selector: (row) => row.price,
+      selector: (row) => `$${row.price.toFixed(2)}`,
       sortable: true,
-      cell: row => `$${row.price.toFixed(2)}`,
     },
     {
       name: 'Descripción',
@@ -41,8 +45,8 @@ function InventarioList({ inventario, setArticuloEditado, setModalType, setArtic
       sortable: true,
     },
     {
-      name: 'idSupp',
-      selector: (row) => row.supplierId,
+      name: 'Proveedor',
+      selector: (row) => row.supplierNames || 'No disponible',
       sortable: true,
     },
     {
@@ -50,7 +54,7 @@ function InventarioList({ inventario, setArticuloEditado, setModalType, setArtic
       cell: (row) => (
         <div className="flex space-x-2">
           <button
-            className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 transition"
+            className="bg-blue-500 text-white py-1 px-1 rounded-md hover:bg-blue-600 transition"
             onClick={() => {
               setArticuloEditado(row);
               setModalType('edit');
@@ -58,7 +62,7 @@ function InventarioList({ inventario, setArticuloEditado, setModalType, setArtic
             Editar
           </button>
           <button
-            className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition"
+            className="bg-red-500 text-white py-1 px-1 rounded-md hover:bg-red-600 transition"
             onClick={() => {
               setArticuloSeleccionado(row);
               setModalType('delete');

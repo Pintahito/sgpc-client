@@ -11,6 +11,8 @@ import EmpleadoList from './EmpleadoList';
 import Modal from './Modal';
 import Swal from 'sweetalert2';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
 
 const Empleados = () => {
   const [activeTab, setActiveTab] = useState("empleado");
@@ -34,7 +36,7 @@ const Empleados = () => {
   // Funciones para Empleado
   const fetchEmpleados = async () => {
     try {
-      const response = await axios.get('http://10.73.1.34:8081/api/v1/employ');
+      const response = await axios.get(`${apiUrl}/api/v1/employ`);
       setEmpleados(response.data);
     } catch (error) {
       console.error('Error al obtener el empleado:', error);
@@ -44,10 +46,10 @@ const Empleados = () => {
   const saveEmpleado = async (values) => {
     try {
       if (empleadoEditado) {
-        await axios.put(`http://10.73.1.34:8081/api/v1/maquinaria/${empleadoEditado.id_employ}`, values);
+        await axios.put(`${apiUrl}/api/v1/maquinaria/${empleadoEditado.id_employ}`, values);
         Swal.fire("¡Empleado editado con éxito!");
       } else {
-        await axios.post(`http://10.73.1.34:8081/api/v1/maquinaria`, values);
+        await axios.post(`${apiUrl}/api/v1/maquinaria`, values);
         Swal.fire("¡Empleado agregado con éxito!");
       }
       fetchEmpleados();
@@ -64,7 +66,7 @@ const Empleados = () => {
 
   const deleteEmpleado = async () => {
     try {
-      await axios.delete(`http://10.73.1.34:8081/api/v1/maquinaria/${empleadoSeleccionado.id}`);
+      await axios.delete(`${apiUrl}/api/v1/maquinaria/${empleadoSeleccionado.id}`);
       Swal.fire("¡Empleado eliminado con éxito!");
       fetchEmpleados();
       closeDeleteModal();
@@ -84,7 +86,7 @@ const Empleados = () => {
   // Funciones para Categorias
   const fetchCategorias = async () => {
     try {
-      const response = await axios.get('http://10.73.1.34:8081/api/v1/categories');
+      const response = await axios.get(`${apiUrl}/api/v1/categories`);
       setCategorias(response.data);
     } catch (error) {
       console.error('Error al obtener la categoria:', error);
@@ -94,10 +96,10 @@ const Empleados = () => {
   const saveCategoria = async (values) => {
     try {
       if (categoriaEditada) {
-        await axios.put(`http://10.73.1.34:8081/api/v1/categories/${categoriaEditada.id_category}`, values);
+        await axios.put(`${apiUrl}/api/v1/categories/${categoriaEditada.id_category}`, values);
         Swal.fire("¡Categoria editada con éxito!");
       } else {
-        await axios.post(`http://10.73.1.34:8081/api/v1/categories`, values);
+        await axios.post(`${apiUrl}/api/v1/categories`, values);
         Swal.fire("¡Categoria agregada con éxito!");
       }
       fetchCategorias();
@@ -114,7 +116,7 @@ const Empleados = () => {
 
   const deleteCategoria = async () => {
     try {
-      await axios.delete(`http://10.73.1.34:8081/api/v1/categories/${categoriaSeleccionada.id_category}`);
+      await axios.delete(`${apiUrl}/api/v1/categories/${categoriaSeleccionada.id_category}`);
       Swal.fire("¡Categoria eliminada con éxito!");
       fetchCategorias();
       closeDeleteModal();

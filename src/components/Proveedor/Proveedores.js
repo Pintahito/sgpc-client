@@ -5,6 +5,9 @@ import ProveedorForm from './ProveedorForm'; // Componente para editar y agregar
 import Modal from './Modal'; // Modal para eliminar proveedores
 import Swal from 'sweetalert2';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
+
 const Proveedores = () => {
   const [proveedores, setProveedores] = useState([]);
   const [proveedorEditado, setProveedorEditado] = useState(null);
@@ -24,7 +27,7 @@ const Proveedores = () => {
   // Obtener todos los proveedores
   const fetchProveedores = async () => {
     try {
-      const response = await axios.get('http://10.73.1.36:8081/api/v1/suppliers');
+      const response = await axios.get(`${apiUrl}/api/v1/suppliers`);
       setProveedores(response.data);
     } catch (error) {
       console.error('Error al obtener proveedores:', error);
@@ -39,10 +42,10 @@ const Proveedores = () => {
   const saveProveedor = async (values) => {
     try {
       if (proveedorEditado) {
-        await axios.put(`http://10.73.1.36:8081/api/v1/suppliers/${proveedorEditado.id_supplier}`, values);
+        await axios.put(`${apiUrl}/api/v1/suppliers/${proveedorEditado.id_supplier}`, values);
         Swal.fire("¡Proveedor editado con éxito!");
       } else {
-        await axios.post('http://10.73.1.36:8081/api/v1/suppliers', values);
+        await axios.post(`${apiUrl}/api/v1/suppliers`, values);
         Swal.fire("¡Proveedor agregado con éxito!");
       }
       fetchProveedores();
@@ -60,7 +63,7 @@ const Proveedores = () => {
   // Eliminar un proveedor
   const deleteProveedor = async () => {
     try {
-      await axios.delete(`http://10.73.1.36:8081/api/v1/suppliers/${proveedorSeleccionado.id_supplier}`);
+      await axios.delete(`${apiUrl}/api/v1/suppliers/${proveedorSeleccionado.id_supplier}`);
       Swal.fire("¡Proveedor eliminado con éxito!");
       fetchProveedores();
       closeDeleteModal();

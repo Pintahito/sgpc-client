@@ -5,6 +5,9 @@ import BancoForm from './BancoForm';
 import Modal from './Modal';
 import Swal from 'sweetalert2';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
+
 const Banco = () => {
   const [bancos, setBancos] = useState([]);
   const [bancoEditado, setBancoEditado] = useState(null);
@@ -17,7 +20,7 @@ const Banco = () => {
   // Obtener todos los bancos
   const fetchBancos = async () => {
     try {
-      const response = await axios.get('http://10.73.1.36:8081/api/v1/banks');
+      const response = await axios.get(`${apiUrl}/api/v1/banks`);
       setBancos(response.data);
     } catch (error) {
       console.error('Error al obtener los bancos:', error);
@@ -32,10 +35,10 @@ const Banco = () => {
   const saveBanco = async (values) => {
     try {
       if (bancoEditado) {
-        await axios.put(`http://10.73.1.36:8081/api/v1/banks/${bancoEditado.id_bank}`, values);
+        await axios.put(`${apiUrl}/api/v1/banks/${bancoEditado.id_bank}`, values);
         Swal.fire("¡Banco editado con éxito!");
       } else {
-        await axios.post('http://10.73.1.36:8081/api/v1/banks', values);
+        await axios.post(`${apiUrl}/api/v1/banks`, values);
         Swal.fire("¡Banco agregado con éxito!");
       }
       fetchBancos();
@@ -53,7 +56,7 @@ const Banco = () => {
   // Eliminar banco
   const deleteBanco = async () => {
     try {
-      await axios.delete(`http://10.73.1.36:8081/api/v1/banks/${bancoSeleccionado.id_bank}`);
+      await axios.delete(`${apiUrl}/api/v1/banks/${bancoSeleccionado.id_bank}`);
       Swal.fire("¡Banco eliminado con éxito!");
       fetchBancos();
       closeDeleteModal();

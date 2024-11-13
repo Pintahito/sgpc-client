@@ -5,6 +5,9 @@ import DepartamentoForm from './DepartamentoForm'; // Componente para editar y a
 import Modal from './Modal'; // Modal para eliminar departamentos
 import Swal from 'sweetalert2';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
+
 const Departamentos = () => {
   const [departamentos, setDepartamentos] = useState([]);
   const [departamentoEditado, setDepartamentoEditado] = useState(null);
@@ -21,7 +24,7 @@ const Departamentos = () => {
   // Obtener todos los departamentos
   const fetchDepartamentos = async () => {
     try {
-      const response = await axios.get('http://192.168.218.195:8081/api/v1/departments');
+      const response = await axios.get(`${apiUrl}/api/v1/departments`);
       setDepartamentos(response.data);
     } catch (error) {
       console.error('Error al obtener departamentos:', error);
@@ -36,10 +39,10 @@ const Departamentos = () => {
   const saveDepartamento = async (values) => {
     try {
       if (departamentoEditado) {
-        await axios.put(`http://192.168.218.195:8081/api/v1/departments/${departamentoEditado.id_departament}`, values);
+        await axios.put(`${apiUrl}/api/v1/departments/${departamentoEditado.id_departament}`, values);
         Swal.fire("¡Departamento editado con éxito!");
       } else {
-        await axios.post('http://192.168.218.195:8081/api/v1/departments', values);
+        await axios.post(`${apiUrl}/api/v1/departments`, values);
         Swal.fire("¡Departamento agregado con éxito!");
       }
       fetchDepartamentos();
@@ -57,7 +60,7 @@ const Departamentos = () => {
   // Eliminar un departamento
   const deleteDepartamento = async () => {
     try {
-      await axios.delete(`http://192.168.218.195:8081/api/v1/departments/${departamentoSeleccionado.id_departament}`);
+      await axios.delete(`${apiUrl}/api/v1/departments/${departamentoSeleccionado.id_departament}`);
       Swal.fire("¡Departamento eliminado con éxito!");
       fetchDepartamentos();
       closeDeleteModal();

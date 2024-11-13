@@ -5,6 +5,9 @@ import ClienteForm from './ClienteForm'; // Componente para editar y agregar cli
 import Modal from './Modal'; // Modal para eliminar clientes
 import Swal from 'sweetalert2';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
+
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
   const [clienteEditado, setClienteEditado] = useState(null);
@@ -25,7 +28,7 @@ const Clientes = () => {
   // Obtener todos los clientes
   const fetchClientes = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/api/v1/clients');
+      const response = await axios.get(`${apiUrl}/api/v1/clients`);
       setClientes(response.data);
     } catch (error) {
       console.error('Error al obtener clientes:', error);
@@ -40,11 +43,11 @@ const Clientes = () => {
   const saveCliente = async (values) => {
     try {
       if (clienteEditado) {
-        await axios.put(`http://localhost:8081/api/v1/clients/${clienteEditado.id_client}`, values);
+        await axios.put(`${apiUrl}/api/v1/clients/${clienteEditado.id_client}`, values);
        // window.alert('Cliente editado con éxito');
         Swal.fire("!Cliente editado con exito!");
       } else {
-        await axios.post('http://localhost:8081/api/v1/clients', values);
+        await axios.post(`${apiUrl}/api/v1/clients`, values);
         //window.alert('Cliente agregado con éxito');
         Swal.fire("!Cliente agregado con exito!");
       }
@@ -66,7 +69,7 @@ const Clientes = () => {
   // Eliminar un cliente
   const deleteCliente = async () => {
     try {
-      await axios.delete(`http://localhost:8081/api/v1/clients/${clienteSeleccionado.id_client}`);
+      await axios.delete(`${apiUrl}/api/v1/clients/${clienteSeleccionado.id_client}`);
       //window.alert('Cliente eliminado con éxito');
       Swal.fire("!Cliente eliminado con exito!");
       fetchClientes();

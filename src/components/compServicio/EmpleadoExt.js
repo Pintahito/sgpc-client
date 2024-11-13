@@ -5,6 +5,9 @@ import EmpleadoForm from './EmpleadoExtForm'; // Formulario de agregar/editar em
 import Modal from './Modal'; // Modal para agregar, editar y eliminar
 import Swal from 'sweetalert2';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
+
 const EmpleadoExt = () => {
   const [empleados, setEmpleados] = useState([]);
   const [empleadoEditado, setEmpleadoEditado] = useState(null);
@@ -22,7 +25,7 @@ const EmpleadoExt = () => {
   // Obtener todos los empleados
   const fetchEmpleados = async () => {
     try {
-      const response = await axios.get('http://10.73.1.34:8081/api/v1/employees');
+      const response = await axios.get(`${apiUrl}/api/v1/employees`);
       setEmpleados(response.data);
     } catch (error) {
       console.error('Error al obtener los empleados:', error);
@@ -37,10 +40,10 @@ const EmpleadoExt = () => {
   const saveEmpleado = async (values) => {
     try {
       if (empleadoEditado) {
-        await axios.put(`http://10.73.1.34:8081/api/v1/services/${empleadoEditado.id_}`, values);
+        await axios.put(`${apiUrl}/api/v1/services/${empleadoEditado.id_}`, values);
         Swal.fire("¡Empleado editado con éxito!");
       } else {
-        await axios.post('http://10.73.1.34:8081/api/v1/services', values);
+        await axios.post(`${apiUrl}/api/v1/services`, values);
         Swal.fire("¡Empleado agregado con éxito!");
       }
       fetchEmpleados();
@@ -58,7 +61,7 @@ const EmpleadoExt = () => {
   // Eliminar empleado
   const deleteEmpleado = async () => {
     try {
-      await axios.delete(`http://10.73.1.34:8081/api/v1/employees/${empleadoSeleccionado.id}`);
+      await axios.delete(`${apiUrl}/api/v1/employees/${empleadoSeleccionado.id}`);
       Swal.fire("¡Empleado eliminado con éxito!");
       fetchEmpleados();
       closeDeleteModal();

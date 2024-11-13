@@ -5,6 +5,9 @@ import InventarioForm from './InventarioForm';
 import Modal from './Modal';
 import Swal from 'sweetalert2';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+console.log(apiUrl);
+
 const Inventario = () => {
   const [activeTab, setActiveTab] = useState("inventario");
   const [inventario, setInventario] = useState([]);
@@ -25,7 +28,7 @@ const Inventario = () => {
 
   const fetchInventario = async () => {
     try {
-      const response = await axios.get('http://10.73.1.36:8081/api/v1/inventories');
+      const response = await axios.get(`${apiUrl}/api/v1/inventories`);
       setInventario(response.data);
     } catch (error) {
       console.error('Error al obtener el inventario:', error);
@@ -39,10 +42,10 @@ const Inventario = () => {
   const saveArticulo = async (values) => {
     try {
       if (articuloEditado) {
-        await axios.put(`http://10.73.1.36:8081/api/v1/inventories/${articuloEditado.id_inventory}`, values);
+        await axios.put(`${apiUrl}/api/v1/inventories/${articuloEditado.id_inventory}`, values);
         Swal.fire("¡Artículo editado con éxito!");
       } else {
-        await axios.post('http://10.73.1.36:8081/api/v1/inventories', values);
+        await axios.post(`${apiUrl}/api/v1/inventories`, values);
         Swal.fire("¡Artículo agregado con éxito!");
       }
       fetchInventario();
@@ -59,7 +62,7 @@ const Inventario = () => {
 
   const deleteArticulo = async () => {
     try {
-      await axios.delete(`http://10.73.1.36:8081/api/v1/inventory/${articuloSeleccionado.id_inventory}`);
+      await axios.delete(`${apiUrl}/api/v1/inventory/${articuloSeleccionado.id_inventory}`);
       Swal.fire("¡Artículo eliminado con éxito!");
       fetchInventario();
       closeDeleteModal();
