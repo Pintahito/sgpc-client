@@ -12,6 +12,7 @@ import Maquinaria from './components/compMaquinaria/Maquinaria';
 import Departamentos from './components/compDepartamento/Departamentos';
 import Proveedores from './components/Proveedor/Proveedores';
 import Banco from './components/compBanco/Banco';
+import DocDrive from './components/compDoc/DocDrive';
 
 import './css/Modal.css';
 import './css/App.css';
@@ -49,6 +50,8 @@ function App() {
         return <Banco />;
       case 'proveedores':
         return <Proveedores />;
+      case 'documental':
+        return <DocDrive />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }

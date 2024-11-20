@@ -13,6 +13,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
         // Si hay un artículo editado, establecemos sus valores
         if (articuloEditado) {
             setArticulo(articuloEditado);
+            console.log('Datos:',articuloEditado);
         }
 
         // Obtener proveedores de la API
@@ -20,6 +21,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
             try {
                 const response = await axios.get(`${apiUrl}/api/v1/suppliers`); // Cambia a la URL correcta de tu API
                 setProveedores(response.data);
+                console.log('Proveedores obtenidos:', response.data);
             } catch (error) {
                 console.error("Error al obtener proveedores:", error);
             }
@@ -59,7 +61,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
         price: Yup.number()
             .required('El precio es obligatorio')
             .positive('El precio debe ser positivo'),
-
+        inputType: Yup.string().required('El insumo debe ser obligatorio'),
         supplierId: Yup.string().required('El proveedor es obligatorio'),
     });
 
@@ -136,7 +138,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                                 name="supplierId"
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
                             >
-                                <option value="supplierId" label="Seleccione un proveedor" />
+                                <option value="" label="Seleccione un proveedor" />
                                 {proveedores.map((proveedor) => (
                                     <option key={proveedor.id_supplier} value={proveedor.id_supplier}>
                                         {proveedor.name}

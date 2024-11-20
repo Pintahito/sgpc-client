@@ -68,6 +68,7 @@ const Inventario = () => {
       closeDeleteModal();
     } catch (error) {
       console.error('Error al eliminar artículo:', error);
+      console.log('Datos:',articuloSeleccionado);
     }
   };
 
