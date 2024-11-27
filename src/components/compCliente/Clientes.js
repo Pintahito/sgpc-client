@@ -4,6 +4,7 @@ import ClienteList from './ClienteList';
 import ClienteForm from './ClienteForm'; // Componente para editar y agregar clientes
 import Modal from './Modal'; // Modal para eliminar clientes
 import Swal from 'sweetalert2';
+import { Client } from '@stomp/stompjs'; // Biblioteca STOMP para WebSocket
 
 const apiUrl = process.env.REACT_APP_API_URL;
 console.log(apiUrl);
@@ -24,6 +25,27 @@ const Clientes = () => {
     email: '',
     rfc: '',
   });
+
+    // Configuración WebSocket con STOMP
+    useEffect(() => {
+      const client = new Client({
+        brokerURL: 'ws://localhost:8080/ws', // Cambia según tu configuración
+        reconnectDelay: 5000,
+        onConnect: () => {
+          console.log('Conectado a WebSocket');
+          // Suscribirse al canal de notificaciones
+          client.subscribe('/topic/clients', (message) => {
+            console.log('Mensaje recibido:', message.body);
+            fetchClientes(); // Actualiza la lista de clientes automáticamente
+          });
+        },
+        onDisconnect: () => console.log('Desconectado de WebSocket'),
+      });
+  
+      client.activate();
+  
+      return () => client.deactivate(); // Desactivar WebSocket al desmontar el componente
+    }, []);
 
   // Obtener todos los clientes
   const fetchClientes = async () => {

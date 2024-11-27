@@ -10,13 +10,13 @@ const MaquinariaForm = ({ maquinaria, setMaquinaria, onSave, maquinariaEditada, 
     }, [maquinariaEditada, setMaquinaria]);
 
     const initialValues = {
-        nombre: maquinaria.nombre || '',
-        marca: maquinaria.marca || '',
-        modelo: maquinaria.modelo || '',
+        name: maquinaria.name || '',
+        brand: maquinaria.brand || '',
+        model: maquinaria.model || '',
         serial: maquinaria.serial || '',
-        fechaAdquisicion: maquinaria.fechaAdquisicion || '',
-        costo: maquinaria.costo || '',
-        estado: maquinaria.estado || '',
+        acquisitionDate: maquinaria.acquisitionDate || '',
+        status: maquinaria.status || '',
+        toolType: maquinaria.toolType || '',
     };
 
     const handleSubmit = async (values, { setSubmitting }) => {
@@ -31,13 +31,13 @@ const MaquinariaForm = ({ maquinaria, setMaquinaria, onSave, maquinariaEditada, 
     };
 
     const validationSchema = Yup.object().shape({
-        nombre: Yup.string().required('El nombre es obligatorio'),
-        marca: Yup.string().required('La marca es obligatoria'),
-        modelo: Yup.string().required('El modelo es obligatorio'),
+        name: Yup.string().required('El nombre es obligatorio'),
+        brand: Yup.string().required('La marca es obligatoria'),
+        model: Yup.string().required('El modelo es obligatorio'),
         serial: Yup.string().required('El número de serie es obligatorio'),
-        fechaAdquisicion: Yup.date().required('La fecha de adquisición es obligatoria'),
-        costo: Yup.number().positive('El costo debe ser positivo').required('El costo es obligatorio'),
-        estado: Yup.string().required('El estado es obligatorio'),
+        acquisitionDate: Yup.date().required('La fecha de adquisición es obligatoria'),
+        status: Yup.string().required('El estado es obligatorio'),
+        toolType: Yup.string().required('El tipo es obligatorio'),
     });
 
 
@@ -54,45 +54,56 @@ const MaquinariaForm = ({ maquinaria, setMaquinaria, onSave, maquinariaEditada, 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
-                            <Field type="text" name="nombre" className="input-field" />
-                            <ErrorMessage name="nombre" component="div" className="text-red-500 text-sm mt-1" />
+                            <Field type="text" name="name" className="input-field" />
+                            <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Marca</label>
-                            <Field type="text" name="marca" className="input-field" />
-                            <ErrorMessage name="marca" component="div" className="text-red-500 text-sm mt-1" />
+                            <Field type="text" name="brand" className="input-field" />
+                            <ErrorMessage name="brand" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Modelo</label>
-                            <Field type="text" name="modelo" className="input-field" />
-                            <ErrorMessage name="modelo" component="div" className="text-red-500 text-sm mt-1" />
+                            <Field type="text" name="model" className="input-field" />
+                            <ErrorMessage name="model" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Serial</label>
-                            <Field type="text" name="serial" className="input-field" />
+                            <Field 
+                            minLength={17}
+                            maxLength={17}
+                            type="text" 
+                            name="serial" 
+                            className="input-field" 
+                            />
+
                             <ErrorMessage name="serial" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Fecha de Adquisición</label>
-                            <Field type="date" name="fechaAdquisicion" className="input-field" />
-                            <ErrorMessage name="fechaAdquisicion" component="div" className="text-red-500 text-sm mt-1" />
+                            <Field type="date" name="acquisitionDate" className="input-field" />
+                            <ErrorMessage name="acquisitionDate" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
-
                         <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Costo</label>
-                            <Field type="number" name="costo" step="0.01" className="input-field" />
-                            <ErrorMessage name="costo" component="div" className="text-red-500 text-sm mt-1" />
+                            <label className="block text-gray-700 dark:text-gray-300">Tipo Herramienta</label>
+                            <Field as="select" name="toolType" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md" >
+                                <option value="" label="Seleccione el tipo" />
+                                <option value="MAQUINARIA" label="Maquinaria" />
+                                <option value="EQUIPO" label="Equipo" />
+                            </Field>
+                            <ErrorMessage name="toolType" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Estado</label>
-                            <Field as="select" name="estado" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md" >
+                            <Field as="select" name="status" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md" >
                                 <option value="" label="Seleccione el estado" />
-                                <option value="operativo" label="Operativo" />
-                                <option value="en reparación" label="En Reparación" />
-                                <option value="fuera de servicio" label="Fuera de Servicio" />
+                                <option value="DISPONIBLE" label="Disponible" />
+                                <option value="RENTA" label="Renta" />
+                                <option value="MANTENIMIENTO" label="Mantenimiento" />
+                                <option value="FUERA_DE_SERVICIO" label="Fuera de Servicio" />
                             </Field>
-                            <ErrorMessage name="estado" component="div" className="text-red-500 text-sm mt-1" />
+                            <ErrorMessage name="status" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                     </div>
 

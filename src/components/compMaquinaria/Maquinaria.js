@@ -23,13 +23,13 @@ const Maquinaria = () => {
   const [maquinariaEditada, setMaquinariaEditada] = useState(null);
   const [maquinariaSeleccionada, setMaquinariaSeleccionada] = useState(null);
   const [newMaquinaria, setNewMaquinaria] = useState({
-    nombre: '',
-    marca: '',
-    modelo: '',
+    name: '',
+    brand: '',
+    model: '',
     serial: '',
-    fechaAdquisicion: '',
-    costo: 0,
-    estado: ''
+    acquisitionDate: '',
+    status: '',
+    toolType: ''
   });
 
   // Estados de Vehículos
@@ -49,7 +49,7 @@ const Maquinaria = () => {
   // Funciones para Maquinaria
   const fetchMaquinarias = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/api/v1/maquinaria`);
+      const response = await axios.get(`${apiUrl}/api/v1/machinery`);
       setMaquinarias(response.data);
     } catch (error) {
       console.error('Error al obtener la maquinaria:', error);
@@ -59,10 +59,10 @@ const Maquinaria = () => {
   const saveMaquinaria = async (values) => {
     try {
       if (maquinariaEditada) {
-        await axios.put(`${apiUrl}/api/v1/maquinaria/${maquinariaEditada.id}`, values);
+        await axios.put(`${apiUrl}/api/v1/machinery/${maquinariaEditada.id}`, values);
         Swal.fire("¡Maquinaria editada con éxito!");
       } else {
-        await axios.post(`${apiUrl}/api/v1/maquinaria`, values);
+        await axios.post(`${apiUrl}/api/v1/machinery`, values);
         Swal.fire("¡Maquinaria agregada con éxito!");
       }
       fetchMaquinarias();
@@ -79,7 +79,7 @@ const Maquinaria = () => {
 
   const deleteMaquinaria = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/maquinaria/${maquinariaSeleccionada.id}`);
+      await axios.delete(`${apiUrl}/api/v1/machinery/${maquinariaSeleccionada.id}`);
       Swal.fire("¡Maquinaria eliminada con éxito!");
       fetchMaquinarias();
       closeDeleteModal();
@@ -136,13 +136,13 @@ const Maquinaria = () => {
     setMaquinariaEditada(null);
     setVehiculoEditado(null);
     setNewMaquinaria({
-      nombre: '',
-      marca: '',
-      modelo: '',
+      name: '',
+      brand: '',
+      model: '',
       serial: '',
-      fechaAdquisicion: '',
-      costo: 0,
-      estado: ''
+      acquisitionDate: '',
+      status: '',
+      toolType: ''
     });
     setNewVehiculo({
       marca: '',
@@ -164,7 +164,7 @@ const Maquinaria = () => {
     // Manejar cambios en los inputs
     const handleInputChange = (e) => {
       setNewVehiculo({ ...newVehiculo, [e.target.marca]: e.target.value });
-      setNewMaquinaria({...newMaquinaria,[e.target.nombre]:e.target.value});
+      setNewMaquinaria({...newMaquinaria,[e.target.name]:e.target.value});
     };
 
   useEffect(() => {

@@ -117,6 +117,15 @@ const Sidebar = ({ onNavigate, active }) => {
         >
           Gestión Documental
         </button>
+            
+        <button
+          onClick={() => onNavigate('login')}
+          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${
+            active === 'login' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
+          } focus:outline-none focus:bg-iosBlue focus:text-white`}
+        >
+          Login
+        </button>
       </nav>
     </div>
   );

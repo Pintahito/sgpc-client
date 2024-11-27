@@ -5,23 +5,23 @@ function MaquinariaList({ maquinarias, setMaquinariaEditada, setModalType, setMa
   const [filterText, setFilterText] = useState('');
 
   const filteredMaquinarias = maquinarias.filter(
-    (maquinaria) => maquinaria.nombre && maquinaria.nombre.toLowerCase().includes(filterText.toLowerCase())
+    (maquinaria) => maquinaria.name && maquinaria.name.toLowerCase().includes(filterText.toLowerCase())
   );
 
   const columns = [
     {
       name: 'Nombre',
-      selector: (row) => row.nombre,
+      selector: (row) => row.name,
       sortable: true,
     },
     {
       name: 'Marca',
-      selector: (row) => row.marca,
+      selector: (row) => row.brand,
       sortable: true,
     },
     {
       name: 'Modelo',
-      selector: (row) => row.modelo,
+      selector: (row) => row.model,
       sortable: true,
     },
     {
@@ -30,14 +30,8 @@ function MaquinariaList({ maquinarias, setMaquinariaEditada, setModalType, setMa
       sortable: true,
     },
     {
-      name: 'Costo',
-      selector: (row) => row.costo,
-      sortable: true,
-      cell: (row) => `$${row.costo.toFixed(2)}`,
-    },
-    {
       name: 'Estado',
-      selector: (row) => row.estado,
+      selector: (row) => row.status,
       sortable: true,
     },
     {

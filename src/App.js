@@ -13,6 +13,7 @@ import Departamentos from './components/compDepartamento/Departamentos';
 import Proveedores from './components/Proveedor/Proveedores';
 import Banco from './components/compBanco/Banco';
 import DocDrive from './components/compDoc/DocDrive';
+import LoginForm from './components/Login/LoginForm';
 
 import './css/Modal.css';
 import './css/App.css';
@@ -52,6 +53,8 @@ function App() {
         return <Proveedores />;
       case 'documental':
         return <DocDrive />;
+      case 'login':
+          return <LoginForm />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }
