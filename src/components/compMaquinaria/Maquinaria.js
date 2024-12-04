@@ -37,13 +37,13 @@ const Maquinaria = () => {
   const [vehiculoEditado, setVehiculoEditado] = useState(null);
   const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState(null);
   const [newVehiculo, setNewVehiculo] = useState({
-    marca: '',
-    modelo: '',
-    placas: '',
+    name: '',
+    brand: '',
+    model: '',
+    plates: '',
     color: '',
-    ano: '',
     serial: '',
-    estado: ''
+    status: ''
   });
 
   // Funciones para Maquinaria
@@ -59,7 +59,7 @@ const Maquinaria = () => {
   const saveMaquinaria = async (values) => {
     try {
       if (maquinariaEditada) {
-        await axios.put(`${apiUrl}/api/v1/machinery/${maquinariaEditada.id}`, values);
+        await axios.put(`${apiUrl}/api/v1/machinery/${maquinariaEditada.id_machinery}`, values);
         Swal.fire("¡Maquinaria editada con éxito!");
       } else {
         await axios.post(`${apiUrl}/api/v1/machinery`, values);
@@ -79,7 +79,7 @@ const Maquinaria = () => {
 
   const deleteMaquinaria = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/machinery/${maquinariaSeleccionada.id}`);
+      await axios.delete(`${apiUrl}/api/v1/machinery/${maquinariaSeleccionada.id_machinery}`);
       Swal.fire("¡Maquinaria eliminada con éxito!");
       fetchMaquinarias();
       closeDeleteModal();
@@ -91,7 +91,7 @@ const Maquinaria = () => {
   // Funciones para Vehículos
   const fetchVehiculos = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/api/v1/vehiculos`);
+      const response = await axios.get(`${apiUrl}/api/v1/vehicles`);
       setVehiculos(response.data);
     } catch (error) {
       console.error('Error al obtener los vehículos:', error);
@@ -101,10 +101,10 @@ const Maquinaria = () => {
   const saveVehiculo = async (values) => {
     try {
       if (vehiculoEditado) {
-        await axios.put(`${apiUrl}/api/v1/vehiculos/${vehiculoEditado.id}`, values);
+        await axios.put(`${apiUrl}/api/v1/vehicles/${vehiculoEditado.id_vehicle}`, values);
         Swal.fire("¡Vehículo editado con éxito!");
       } else {
-        await axios.post(`${apiUrl}/api/v1/vehiculos`, values);
+        await axios.post(`${apiUrl}/api/v1/vehicles`, values);
         Swal.fire("¡Vehículo agregado con éxito!");
       }
       fetchVehiculos();
@@ -121,7 +121,7 @@ const Maquinaria = () => {
 
   const deleteVehiculo = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/vehiculos/${vehiculoSeleccionado.id}`);
+      await axios.delete(`${apiUrl}/api/v1/vehicles/${vehiculoSeleccionado.id_vehicle}`);
       Swal.fire("¡Vehículo eliminado con éxito!");
       fetchVehiculos();
       closeDeleteModal();
@@ -145,13 +145,13 @@ const Maquinaria = () => {
       toolType: ''
     });
     setNewVehiculo({
-      marca: '',
-      modelo: '',
-      placas: '',
+      name: '',
+      brand: '',
+      model: '',
+      plates: '',
       color: '',
-      ano: '',
       serial: '',
-      estado: ''
+      status: ''
     });
   };
 
@@ -163,7 +163,7 @@ const Maquinaria = () => {
 
     // Manejar cambios en los inputs
     const handleInputChange = (e) => {
-      setNewVehiculo({ ...newVehiculo, [e.target.marca]: e.target.value });
+      setNewVehiculo({ ...newVehiculo, [e.target.brand]: e.target.value });
       setNewMaquinaria({...newMaquinaria,[e.target.name]:e.target.value});
     };
 

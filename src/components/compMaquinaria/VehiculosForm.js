@@ -10,23 +10,23 @@ const VehiculoForm = ({ vehiculo, setVehiculo, onSave, vehiculoEditado, closeMod
     }, [vehiculoEditado, setVehiculo]);
 
     const initialValues = {
-        marca: vehiculo.marca || '',
-        modelo: vehiculo.modelo || '',
-        placas: vehiculo.placas || '',
+        name: vehiculo.name || '',
+        brand: vehiculo.brand || '',
+        model: vehiculo.model || '',
+        plates: vehiculo.plates || '',
         color: vehiculo.color || '',
-        ano: vehiculo.ano || '',
         serial: vehiculo.serial || '',
-        estado: vehiculo.estado || '',
+        status: vehiculo.status || '',
     };
 
     const validationSchema = Yup.object().shape({
-        marca: Yup.string().required('La marca es obligatoria'),
-        modelo: Yup.string().required('El modelo es obligatorio'),
-        placas: Yup.string().required('Las placas son obligatorias'),
+        name: Yup.string().required('El nombre es obligatorio'),
+        brand: Yup.string().required('La marca es obligatoria'),
+        model: Yup.string().required('El modelo es obligatorio'),
+        plates: Yup.string().required('Las placas son obligatorias'),
         color: Yup.string().required('El color es obligatorio'),
-        ano: Yup.number().required('El año es obligatorio').integer('Debe ser un número entero'),
         serial: Yup.string().required('El número de serie es obligatorio'),
-        estado: Yup.string().required('El estado es obligatorio'),
+        status: Yup.string().required('El estado es obligatorio'),
     });
 
     const handleSubmit = async (values, { setSubmitting }) => {
@@ -50,22 +50,26 @@ const VehiculoForm = ({ vehiculo, setVehiculo, onSave, vehiculoEditado, closeMod
             {({ isSubmitting }) => (
                 <Form>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                            <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
+                            <Field type="text" name="name" className="input-field" />
+                            <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
+                        </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Marca</label>
-                            <Field type="text" name="marca" className="input-field" />
-                            <ErrorMessage name="marca" component="div" className="text-red-500 text-sm mt-1" />
+                            <Field type="text" name="brand" className="input-field" />
+                            <ErrorMessage name="brand" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
-
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Modelo</label>
-                            <Field type="text" name="modelo" className="input-field" />
-                            <ErrorMessage name="modelo" component="div" className="text-red-500 text-sm mt-1" />
+                            <Field type="text" name="model" className="input-field" />
+                            <ErrorMessage name="model" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Placas</label>
-                            <Field type="text" name="placas" className="input-field" />
-                            <ErrorMessage name="placas" component="div" className="text-red-500 text-sm mt-1" />
+                            <Field type="text" name="plates" className="input-field" />
+                            <ErrorMessage name="plates" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 
                         <div>
@@ -75,26 +79,23 @@ const VehiculoForm = ({ vehiculo, setVehiculo, onSave, vehiculoEditado, closeMod
                         </div>
 
                         <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Año</label>
-                            <Field type="text" name="ano" className="input-field" />
-                            <ErrorMessage name="ano" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
-
-                        <div>
                             <label className="block text-gray-700 dark:text-gray-300">Serial</label>
-                            <Field type="text" name="serial" className="input-field" />
+                            <Field 
+                            minLength={17}
+                            maxLength={17}
+                            type="text" name="serial" className="input-field" />
                             <ErrorMessage name="serial" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Estado</label>
-                            <Field as="select" name="estado" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
+                            <Field as="select" name="status" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <option value="" label="Seleccione el estado" />
-                                <option value="operativo" label="Operativo" />
-                                <option value="en reparación" label="En Reparación" />
-                                <option value="fuera de servicio" label="Fuera de Servicio" />
+                                <option value="DISPONIBLE" label="Disponible" />
+                                <option value="MANTENIMIENTO" label="Mantenimiento" />
+                                <option value="FUERA_DE_SERVICIO" label="Fuera De Servicio" />
                             </Field>
-                            <ErrorMessage name="estado" component="div" className="text-red-500 text-sm mt-1" />
+                            <ErrorMessage name="status" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                     </div>
 

@@ -68,6 +68,7 @@ const Proveedores = () => {
       fetchProveedores();
       closeDeleteModal();
     } catch (error) {
+      Swal.fire("!Necesita eliminar otras cosas!");
       console.error('Error al eliminar proveedor:', error);
     }
   };

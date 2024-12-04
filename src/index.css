@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities; 
+
+/* 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: rgb(121, 146, 132);
+    background: url('./images/Construccion.jpg');
+    background-size: cover;
+    background-position: center;
+  
+  }
+
+  */

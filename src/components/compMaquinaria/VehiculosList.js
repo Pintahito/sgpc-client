@@ -5,33 +5,28 @@ const VehiculosList = ({ vehiculos, setVehiculoEditado, setModalType, setVehicul
   const [filterText, setFilterText] = useState('');
 
   const filteredItems = vehiculos.filter(
-    (vehiculo) => vehiculo.marca && vehiculo.marca.toLowerCase().includes(filterText.toLowerCase())
+    (vehiculo) => vehiculo.brand && vehiculo.brand.toLowerCase().includes(filterText.toLowerCase())
   );
 
   const columns = [
     {
       name: 'Marca',
-      selector: (row) => row.marca,
+      selector: (row) => row.brand,
       sortable: true,
     },
     {
       name: 'Modelo',
-      selector: (row) => row.modelo,
+      selector: (row) => row.model,
       sortable: true,
     },
     {
       name: 'Placas',
-      selector: (row) => row.placas,
+      selector: (row) => row.plates,
       sortable: true,
     },
     {
       name: 'Color',
       selector: (row) => row.color,
-      sortable: true,
-    },
-    {
-      name: 'Año',
-      selector: (row) => row.ano,
       sortable: true,
     },
     {
@@ -41,7 +36,7 @@ const VehiculosList = ({ vehiculos, setVehiculoEditado, setModalType, setVehicul
     },
     {
       name: 'Estado',
-      selector: (row) => row.estado,
+      selector: (row) => row.status,
       sortable: true,
     },
     {

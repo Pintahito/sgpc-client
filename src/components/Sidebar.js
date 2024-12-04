@@ -10,7 +10,7 @@ const Sidebar = ({ onNavigate, active }) => {
   return (
     <div className="w-64 h-full bg-iosBackground dark:bg-iosDarkBackground p-4 shadow-lg">
       {/* Imagen superior ocupando todo el ancho */}
-      <div className="mb-7">
+      <div className="mb-0">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYOyln4kwaggy0dR6EWDsh9Kfvs6OiE7-Dhg&s"
           alt="Logo"
@@ -116,15 +116,6 @@ const Sidebar = ({ onNavigate, active }) => {
           } focus:outline-none focus:bg-iosBlue focus:text-white`}
         >
           Gestión Documental
-        </button>
-            
-        <button
-          onClick={() => onNavigate('login')}
-          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${
-            active === 'login' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-          } focus:outline-none focus:bg-iosBlue focus:text-white`}
-        >
-          Login
         </button>
       </nav>
     </div>

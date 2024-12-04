@@ -13,13 +13,13 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
         // Si hay un artículo editado, establecemos sus valores
         if (articuloEditado) {
             setArticulo(articuloEditado);
-            console.log('Datos:',articuloEditado);
+            console.log('Datos:', articuloEditado);
         }
 
         // Obtener proveedores de la API
         const fetchProveedores = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/api/v1/suppliers`); // Cambia a la URL correcta de tu API
+                const response = await axios.get(`${apiUrl}/api/v1/suppliers`);
                 setProveedores(response.data);
                 console.log('Proveedores obtenidos:', response.data);
             } catch (error) {
@@ -37,7 +37,8 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
         price: articulo.price || '',
         inputType: articulo.inputType || '',
         wineryName: articulo.wineryName || '',
-        supplierId: articulo.supplierId || ''
+        supplierId: articulo.supplierId || '',
+        supplierNames: articulo.supplierNames || ''  // Añadir supplierName para la edición
     };
 
     const handleSubmit = async (values, { setSubmitting }) => {
@@ -70,9 +71,9 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
-            enableReinitialize={false}
+            enableReinitialize={true}  // Permitir la reinicialización cuando el artículo editado cambie
         >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, setFieldValue }) => (
                 <Form>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -84,23 +85,6 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                             />
                             <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
-
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Bodega</label>
-                            <Field
-                                as="select"
-                                name="wineryName"
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                            >
-                                <option value="" label="Seleccione una bodega" />
-                                <option value="BODEGA_1" label="Bodega 1" />
-                                <option value="BODEGA_2" label="Bodega 2" />
-                                <option value="BODEGA_3" label="Bodega 3" />
-                                <option value="BODEGA_4" label="Bodega 4" />
-                                <option value="BODEGA_5" label="Bodega 5" />
-                            </Field>
-                            <ErrorMessage name="wineryName" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Cantidad</label>
                             <Field
@@ -110,7 +94,6 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                             />
                             <ErrorMessage name="amount" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
-
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Precio</label>
                             <Field
@@ -132,11 +115,45 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                         </div>
 
                         <div>
+                            <label className="block text-gray-700 dark:text-gray-300">Recu Proveedor</label>
+                            <Field
+                                type="text"
+                                name="supplierNames"
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                disabled
+                            />
+
+                            <ErrorMessage name="supplierNames" component="div" className="text-red-500 text-sm mt-1" />
+                        </div>
+
+
+                        <div>
+                            <label className="block text-gray-700 dark:text-gray-300">Bodega</label>
+                            <Field
+                                as="select"
+                                name="wineryName"
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            >
+                                <option value="" label="Seleccione una bodega" />
+                                <option value="BODEGA_1" label="Bodega 1" />
+                                <option value="BODEGA_2" label="Bodega 2" />
+                                <option value="BODEGA_3" label="Bodega 3" />
+                                <option value="BODEGA_4" label="Bodega 4" />
+                                <option value="BODEGA_5" label="Bodega 5" />
+                            </Field>
+                            <ErrorMessage name="wineryName" component="div" className="text-red-500 text-sm mt-1" />
+                        </div>
+                        <div>
                             <label className="block text-gray-700 dark:text-gray-300">Proveedor</label>
                             <Field
                                 as="select"
                                 name="supplierId"
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                onChange={(e) => {
+                                    const selectedSupplier = proveedores.find(proveedor => proveedor.id_supplier === e.target.value);
+                                    setFieldValue("supplierId", e.target.value);
+                                    setFieldValue("supplierNames", selectedSupplier ? selectedSupplier.name : "");
+                                }}
                             >
                                 <option value="" label="Seleccione un proveedor" />
                                 {proveedores.map((proveedor) => (
@@ -161,7 +178,6 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                             </Field>
                             <ErrorMessage name="inputType" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
-
                     </div>
 
                     <div className="mt-6 flex justify-end gap-4">

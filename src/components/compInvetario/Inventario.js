@@ -23,7 +23,8 @@ const Inventario = () => {
     price: 0,
     inputType: '',
     wineryName: '',
-    supplierId: ''
+    supplierId: '',
+    supplierNames: ''
   });
 
   const fetchInventario = async () => {
@@ -82,7 +83,8 @@ const Inventario = () => {
       price: 0,
       inputType: '',
       wineryName: '',
-      supplierId: ''
+      supplierId: '',
+      supplierNames: ''
     });
   };
 

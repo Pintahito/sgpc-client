@@ -101,7 +101,7 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                         </div>
                         <div>
                             <label>Banco</label>
-                            <Field as="select" name="bank" className="input">
+                            <Field as="select" name="bank" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <option value="">Selecciona un banco</option>
                                 <option value="BBVA">BBVA</option>
                                 <option value="Santander">Santander</option>
@@ -111,7 +111,7 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                         </div>
                         <div>
                             <label>Puesto</label>
-                            <Field as="select" name="position" className="input">
+                            <Field as="select" name="position" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <option value="">Selecciona un puesto</option>
                                 <option value="Operario">Operario</option>
                                 <option value="Supervisor">Supervisor</option>
@@ -119,8 +119,8 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                             <ErrorMessage name="position" component="div" className="text-red-500" />
                         </div>
                         <div>
-                            <label>Categoría</label>
-                            <Field as="select" name="category" className="input">
+                            <label className="block text-gray-700 dark:text-gray-300">Categoría</label>
+                            <Field as="select" name="category" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <option value="">Selecciona una categoría</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -130,7 +130,7 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
 
                         {/* Tipo de empleado */}
                         <div className="md:col-span-2">
-                            <label>
+                            <label className="mt-1 block w-full px-3 py-0 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <Field
                                     type="checkbox"
                                     name="employeeType"
@@ -140,7 +140,7 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                                 />
                                 Planta
                             </label>
-                            <label className="ml-4">
+                            <label className="mt-1 block w-full px-3 py-0 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <Field
                                     type="checkbox"
                                     name="employeeType"
@@ -157,7 +157,7 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                             <>
                                 <div>
                                     <label>Departamento</label>
-                                    <Field as="select" name="department" className="input">
+                                    <Field as="select" name="department" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                         <option value="">Selecciona un departamento</option>
                                         <option value="Administración">Administración</option>
                                         <option value="Producción">Producción</option>
