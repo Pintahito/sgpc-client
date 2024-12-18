@@ -68,7 +68,12 @@ const VehiculoForm = ({ vehiculo, setVehiculo, onSave, vehiculoEditado, closeMod
 
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Placas</label>
-                            <Field type="text" name="plates" className="input-field" />
+                            <Field 
+                            minLength={8}
+                            maxLength={8}
+                            type="text" 
+                            name="plates" 
+                            className="input-field" />
                             <ErrorMessage name="plates" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 

@@ -54,17 +54,26 @@ const MaquinariaForm = ({ maquinaria, setMaquinaria, onSave, maquinariaEditada, 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
-                            <Field type="text" name="name" className="input-field" />
+                            <Field 
+                            minLength={0}
+                            maxLength={100}
+                            type="text" name="name" className="input-field" />
                             <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Marca</label>
-                            <Field type="text" name="brand" className="input-field" />
+                            <Field 
+                            minLength={0}
+                            maxLength={50}
+                            type="text" name="brand" className="input-field" />
                             <ErrorMessage name="brand" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Modelo</label>
-                            <Field type="text" name="model" className="input-field" />
+                            <Field 
+                            minLength={4}
+                            maxLength={4}
+                            type="text" name="model" className="input-field" />
                             <ErrorMessage name="model" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>

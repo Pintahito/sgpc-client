@@ -69,6 +69,11 @@ const Inventario = () => {
       closeDeleteModal();
     } catch (error) {
       console.error('Error al eliminar artículo:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "!Hay otra tabla dependiendo de esta!",
+      });
       console.log('Datos:',articuloSeleccionado);
     }
   };

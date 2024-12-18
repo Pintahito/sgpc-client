@@ -25,7 +25,7 @@ const EmpleadoExt = () => {
   // Obtener todos los empleados
   const fetchEmpleados = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/api/v1/employees`);
+      const response = await axios.get(`${apiUrl}/api/v1/services`);
       setEmpleados(response.data);
     } catch (error) {
       console.error('Error al obtener los empleados:', error);
@@ -40,7 +40,7 @@ const EmpleadoExt = () => {
   const saveEmpleado = async (values) => {
     try {
       if (empleadoEditado) {
-        await axios.put(`${apiUrl}/api/v1/services/${empleadoEditado.id_}`, values);
+        await axios.put(`${apiUrl}/api/v1/services/${empleadoEditado.id_service}`, values);
         Swal.fire("¡Empleado editado con éxito!");
       } else {
         await axios.post(`${apiUrl}/api/v1/services`, values);
@@ -61,7 +61,7 @@ const EmpleadoExt = () => {
   // Eliminar empleado
   const deleteEmpleado = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/employees/${empleadoSeleccionado.id}`);
+      await axios.delete(`${apiUrl}/api/v1/services/${empleadoSeleccionado.id_service}`);
       Swal.fire("¡Empleado eliminado con éxito!");
       fetchEmpleados();
       closeDeleteModal();
@@ -150,6 +150,7 @@ const EmpleadoExt = () => {
           setModalType('delete');
           setIsDeleteModalOpen(true);
         }}
+        setModalType={setModalType} // Pasar el setModalType
       />
     </div>
   );

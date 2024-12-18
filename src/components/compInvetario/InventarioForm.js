@@ -79,6 +79,8 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
                             <Field
+                                minLength={0}
+                                maxLength={100}
                                 type="text"
                                 name="name"
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
@@ -107,6 +109,8 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Descripción</label>
                             <Field
+                                minLength={0}
+                                maxLength={255}
                                 type="text"
                                 name="description"
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
@@ -150,7 +154,9 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                                 name="supplierId"
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
                                 onChange={(e) => {
-                                    const selectedSupplier = proveedores.find(proveedor => proveedor.id_supplier === e.target.value);
+                                    const selectedSupplier = proveedores.find(
+                                        (proveedor) => proveedor.id_supplier.toString() === e.target.value
+                                    );
                                     setFieldValue("supplierId", e.target.value);
                                     setFieldValue("supplierNames", selectedSupplier ? selectedSupplier.name : "");
                                 }}
@@ -162,7 +168,11 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                                     </option>
                                 ))}
                             </Field>
-                            <ErrorMessage name="supplierId" component="div" className="text-red-500 text-sm mt-1" />
+                            <ErrorMessage
+                                name="supplierId"
+                                component="div"
+                                className="text-red-500 text-sm mt-1"
+                            />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Tipo Insumo</label>

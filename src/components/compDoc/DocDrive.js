@@ -1,154 +1,173 @@
+/* eslint-disable no-use-before-define */
 import React, { useEffect, useState } from 'react';
-import { gapi } from 'gapi-script';
 import Swal from 'sweetalert2';
+import { gapi } from 'gapi-script';
 
-const CLIENT_ID = 'TU_CLIENT_ID';
-const API_KEY = 'TU_API_KEY';
+const CLIENT_ID = '1018171855854-i426aq2rp5u7ms9t1datjh3lcdonjlr2.apps.googleusercontent.com'; // Reemplaza con tu Client ID
+const API_KEY = 'AIzaSyD7n2T2TAgpCnSgVhrdSAQlntu8a1j1AzY'; // Reemplaza con tu API Key
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
 
 function DocDrive() {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [accessToken, setAccessToken] = useState(null);
   const [file, setFile] = useState(null);
   const [filesList, setFilesList] = useState([]);
 
+  // Inicializar Google API client
   useEffect(() => {
-    const start = () => {
-      gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
-        scope: SCOPES,
-      });
+    const initClient = async () => {
+      try {
+        await gapi.load('client:auth2', () => {
+          gapi.client.init({
+            apiKey: API_KEY,
+            clientId: CLIENT_ID,
+            scope: SCOPES,
+          });
+        });
+      } catch (error) {
+        console.error('Error al inicializar GAPI:', error);
+      }
     };
-    gapi.load('client:auth2', start);
+
+    initClient();
   }, []);
 
-  const handleAuthClick = () => {
-    gapi.auth2.getAuthInstance().signIn().then(() => {
+  // Manejo de inicio de sesión
+  const handleSignIn = async () => {
+    try {
+      const authInstance = gapi.auth2.getAuthInstance();
+      const user = await authInstance.signIn();
+      const token = user.getAuthResponse().access_token;
+      setAccessToken(token);
       setIsSignedIn(true);
-      Swal.fire('Conectado', 'Has iniciado sesión con Google Drive', 'success');
+      Swal.fire('Conectado', 'Inicio de sesión exitoso', 'success');
       listFiles();
-    });
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      Swal.fire('Error', 'No se pudo iniciar sesión', 'error');
+    }
   };
 
-  const handleSignOutClick = () => {
-    gapi.auth2.getAuthInstance().signOut().then(() => {
-      setIsSignedIn(false);
-      Swal.fire('Desconectado', 'Has cerrado sesión', 'info');
-      setFilesList([]);
-    });
+  // Manejo de cierre de sesión
+  const handleSignOut = () => {
+    const authInstance = gapi.auth2.getAuthInstance();
+    authInstance.signOut();
+    setIsSignedIn(false);
+    setAccessToken(null);
+    setFilesList([]);
+    Swal.fire('Desconectado', 'Has cerrado sesión', 'info');
   };
 
+  // Subir archivo a Google Drive
   const uploadFile = async () => {
     if (!file) {
       Swal.fire('Error', 'No has seleccionado un archivo', 'error');
       return;
     }
 
-    const form = new FormData();
-    form.append('file', file);
-    const boundary = 'foo_bar_baz';
-
-    const metadata = {
-      name: file.name,
-      mimeType: file.type,
-    };
-
-    const requestBody =
-      `--${boundary}\r\n` +
-      'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
-      JSON.stringify(metadata) + '\r\n' +
-      `--${boundary}\r\n` +
-      `Content-Type: ${file.type}\r\n\r\n` +
-      file + '\r\n' +
-      `--${boundary}--`;
-
     try {
-      const response = await gapi.client.request({
-        path: '/upload/drive/v3/files',
+      const metadata = {
+        name: file.name,
+        mimeType: file.type,
+      };
+
+      const formData = new FormData();
+      formData.append(
+        'metadata',
+        new Blob([JSON.stringify(metadata)], { type: 'application/json' })
+      );
+      formData.append('file', file);
+
+      const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
         method: 'POST',
-        params: { uploadType: 'multipart' },
         headers: {
-          'Content-Type': `multipart/related; boundary=${boundary}`,
+          Authorization: `Bearer ${accessToken}`,
         },
-        body: requestBody,
+        body: formData,
       });
-      Swal.fire('Archivo Subido', `El archivo ${file.name} ha sido subido con éxito`, 'success');
-      listFiles();
+
+      if (response.ok) {
+        Swal.fire('Archivo Subido', `El archivo ${file.name} ha sido subido con éxito`, 'success');
+        listFiles();
+      } else {
+        const error = await response.json();
+        throw new Error(error.error.message);
+      }
     } catch (error) {
+      console.error('Error al subir el archivo:', error);
       Swal.fire('Error', 'No se pudo subir el archivo', 'error');
     }
   };
 
+  // Listar archivos en Google Drive
   const listFiles = async () => {
     try {
-      const response = await gapi.client.drive.files.list({
-        pageSize: 10,
-        fields: 'files(id, name)',
+      const response = await fetch('https://www.googleapis.com/drive/v3/files', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
-      setFilesList(response.result.files);
+
+      if (response.ok) {
+        const data = await response.json();
+        setFilesList(data.files || []);
+      } else {
+        const error = await response.json();
+        throw new Error(error.error.message);
+      }
     } catch (error) {
+      console.error('Error al listar archivos:', error);
       Swal.fire('Error', 'No se pudieron listar los archivos', 'error');
     }
   };
 
-  const handleDownload = (fileId, fileName) => {
-    const url = `https://drive.google.com/uc?id=${fileId}&export=download`;
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', fileName);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  };
-
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
-      <h1 className="text-2xl font-bold mb-4">Gestión de Documentos de la Constructora</h1>
+      <h1 className="text-2xl font-bold mb-4">Gestión de Documentos</h1>
+
       {!isSignedIn ? (
         <button
-          onClick={handleAuthClick}
+          onClick={handleSignIn}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           Iniciar Sesión con Google
         </button>
       ) : (
-        <button
-          onClick={handleSignOutClick}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-        >
-          Cerrar Sesión
-        </button>
-      )}
-
-      {isSignedIn && (
-        <div className="mt-4 w-full max-w-md">
-          <input
-            type="file"
-            onChange={(e) => setFile(e.target.files[0])}
-            className="mb-2"
-          />
+        <>
           <button
-            onClick={uploadFile}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full"
+            onClick={handleSignOut}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
           >
-            Subir Archivo
+            Cerrar Sesión
           </button>
-
-          <h2 className="text-xl font-semibold mt-4">Archivos en Google Drive</h2>
-          <ul className="list-disc pl-5">
-            {filesList.map((file) => (
-              <li key={file.id} className="flex justify-between items-center">
-                <span>{file.name}</span>
-                <button
-                  onClick={() => handleDownload(file.id, file.name)}
-                  className="text-blue-500 hover:underline"
-                >
-                  Descargar
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+          <div className="mt-4 w-full max-w-md">
+            <input
+              type="file"
+              onChange={(e) => setFile(e.target.files[0])}
+              className="mb-2"
+            />
+            <button
+              onClick={uploadFile}
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full"
+            >
+              Subir Archivo
+            </button>
+            <h2 className="text-xl font-semibold mt-4">Archivos en Google Drive</h2>
+            <ul className="list-disc pl-5">
+              {filesList.map((file) => (
+                <li key={file.id} className="flex justify-between items-center">
+                  <span>{file.name}</span>
+                  <button
+                    onClick={() => window.open(`https://drive.google.com/file/d/${file.id}`, '_blank')}
+                    className="text-blue-500 hover:underline"
+                  >
+                    Ver
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
       )}
     </div>
   );

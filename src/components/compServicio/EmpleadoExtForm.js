@@ -53,6 +53,8 @@ const EmpleadoExtForm = ({ empleado, setEmpleado, onSave, empleadoEditado, close
             <div>
               <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
               <Field
+                minLength={0}
+                maxLength={100}
                 type="text"
                 name="name"
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
@@ -75,6 +77,8 @@ const EmpleadoExtForm = ({ empleado, setEmpleado, onSave, empleadoEditado, close
             <div>
               <label className="block text-gray-700 dark:text-gray-300">Email</label>
               <Field
+                minLength={0}
+                maxLength={50}
                 type="email"
                 name="email"
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"

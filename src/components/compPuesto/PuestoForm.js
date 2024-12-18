@@ -47,6 +47,8 @@ const PuestoForm = ({ puesto, setPuesto, onSave, puestoEditado, closeModal }) =>
             <div>
               <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
               <Field
+                minLength={0}
+                maxLength={100}
                 type="text"
                 name="name"
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
@@ -58,6 +60,8 @@ const PuestoForm = ({ puesto, setPuesto, onSave, puestoEditado, closeModal }) =>
             <div className="md:col-span-2">
               <label className="block text-gray-700 dark:text-gray-300">Descripción</label>
               <Field
+                minLength={0}
+                maxLength={255}
                 as="textarea"
                 name="description"
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
