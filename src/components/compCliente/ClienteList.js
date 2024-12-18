@@ -31,7 +31,7 @@ function ClienteList({ clientes, setClienteEditado, setModalType, setClienteSele
     },
     {
       name: 'Fecha de Registro',
-      selector: (row) => row.registrationDate,
+      selector: (row) => row.created_at,
       sortable: true,
     },
     {

@@ -14,7 +14,7 @@ import Maquinaria from './components/compMaquinaria/Maquinaria';
 import Departamentos from './components/compDepartamento/Departamentos';
 import Proveedores from './components/Proveedor/Proveedores';
 import Banco from './components/compBanco/Banco';
-import DocDrive from './components/compDoc/DocDrive';
+import DocDrive from './components/compDoc/FileManager';
 
 import axios from "./api/axios"; // Asegúrate de que este archivo esté configurado para manejar peticiones con Axios.
 

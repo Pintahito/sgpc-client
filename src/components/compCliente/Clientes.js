@@ -24,6 +24,7 @@ const Clientes = () => {
     phone: '',
     email: '',
     rfc: '',
+    created_at: ''
   });
 
     // // Configuración WebSocket con STOMP
@@ -105,7 +106,7 @@ const Clientes = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setClienteEditado(null);
-    setNewCliente({ name: '', address: '', municipality: '', state: '', phone: '', email: '', rfc: '', fechaRegistro: '' });
+    setNewCliente({ name: '', address: '', municipality: '', state: '', phone: '', email: '', rfc: '', created_at: '' });
   };
 
   // Cerrar modal de eliminación
