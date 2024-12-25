@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 const apiUrl = process.env.REACT_APP_API_URL;
 console.log(apiUrl);
 
+
 const Proveedores = () => {
   const [proveedores, setProveedores] = useState([]);
   const [proveedorEditado, setProveedorEditado] = useState(null);
@@ -31,6 +32,9 @@ const Proveedores = () => {
       setProveedores(response.data);
     } catch (error) {
       console.error('Error al obtener proveedores:', error);
+      if (error.response?.status === 403) {
+        Swal.fire('Acceso denegado', 'Token inválido o no autorizado', 'error');
+      }
     }
   };
 
@@ -43,18 +47,18 @@ const Proveedores = () => {
     try {
       if (proveedorEditado) {
         await axios.put(`${apiUrl}/api/v1/suppliers/${proveedorEditado.id_supplier}`, values);
-        Swal.fire("¡Proveedor editado con éxito!");
+        Swal.fire('¡Proveedor editado con éxito!');
       } else {
         await axios.post(`${apiUrl}/api/v1/suppliers`, values);
-        Swal.fire("¡Proveedor agregado con éxito!");
+        Swal.fire('¡Proveedor agregado con éxito!');
       }
       fetchProveedores();
       closeModal();
     } catch (error) {
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Verifica tus datos!",
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Verifica tus datos!',
       });
       console.error('Error al guardar proveedor:', error);
     }
@@ -64,11 +68,11 @@ const Proveedores = () => {
   const deleteProveedor = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/suppliers/${proveedorSeleccionado.id_supplier}`);
-      Swal.fire("¡Proveedor eliminado con éxito!");
+      Swal.fire('¡Proveedor eliminado con éxito!');
       fetchProveedores();
       closeDeleteModal();
     } catch (error) {
-      Swal.fire("!Hay otra tabla dependiendo de esta!");
+      Swal.fire('¡Hay otra tabla dependiendo de esta!');
       console.error('Error al eliminar proveedor:', error);
     }
   };
@@ -100,7 +104,8 @@ const Proveedores = () => {
         onClick={() => {
           setModalType('add');
           setIsModalOpen(true);
-        }}>
+        }}
+      >
         Agregar Proveedor
       </button>
 
@@ -133,16 +138,20 @@ const Proveedores = () => {
       {isDeleteModalOpen && modalType === 'delete' && (
         <Modal closeModal={closeDeleteModal}>
           <div className="text-center">
-            <p className="mb-4">¿Estás seguro de que deseas eliminar a {proveedorSeleccionado?.name}?</p>
+            <p className="mb-4">
+              ¿Estás seguro de que deseas eliminar a {proveedorSeleccionado?.name}?
+            </p>
             <div className="flex justify-center gap-4">
               <button
                 className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition"
-                onClick={deleteProveedor}>
+                onClick={deleteProveedor}
+              >
                 Eliminar
               </button>
               <button
                 className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition"
-                onClick={closeDeleteModal}>
+                onClick={closeDeleteModal}
+              >
                 Cancelar
               </button>
             </div>

@@ -70,17 +70,16 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
         rfc: empleado.rfc || '',
         email: empleado.email || '',
         hiringDate: empleado.hiringDate || '',
-        accountNumber: empleado.accountNumber || '',
-        positionId: empleado.position || '',
-        categoryId: empleado.category || '',
-        accounts: empleado.accounts || '',
-        bankId: empleado.bankId || '',
-        phone: empleado.phone || '',
-        department: '',
-        workHours: '',
-        salary: '',
-        startDate: '',
-        endDate: ''
+        positionId: empleado.positionId || '',
+        categoryId: empleado.categoryId || '',
+        employeeType: empleado.employeeType || '',
+        accounts: empleado.accounts || [{ bankId: '', accountNumber: '' }],
+        phones: empleado.phones || [{ phone: '', employeeId: '' }],
+        departmentId: empleado.departmentId || '',
+        workHours: empleado.workHours || '',
+        salary: empleado.salary || '',
+        startDate: empleado.startDate || '',
+        endDate: empleado.endDate || ''
     };
 
     const handleSubmit = async (values, { setSubmitting }) => {
@@ -101,11 +100,20 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
         email: Yup.string()
             .email('El formato del correo no es válido')
             .required('El email es obligatorio'),
-        accountNumber: Yup.string().required('El número de cuenta es obligatorio'),
-        phone: Yup.string().required('El teléfono es obligatorio'),
-        id_bank: Yup.string().required('Selecciona un banco'),
-        position: Yup.string().required('Selecciona un puesto'),
-        category: Yup.string().required('Selecciona una categoría'),
+        hiringDate: Yup.string().required('La fecha es obligatoria'),
+        positionId: Yup.string().required('Selecciona un puesto'),
+        categoryId: Yup.string().required('Selecciona una categoría'),
+        accounts: Yup.array().of(
+            Yup.object().shape({
+                bankId: Yup.number().required('Selecciona un banco'),
+                accountNumber: Yup.string().required('Número de cuenta requerido')
+            })
+        ),
+        phones: Yup.array().of(
+            Yup.object().shape({
+                phone: Yup.string().required('El teléfono es obligatorio')
+            })
+        ),
         ...(employeeType === 'PLANTA' && {
             department: Yup.string().required('El departamento es obligatorio'),
             workHours: Yup.string().required('Las horas de trabajo son obligatorias'),
@@ -165,12 +173,18 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                             <Field
                                 minLength={10}
                                 maxLength={10}
-                                type="text" name="phone" className="input" />
-                            <ErrorMessage name="phone" component="div" className="text-red-500" />
+                                type="text" name="phones[0].phone" className="input" />
+                            <ErrorMessage name="phones[0].phone" component="div" className="text-red-500" />
+                        </div>
+                        <div>
+                            <label>Fecha</label>
+                            <Field
+                                type="date" name="hiringDate" className="input" />
+                            <ErrorMessage name="hiringdate" component="div" className="text-red-500" />
                         </div>
                         <div>
                             <label>Banco</label>
-                            <Field as="select" name="bank" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
+                            <Field as="select" name="bankId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <option value="">Selecciona un banco</option>
                                 {banks.map((bank) => (
                                     <option key={bank.id_bank} value={bank.id_bank}>
@@ -178,31 +192,31 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                                     </option>
                                 ))}
                             </Field>
-                            <ErrorMessage name="bank" component="div" className="text-red-500" />
+                            <ErrorMessage name="bankId" component="div" className="text-red-500" />
                         </div>
                         <div>
                             <label>Puesto</label>
-                            <Field as="select" name="position" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                <option value="">Selecciona un banco</option>
+                            <Field as="select" name="positionId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
+                                <option value="">Selecciona un puesto</option>
                                 {puestos.map((puesto) => (
                                     <option key={puesto.id_position} value={puesto.id_position}>
                                         {puesto.name}
                                     </option>
                                 ))}
                             </Field>
-                            <ErrorMessage name="position" component="div" className="text-red-500" />
+                            <ErrorMessage name="positionId" component="div" className="text-red-500" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Categoría</label>
-                            <Field as="select" name="category" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                <option value="">Selecciona un banco</option>
+                            <Field as="select" name="categoryId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
+                                <option value="">Selecciona una categoria</option>
                                 {categorias.map((cat) => (
                                     <option key={cat.id_categoria} value={cat.id_categoria}>
                                         {cat.name}
                                     </option>
                                 ))}
                             </Field>
-                            <ErrorMessage name="category" component="div" className="text-red-500" />
+                            <ErrorMessage name="categoryId" component="div" className="text-red-500" />
                         </div>
 
                         {/* Tipo de empleado */}
@@ -234,7 +248,7 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                             <>
                                 <div>
                                     <label>Departamento</label>
-                                    <Field as="select" name="department" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
+                                    <Field as="select" name="departmentId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                         <option value="">Selecciona un departamento</option>
                                         {departamentos.map((depa) => (
                                             <option key={depa.id_departament} value={depa.id_departament}>
@@ -242,7 +256,7 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                                             </option>
                                         ))}
                                     </Field>
-                                    <ErrorMessage name="department" component="div" className="text-red-500" />
+                                    <ErrorMessage name="departmentId" component="div" className="text-red-500" />
                                 </div>
                                 <div>
                                     <label>Horas de trabajo</label>

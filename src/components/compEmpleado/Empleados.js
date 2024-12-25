@@ -30,13 +30,19 @@ const Empleados = () => {
     email: '',
     hiringDate: '',
     employeeType: '',
-    state: ''
+    positionId: '',
+    categoryId: '',
+    accounts: [{bankId:'', accountNumber: ''}],
+    phones: [{phone: '',employeeId: ''}],
+    //empleado de obra
+    startDate: '',
+    endDate:''
   });
 
   // Funciones para Empleado
   const fetchEmpleados = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/api/v1/employ`);
+      const response = await axios.get(`${apiUrl}/api/v1/employees`);
       setEmpleados(response.data);
     } catch (error) {
       console.error('Error al obtener el empleado:', error);
@@ -46,10 +52,10 @@ const Empleados = () => {
   const saveEmpleado = async (values) => {
     try {
       if (empleadoEditado) {
-        await axios.put(`${apiUrl}/api/v1/maquinaria/${empleadoEditado.id_employ}`, values);
+        await axios.put(`${apiUrl}/api/v1/employees/${empleadoEditado.id_employess}`, values);
         Swal.fire("¡Empleado editado con éxito!");
       } else {
-        await axios.post(`${apiUrl}/api/v1/maquinaria`, values);
+        await axios.post(`${apiUrl}/api/v1/employees`, values);
         Swal.fire("¡Empleado agregado con éxito!");
       }
       fetchEmpleados();
@@ -66,7 +72,7 @@ const Empleados = () => {
 
   const deleteEmpleado = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/maquinaria/${empleadoSeleccionado.id}`);
+      await axios.delete(`${apiUrl}/api/v1/employees/${empleadoSeleccionado.id}`);
       Swal.fire("¡Empleado eliminado con éxito!");
       fetchEmpleados();
       closeDeleteModal();
@@ -81,7 +87,8 @@ const Empleados = () => {
   const [categoriaEditada, setCategoriaEditada] = useState(null);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
   const [newCategoria, setNewCategoria] = useState({
-    name: ''
+    name: '',
+    description: ''
   });
   // Funciones para Categorias
   const fetchCategorias = async () => {
@@ -136,10 +143,17 @@ const Empleados = () => {
       email: '',
       hiringDate: '',
       employeeType: '',
-      state: ''
+      positionId: '',
+      categoryId: '',
+      accounts: [{bankId:'', accountNumber: ''}],
+      phones: [{phone: '',employeeId: 0}],
+      //empleado de obra
+      startDate: '',
+      endDate:''
     });
     setNewCategoria({
-      name: ''
+      name: '',
+      description: ''
     });
   };
 

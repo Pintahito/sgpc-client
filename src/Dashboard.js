@@ -15,12 +15,15 @@ import Departamentos from './components/compDepartamento/Departamentos';
 import Proveedores from './components/Proveedor/Proveedores';
 import Banco from './components/compBanco/Banco';
 import DocDrive from './components/compDoc/FileManager';
+import KPIContainer from './components/compKPI/KPIContainer';
+import Roles from './components/compUsers/Roles';
 
 import axios from "./api/axios"; // Asegúrate de que este archivo esté configurado para manejar peticiones con Axios.
 
 
 import './css/Modal.css';
 import './css/App.css';
+
 
 const Dashboard = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -87,6 +90,10 @@ const Dashboard = () => {
         return <Proveedores />;
       case 'documental':
         return <DocDrive />;
+      case 'kpi':
+          return <KPIContainer />;
+      case 'usuarios':
+            return <Roles />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }

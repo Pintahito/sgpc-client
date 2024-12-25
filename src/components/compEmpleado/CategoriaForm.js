@@ -11,6 +11,7 @@ const CategoriaForm = ({ categoria, setCategoria, onSave, categoriaEditada, clos
 
     const initialValues = {
         name: categoria.name || '',
+        description: categoria.description || '',
     };
 
     const handleSubmit = async (values, { setSubmitting }) => {
@@ -25,6 +26,7 @@ const CategoriaForm = ({ categoria, setCategoria, onSave, categoriaEditada, clos
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('El nombre es obligatorio'),
+        description: Yup.string().required('La descripcion es obligatoria'),
     });
 
     return (
@@ -43,13 +45,26 @@ const CategoriaForm = ({ categoria, setCategoria, onSave, categoriaEditada, clos
                             <Field
                                 type="text"
                                 name="name"
-                                maxlengt="5"
+                                minlengt={0}
+                                maxlengt={80}
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
                             />
                             <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
-                    </div>
 
+                         {/* Descripcion */}
+                         <div>
+                            <label className="block text-gray-700 dark:text-gray-300">Descripcion</label>
+                            <Field
+                                as="textarea"
+                                name="description"
+                                minlengt={0}
+                                maxlengt={255}
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            />
+                            <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
+                        </div>
+                    </div>
                     <div className="mt-6 flex justify-end gap-4">
                         <button
                             type="button"
