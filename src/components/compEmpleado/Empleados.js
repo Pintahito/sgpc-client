@@ -34,6 +34,8 @@ const Empleados = () => {
     categoryId: '',
     accounts: [{bankId:'', accountNumber: ''}],
     phones: [{phone: '',employeeId: ''}],
+    //empleado Planta
+    
     //empleado de obra
     startDate: '',
     endDate:''
@@ -244,12 +246,12 @@ const Empleados = () => {
 
       <div className="flex justify-center space-x-3 mb-6">
         <button
-          className={`py-2 px-4 rounded-md transform transition-all duration-200 ${activeTab === 'maquinaria' ? 'bg-blue-500 text-white scale-105' : 'bg-gray-300 text-gray-800'} hover:scale-110`}
+          className={`py-2 px-4 rounded-md transform transition-all duration-200 ${activeTab === 'empleado' ? 'bg-blue-500 text-white scale-105' : 'bg-gray-300 text-gray-800'} hover:scale-110`}
           onClick={() => setActiveTab("empleado")}>
           Empleados
         </button>
         <button
-          className={`py-2 px-4 rounded-md transform transition-all duration-200 ${activeTab === 'vehiculos' ? 'bg-blue-500 text-white scale-105' : 'bg-gray-300 text-gray-800'} hover:scale-110`}
+          className={`py-2 px-4 rounded-md transform transition-all duration-200 ${activeTab === 'categoria' ? 'bg-blue-500 text-white scale-105' : 'bg-gray-300 text-gray-800'} hover:scale-110`}
           onClick={() => setActiveTab("categoria")}>
           Categoria
         </button>

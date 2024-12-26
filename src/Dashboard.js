@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import Home from './components/Home';
 import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
 import { CiLogin } from "react-icons/ci";
+import { GrUserSettings } from "react-icons/gr";
 import Swal from 'sweetalert2';
 
 import Clientes from './components/compCliente/Clientes';
@@ -16,7 +17,7 @@ import Proveedores from './components/Proveedor/Proveedores';
 import Banco from './components/compBanco/Banco';
 import DocDrive from './components/compDoc/FileManager';
 import KPIContainer from './components/compKPI/KPIContainer';
-import Roles from './components/compUsers/Roles';
+import ConfigUsers from './components/compUsers/ConfigUsers';
 
 import axios from "./api/axios"; // Asegúrate de que este archivo esté configurado para manejar peticiones con Axios.
 
@@ -91,9 +92,9 @@ const Dashboard = () => {
       case 'documental':
         return <DocDrive />;
       case 'kpi':
-          return <KPIContainer />;
+        return <KPIContainer />;
       case 'usuarios':
-            return <Roles />;
+        return <ConfigUsers />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }
@@ -135,14 +136,19 @@ const Dashboard = () => {
               <span className="ml-3 text-xl">
                 {darkMode ? <FaMoon className="text-yellow-300" /> : <FaSun className="text-yellow-500" />}
               </span>
-
-              {/* Botón de Cerrar Sesión */}
-              <button
-                onClick={logout}
-                className="ml-4 flex items-center bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition-all duration-300"
-              >
-                <CiLogin className="text-2xl mr-2" />
+              {/* Botón Gestion Usuarios */}
+              <button onClick={() => handleNavigate('usuarios')} className="ml-4 flex items-center bg-gradient-to-r from-red-500 to-pink-500 hover:from-pink-500 hover:to-red-500 text-white font-semibold py-2 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out" >
+                <GrUserSettings className="text-2xl mr-2 animate-spin-slow" />
+                Users
               </button>
+
+              {/* Botón de Cerrar Sesión */} 
+              <button onClick={logout}
+                className="ml-4 flex items-center bg-gradient-to-r from-red-500 to-pink-500 hover:from-pink-500 hover:to-red-500 text-white font-semibold py-2 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out" >
+                <CiLogin className="text-2xl mr-2 animate-spin-slow" />
+                Exit
+              </button>
+
             </div>
           </header>
 

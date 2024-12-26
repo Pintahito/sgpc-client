@@ -51,16 +51,16 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
         };
         fetchPuestos();
 
-          // Obtener todos los departamentos
-          const fetchDepartamentos = async () => {
+        // Obtener todos los departamentos
+        const fetchDepartamentos = async () => {
             try {
-              const response = await axios.get(`${apiUrl}/api/v1/departments`);
-              setDepartamentos(response.data);
+                const response = await axios.get(`${apiUrl}/api/v1/departments`);
+                setDepartamentos(response.data);
             } catch (error) {
-              console.error('Error al obtener departamentos:', error);
+                console.error('Error al obtener departamentos:', error);
             }
-          };
-          fetchDepartamentos();
+        };
+        fetchDepartamentos();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [empleadoEditado, setEmpleado]);
@@ -83,8 +83,20 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
     };
 
     const handleSubmit = async (values, { setSubmitting }) => {
+        const payload = {
+            ...values,
+            accounts: values.accounts.map(account => ({
+                bankId: Number(account.bankId),
+                accountNumber: account.accountNumber
+            })),
+            phones: values.phones.map(phone => ({
+                phone: phone.phone,
+                employeeId: Number(phone.employeeId)
+            }))
+        };
         try {
-            await onSave(values);
+            await onSave(payload);
+            console.log("Datos enviados:", payload)
         } catch (error) {
             console.error("Error al guardar los datos:", error);
         } finally {
@@ -111,7 +123,8 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
         ),
         phones: Yup.array().of(
             Yup.object().shape({
-                phone: Yup.string().required('El teléfono es obligatorio')
+                phone: Yup.string().required('El teléfono es obligatorio'),
+                employeeId: Yup.number()
             })
         ),
         ...(employeeType === 'PLANTA' && {
@@ -161,14 +174,6 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                             <ErrorMessage name="email" component="div" className="text-red-500" />
                         </div>
                         <div>
-                            <label>Número de cuenta</label>
-                            <Field
-                                minLength={16}
-                                maxLength={16}
-                                type="text" name="accountNumber" className="input" />
-                            <ErrorMessage name="accountNumber" component="div" className="text-red-500" />
-                        </div>
-                        <div>
                             <label>Teléfono</label>
                             <Field
                                 minLength={10}
@@ -182,24 +187,46 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                                 type="date" name="hiringDate" className="input" />
                             <ErrorMessage name="hiringdate" component="div" className="text-red-500" />
                         </div>
-                        <div>
-                            <label>Banco</label>
-                            <Field as="select" name="bankId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                <option value="">Selecciona un banco</option>
-                                {banks.map((bank) => (
-                                    <option key={bank.id_bank} value={bank.id_bank}>
-                                        {bank.name}
-                                    </option>
-                                ))}
-                            </Field>
-                            <ErrorMessage name="bankId" component="div" className="text-red-500" />
-                        </div>
+                        {values.accounts.map((account, index) => (
+                            <div key={index}>
+                                <label>Banco</label>
+                                <Field as="select" name={`accounts[${index}].bankId`} className="input">
+                                    <option value="">Selecciona un banco</option>
+                                    {banks.map((bank) => (
+                                        <option key={bank.idBank} value={bank.idBank}>
+                                            {bank.name}
+                                        </option>
+                                    ))}
+                                </Field>
+                                <ErrorMessage name={`accounts[${index}].bankId`} component="div" className="text-red-500" />
+
+                                <label>Número de cuenta</label>
+                                <Field type="text" name={`accounts[${index}].accountNumber`} className="input" />
+                                <ErrorMessage name={`accounts[${index}].accountNumber`} component="div" className="text-red-500" />
+
+                                <button type="button" onClick={() => {
+                                    const updatedAccounts = [...values.accounts];
+                                    updatedAccounts.splice(index, 1);
+                                    setFieldValue('accounts', updatedAccounts);
+                                }}>
+                                    Eliminar cuenta
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={() =>
+                                setFieldValue('accounts', [...values.accounts, { bankId: '', accountNumber: '' }])
+                            }
+                        >
+                            Agregar cuenta
+                        </button>
                         <div>
                             <label>Puesto</label>
                             <Field as="select" name="positionId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <option value="">Selecciona un puesto</option>
                                 {puestos.map((puesto) => (
-                                    <option key={puesto.id_position} value={puesto.id_position}>
+                                    <option key={puesto.idPosition} value={puesto.idPosition}>
                                         {puesto.name}
                                     </option>
                                 ))}
@@ -211,7 +238,7 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                             <Field as="select" name="categoryId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <option value="">Selecciona una categoria</option>
                                 {categorias.map((cat) => (
-                                    <option key={cat.id_categoria} value={cat.id_categoria}>
+                                    <option key={cat.idCategoria} value={cat.idCategoria}>
                                         {cat.name}
                                     </option>
                                 ))}
