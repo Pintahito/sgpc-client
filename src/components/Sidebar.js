@@ -48,11 +48,11 @@ const Sidebar = ({ onNavigate, active}) => {
               Gestión Empleados
             </button>
             <button
-              onClick={() => onNavigate('empleadoext')}
-              className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'empleadoext' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
+              onClick={() => onNavigate('categoria')}
+              className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'categoria' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
                 } focus:outline-none focus:bg-iosBlue focus:text-white`}
             >
-              Gestión Servicios
+              Gestión Categoria
             </button>
             <button
               onClick={() => onNavigate('puestoemp')}
@@ -112,6 +112,13 @@ const Sidebar = ({ onNavigate, active}) => {
             } focus:outline-none focus:bg-iosBlue focus:text-white`}
         >
           Panel KPI
+        </button>
+        <button
+          onClick={() => onNavigate('mant')}
+          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'mant' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
+            } focus:outline-none focus:bg-iosBlue focus:text-white`}
+        >
+          Maintenance
         </button>
 
       </nav>

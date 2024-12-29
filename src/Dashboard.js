@@ -9,8 +9,8 @@ import Swal from 'sweetalert2';
 import Clientes from './components/compCliente/Clientes';
 import Empleados from './components/compEmpleado/Empleados';
 import Inventario from './components/compInvetario/Inventario';
-import EmpleadoExt from './components/compServicio/EmpleadoExt';
-import PuestoEmp from './components/compPuesto/PuestoEmp';
+import Categoria from './components/compCategoria/Categoria';
+import PuestoEmp from './components/compPuesto/PuestoEmp'
 import Maquinaria from './components/compMaquinaria/Maquinaria';
 import Departamentos from './components/compDepartamento/Departamentos';
 import Proveedores from './components/Proveedor/Proveedores';
@@ -18,6 +18,7 @@ import Banco from './components/compBanco/Banco';
 import DocDrive from './components/compDoc/FileManager';
 import KPIContainer from './components/compKPI/KPIContainer';
 import ConfigUsers from './components/compUsers/ConfigUsers';
+import Maintenance from './components/compMantenimiento/Maintenance';
 
 import axios from "./api/axios"; // Asegúrate de que este archivo esté configurado para manejar peticiones con Axios.
 
@@ -75,8 +76,8 @@ const Dashboard = () => {
         return <div>Recursos Humanos</div>;
       case 'empleados':
         return <Empleados />;
-      case 'empleadoext':
-        return <EmpleadoExt />;
+      case 'categoria':
+        return <Categoria />;
       case 'puestoemp':
         return <PuestoEmp />;
       case 'inventario':
@@ -95,6 +96,8 @@ const Dashboard = () => {
         return <KPIContainer />;
       case 'usuarios':
         return <ConfigUsers />;
+      case 'mant':
+        return <Maintenance />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }
@@ -142,7 +145,7 @@ const Dashboard = () => {
                 Users
               </button>
 
-              {/* Botón de Cerrar Sesión */} 
+              {/* Botón de Cerrar Sesión */}
               <button onClick={logout}
                 className="ml-4 flex items-center bg-gradient-to-r from-red-500 to-pink-500 hover:from-pink-500 hover:to-red-500 text-white font-semibold py-2 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out" >
                 <CiLogin className="text-2xl mr-2 animate-spin-slow" />

@@ -1,8 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const UserForm = ({ user, setUser, onSave, userEditado, closeModal }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => { setShowPassword(!showPassword); };
+
   useEffect(() => {
     if (userEditado) {
       setUser(userEditado);
@@ -13,6 +18,7 @@ const UserForm = ({ user, setUser, onSave, userEditado, closeModal }) => {
     username: user.username || '',
     password: user.password || '',
     rolId: user.rolId || '',
+    rolName: user.rolName || ''
   };
 
   const handleSubmit = async (values, { setSubmitting }) => {
@@ -53,14 +59,13 @@ const UserForm = ({ user, setUser, onSave, userEditado, closeModal }) => {
               <ErrorMessage name="username" component="div" className="text-red-500 text-sm mt-1" />
             </div>
             {/* Password */}
-            <div>
-              <label className="block text-gray-700 dark:text-gray-300">Contraseña</label>
-              <Field
-                type="password"
+            <div className="relative"> <label className="block text-gray-700 dark:text-gray-300">Contraseña</label>
+              <Field type={showPassword ? "text" : "password"}
                 name="password"
-                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-              />
-              <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
+                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md" />
+              <span onClick={toggleShowPassword}
+                className="absolute right-3 top-3 cursor-pointer text-gray-500 dark:text-gray-400" >
+                {showPassword ? <FaEyeSlash /> : <FaEye />} </span> <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
             </div>
             {/* Rol ID */}
             <div>
@@ -71,6 +76,15 @@ const UserForm = ({ user, setUser, onSave, userEditado, closeModal }) => {
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
               />
               <ErrorMessage name="rolId" component="div" className="text-red-500 text-sm mt-1" />
+            </div>
+            <div>
+              <label className="block text-gray-700 dark:text-gray-300">ID del Rol</label>
+              <Field
+                type="text"
+                name="rolName"
+                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+              />
+              <ErrorMessage name="rolName" component="div" className="text-red-500 text-sm mt-1" />
             </div>
           </div>
 

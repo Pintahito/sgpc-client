@@ -110,7 +110,7 @@ const ConfigUsers = () => {
   const saveUser = async (values) => {
     try {
       if (userEditado) {
-        await axios.put(`${apiUrl}/api/v1/users/${userEditado.id}`, values);
+        await axios.put(`${apiUrl}/api/v1/users/${userEditado.id_user}`, values);
         Swal.fire('¡Usuario editado con éxito!');
       } else {
         await axios.post(`${apiUrl}/api/v1/users`, values);
@@ -131,7 +131,7 @@ const ConfigUsers = () => {
   // Eliminar un usuario
   const deleteUser = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/users/${userSeleccionado.id}`);
+      await axios.delete(`${apiUrl}/api/v1/users/${userSeleccionado.id_user}`);
       Swal.fire('¡Usuario eliminado con éxito!');
       fetchUsers();
       closeDeleteModal();

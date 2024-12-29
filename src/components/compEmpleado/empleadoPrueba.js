@@ -6,11 +6,12 @@ import axios from 'axios';
 const apiUrl = process.env.REACT_APP_API_URL;
 console.log(apiUrl);
 
-const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeModal }) => {
+const EmpleadoForm1 = ({ empleado, setEmpleado, onSave, empleadoEditado, closeModal }) => {
     const [employeeType, setEmployeeType] = useState('');
     const [banks, setBanco] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [puestos, setPuestos] = useState([]);
+    const [departamentos, setDepartamentos] = useState([]);
 
     useEffect(() => {
         if (empleadoEditado) {
@@ -50,6 +51,17 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
         };
         fetchPuestos();
 
+        // Obtener todos los departamentos
+        const fetchDepartamentos = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/api/v1/departments`);
+                setDepartamentos(response.data);
+            } catch (error) {
+                console.error('Error al obtener departamentos:', error);
+            }
+        };
+        fetchDepartamentos();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [empleadoEditado, setEmpleado]);
 
@@ -67,7 +79,7 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
         phones: empleado.phones || [{ phone: '', employeeId: '' }],
         //Datos para empleado PLANTA
         departmentId: empleado.departmentId || '',
-        workingHours: empleado.workingHours || '',
+        workHours: empleado.workHours || '',
         salary: empleado.salary || '',
         //Datos para empleado OBRA
         startDate: empleado.startDate || '',
@@ -75,55 +87,23 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
     };
 
     const handleSubmit = async (values, { setSubmitting }) => {
-        let payload;
+        const payload = {
+            ...values,
+            accounts: values.accounts.map(account => ({
+                bankId: Number(account.bankId),
+                accountNumber: account.accountNumber
+            })),
+            phones: values.phones.map(phone => ({
+                phone: phone.phone,
+                employeeId: Number(phone.employeeId),
 
-        // Filtrar los datos según el tipo de empleado
-        if (employeeType === 'PLANTA') {
-            payload = {
-                name: values.name,
-                rfc: values.rfc,
-                email: values.email,
-                hiringDate: values.hiringDate,
-                positionId: values.positionId,
-                categoryId: values.categoryId,
-                accounts: values.accounts.map(account => ({
-                    bankId: Number(account.bankId),
-                    accountNumber: account.accountNumber
-                })),
-                phones: values.phones.map(phone => ({
-                    phone: phone.phone,
-                    employeeId: Number(phone.employeeId)
-                })),
-                employeeType: 'PLANTA',
-                departmentId: values.departmentId,
-                workingHours: values.workingHours,
-                salary: values.salary
-            };
-        } else if (employeeType === 'OBRA') {
-            payload = {
-                name: values.name,
-                rfc: values.rfc,
-                email: values.email,
-                hiringDate: values.hiringDate,
-                positionId: values.positionId,
-                categoryId: values.categoryId,
-                accounts: values.accounts.map(account => ({
-                    bankId: Number(account.bankId),
-                    accountNumber: account.accountNumber
-                })),
-                phones: values.phones.map(phone => ({
-                    phone: phone.phone,
-                    employeeId: Number(phone.employeeId)
-                })),
-                employeeType: 'OBRA',
-                startDate: values.startDate,
-                endDate: values.endDate
-            };
-        }
+            })),
+            employeeType
+        };
 
         try {
-            await onSave(values, payload);
-            console.log("Datos enviados:", payload);
+            await onSave(payload);
+            console.log("Datos enviados:", payload)
         } catch (error) {
             console.error("Error al guardar los datos:", error);
         } finally {
@@ -155,9 +135,9 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
             })
         ),
         ...(employeeType === 'PLANTA' && {
-            departmentId: Yup.string().required('El departamento es obligatorio'),
-            workingHours: Yup.number().required('Las horas de trabajo son obligatorias'),
-            salary: Yup.number().required('El salario es obligatorio')
+            department: Yup.string().required('El departamento es obligatorio'),
+            workHours: Yup.string().required('Las horas de trabajo son obligatorias'),
+            salary: Yup.string().required('El salario es obligatorio')
         }),
         ...(employeeType === 'OBRA' && {
             startDate: Yup.string().required('La fecha de inicio es obligatoria'),
@@ -170,9 +150,9 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
-            enableReinitialize={false}
+        //enableReinitialize={false}
         >
-            {({ values, isSubmitting }) => (
+            {({ values, isSubmitting, setFieldValue }) => (
                 <Form>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Datos generales */}
@@ -289,17 +269,24 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                             <>
                                 <div>
                                     <label>Departamento</label>
-                                    <Field type="number" name="departmentId" className="input" />
+                                    <Field as="select" name="departmentId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
+                                        <option value="">Selecciona un departamento</option>
+                                        {departamentos.map((depa) => (
+                                            <option key={depa.id_departament} value={depa.id_departament}>
+                                                {depa.name}
+                                            </option>
+                                        ))}
+                                    </Field>
                                     <ErrorMessage name="departmentId" component="div" className="text-red-500" />
                                 </div>
                                 <div>
                                     <label>Horas de trabajo</label>
-                                    <Field type="number" name="workingHours" className="input" />
-                                    <ErrorMessage name="workingHours" component="div" className="text-red-500" />
+                                    <Field type="text" name="workHours" className="input" />
+                                    <ErrorMessage name="workHours" component="div" className="text-red-500" />
                                 </div>
                                 <div>
                                     <label>Salario</label>
-                                    <Field type="number" name="salary" className="input" />
+                                    <Field type="text" name="salary" className="input" />
                                     <ErrorMessage name="salary" component="div" className="text-red-500" />
                                 </div>
                             </>
@@ -343,4 +330,4 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
     );
 };
 
-export default EmpleadoForm;
+export default EmpleadoForm1;

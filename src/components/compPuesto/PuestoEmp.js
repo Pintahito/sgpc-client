@@ -39,7 +39,7 @@ const PuestoEmp = () => {
   const savePuesto = async (values) => {
     try {
       if (puestoEditado) {
-        await axios.put(`${apiUrl}/api/v1/positions/${puestoEditado.id_position}`, values);
+        await axios.put(`${apiUrl}/api/v1/positions/${puestoEditado.idPosition}`, values);
         Swal.fire("¡Puesto editado con éxito!");
       } else {
         await axios.post(`${apiUrl}/api/v1/positions`, values);
@@ -60,7 +60,7 @@ const PuestoEmp = () => {
   // Eliminar puesto
   const deletePuesto = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/positions/${puestoSeleccionado.id_position}`);
+      await axios.delete(`${apiUrl}/api/v1/positions/${puestoSeleccionado.idPosition}`);
       Swal.fire("¡Puesto eliminado con éxito!");
       fetchPuestos();
       closeDeleteModal();

@@ -39,7 +39,7 @@ const Departamentos = () => {
   const saveDepartamento = async (values) => {
     try {
       if (departamentoEditado) {
-        await axios.put(`${apiUrl}/api/v1/departments/${departamentoEditado.id_departament}`, values);
+        await axios.put(`${apiUrl}/api/v1/departments/${departamentoEditado.idDepartment}`, values);
         Swal.fire("¡Departamento editado con éxito!");
       } else {
         await axios.post(`${apiUrl}/api/v1/departments`, values);
@@ -60,7 +60,7 @@ const Departamentos = () => {
   // Eliminar un departamento
   const deleteDepartamento = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/departments/${departamentoSeleccionado.id_departament}`);
+      await axios.delete(`${apiUrl}/api/v1/departments/${departamentoSeleccionado.idDepartment}`);
       Swal.fire("¡Departamento eliminado con éxito!");
       fetchDepartamentos();
       closeDeleteModal();

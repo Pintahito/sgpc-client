@@ -35,7 +35,7 @@ const Banco = () => {
   const saveBanco = async (values) => {
     try {
       if (bancoEditado) {
-        await axios.put(`${apiUrl}/api/v1/banks/${bancoEditado.id_bank}`, values);
+        await axios.put(`${apiUrl}/api/v1/banks/${bancoEditado.idBank}`, values);
         Swal.fire("¡Banco editado con éxito!");
       } else {
         await axios.post(`${apiUrl}/api/v1/banks`, values);
@@ -56,7 +56,7 @@ const Banco = () => {
   // Eliminar banco
   const deleteBanco = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/banks/${bancoSeleccionado.id_bank}`);
+      await axios.delete(`${apiUrl}/api/v1/banks/${bancoSeleccionado.idBank}`);
       Swal.fire("¡Banco eliminado con éxito!");
       fetchBancos();
       closeDeleteModal();
