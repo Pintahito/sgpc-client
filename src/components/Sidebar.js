@@ -7,6 +7,8 @@ const Sidebar = ({ onNavigate, active}) => {
     setIsHRDropdownOpen(!isHRDropdownOpen);
   };
 
+  
+
   return (
     <div className="w-64 h-full bg-iosBackground dark:bg-iosDarkBackground p-4 shadow-lg overflow-y-auto">
       {/* Imagen superior ocupando todo el ancho */}
@@ -26,7 +28,7 @@ const Sidebar = ({ onNavigate, active}) => {
         >
           Gestión De Proyectos
         </button>
-
+       
         <button
           onClick={toggleHRDropdown}
           className={`w-full py-2 px-4 text-left flex justify-between items-center rounded-none border-b transition-transform transform hover:scale-105 ${active === 'recursoshumanos' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'

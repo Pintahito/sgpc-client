@@ -24,7 +24,7 @@ const Empleados = () => {
     rfc: '',
     email: '',
     hiringDate: '',
-    employeeType: [],
+    employeeType: '',
     positionId: '',
     accounts: [{ bankId: '', accountNumber: '' }],
     phones: [{ phone: '', employeeId: '' }],

@@ -11,11 +11,12 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
     const [banks, setBanco] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [puestos, setPuestos] = useState([]);
+    const [departamentos, setDepartamento] = useState([]);
 
     useEffect(() => {
         if (empleadoEditado) {
             setEmpleado(empleadoEditado);
-            setEmployeeType(empleadoEditado.employeeType || []);
+            setEmployeeType(empleadoEditado.employeeType || '');
         }
         // Obtener proveedores de la API
         const fetchBanco = async () => {
@@ -39,6 +40,16 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
         };
         fetchCategorias();
 
+        const fetchDepartamentos = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/api/v1/departments`);
+                setDepartamento(response.data);
+            } catch (error) {
+                console.error('Error al obtener el departamento:', error);
+            }
+        };
+        fetchDepartamentos();
+
         // Obtener todos los puestos
         const fetchPuestos = async () => {
             try {
@@ -61,7 +72,7 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
         positionId: empleado.positionId || '',
         categoryId: empleado.categoryId || '',
         //Enviar el valor de tipo de empleado
-        employeeType: empleado.employeeType || [],
+        employeeType: empleado.employeeType || '',
 
         accounts: empleado.accounts || [{ bankId: '', accountNumber: '' }],
         phones: empleado.phones || [{ phone: '', employeeId: '' }],
@@ -288,8 +299,15 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                         {employeeType === 'PLANTA' && (
                             <>
                                 <div>
-                                    <label>Departamento</label>
-                                    <Field type="number" name="departmentId" className="input" />
+                                    <label className="block text-gray-700 dark:text-gray-300">Departamento</label>
+                                    <Field as="select" name="departmentId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
+                                        <option value="">Selecciona una categoria</option>
+                                        {departamentos.map((deparment) => (
+                                            <option key={deparment.idDepartment} value={deparment.idDepartment}>
+                                                {deparment.name}
+                                            </option>
+                                        ))}
+                                    </Field>
                                     <ErrorMessage name="departmentId" component="div" className="text-red-500" />
                                 </div>
                                 <div>

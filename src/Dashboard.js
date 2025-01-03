@@ -19,9 +19,12 @@ import DocDrive from './components/compDoc/FileManager';
 import KPIContainer from './components/compKPI/KPIContainer';
 import ConfigUsers from './components/compUsers/ConfigUsers';
 import Maintenance from './components/compMantenimiento/Maintenance';
+import TipoObra from './components/compTipoObra/TipoObra';
+import Etapa from './components/compEtapas/Etapa';
+import Actividad from './components/compActividades/Actividad';
+import Obras from './components/compObras/Obras';
 
 import axios from "./api/axios"; // Asegúrate de que este archivo esté configurado para manejar peticiones con Axios.
-
 
 import './css/Modal.css';
 import './css/App.css';
@@ -70,8 +73,16 @@ const Dashboard = () => {
     switch (activePage) {
       case 'home':
         return <Home onNavigate={handleNavigate} />;
+      case 'obras':
+        return <Obras />;
       case 'clientes':
         return <Clientes />;
+      case 'typeobra':
+        return <TipoObra />;
+      case 'actividad':
+        return <Actividad />;
+      case 'etapa':
+        return <Etapa />;
       case 'recursoshumanos':
         return <div>Recursos Humanos</div>;
       case 'empleados':

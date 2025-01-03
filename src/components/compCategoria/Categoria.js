@@ -144,6 +144,7 @@ const Categoria = () => {
           setModalType('delete');
           setIsDeleteModalOpen(true);
         }}
+        setModalType={setModalType}
       />
     </div>
   );
