@@ -1,333 +1,177 @@
-import React, { useEffect, useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+import EmpleadoForm from './EmpleadoPlantaForm';
+import EmpleadoList from './EmpleadoPlantaList';
+
+import Modal from './Modal';
+import Swal from 'sweetalert2';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 console.log(apiUrl);
 
-const EmpleadoForm1 = ({ empleado, setEmpleado, onSave, empleadoEditado, closeModal }) => {
-    const [employeeType, setEmployeeType] = useState('');
-    const [banks, setBanco] = useState([]);
-    const [categorias, setCategorias] = useState([]);
-    const [puestos, setPuestos] = useState([]);
-    const [departamentos, setDepartamentos] = useState([]);
+const Empleados = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
-    useEffect(() => {
-        if (empleadoEditado) {
-            setEmpleado(empleadoEditado);
-            setEmployeeType(empleadoEditado.employeeType || []);
-        }
-        // Obtener proveedores de la API
-        const fetchBanco = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/api/v1/banks`);
-                setBanco(response.data);
-                console.log('Bancos obtenidos:', response.data);
-            } catch (error) {
-                console.error("Error al obtener Bancos:", error);
-            }
-        };
-        fetchBanco();
+  // Estados de empleados de planta
+  const [empleadosP, setEmpleadosP] = useState([]);
+  const [empleadoEditadoP, setEmpleadoEditadoP] = useState(null);
+  const [empleadoSeleccionadoP, setEmpleadoSeleccionadoP] = useState(null);
+  const [newEmpleadoP, setNewEmpleadoP] = useState({
+    name: '',
+    rfc: '',
+    email: '',
+    hiringDate: '',
+    employeeType:'PLANTA',
+    positionId: '',
+    accounts: [{ bankId: '', accountNumber: '' }],
+    phones: [{ phone: '', employeeId: '' }],
+    //empleado de planta
+    departmentId: '',
+    workingHours: '',
+    salary: '',
+  });
 
-        const fetchCategorias = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/api/v1/categories`);
-                setCategorias(response.data);
-            } catch (error) {
-                console.error('Error al obtener la categoria:', error);
-            }
-        };
-        fetchCategorias();
+  // Funciones para Empleado
+  const fetchEmpleados = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/v1/employees`);
+      setEmpleadosP(response.data);
+    } catch (error) {
+      console.error('Error al obtener el empleado:', error);
+    }
+  };
 
-        // Obtener todos los puestos
-        const fetchPuestos = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/api/v1/positions`);
-                setPuestos(response.data);
-            } catch (error) {
-                console.error('Error al obtener los puestos:', error);
-            }
-        };
-        fetchPuestos();
+  const saveEmpleado = async (values) => {
+    try {
+      if (empleadoEditadoP) {
+        await axios.put(`${apiUrl}/api/v1/employees/${empleadoEditadoP.idEmployee}`, values);
+        Swal.fire("¡Empleado editado con éxito!");
+      } else {
+        await axios.post(`${apiUrl}/api/v1/employees`, values);
+        Swal.fire("¡Empleado agregado con éxito!");
+      }
+      fetchEmpleados();
+      closeModal();
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error al guardar el empleado.",
+      });
+      console.error('Error al guardar empleado:', error);
+    }
+  };
 
-        // Obtener todos los departamentos
-        const fetchDepartamentos = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/api/v1/departments`);
-                setDepartamentos(response.data);
-            } catch (error) {
-                console.error('Error al obtener departamentos:', error);
-            }
-        };
-        fetchDepartamentos();
+  const deleteEmpleado = async () => {
+    try {
+      await axios.delete(`${apiUrl}/api/v1/employees/${empleadoSeleccionadoP.idEmployee}`);
+      Swal.fire("¡Empleado eliminado con éxito!");
+      fetchEmpleados();
+      closeDeleteModal();
+    } catch (error) {
+      console.error('Error al eliminar empleado:', error);
+    }
+  };
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [empleadoEditado, setEmpleado]);
-
-    const initialValues = {
-        name: empleado.name || '',
-        rfc: empleado.rfc || '',
-        email: empleado.email || '',
-        hiringDate: empleado.hiringDate || '',
-        positionId: empleado.positionId || '',
-        categoryId: empleado.categoryId || '',
-        //Enviar el valor de tipo de empleado
-        employeeType: empleado.employeeType || [],
-
-        accounts: empleado.accounts || [{ bankId: '', accountNumber: '' }],
-        phones: empleado.phones || [{ phone: '', employeeId: '' }],
-        //Datos para empleado PLANTA
-        departmentId: empleado.departmentId || '',
-        workHours: empleado.workHours || '',
-        salary: empleado.salary || '',
-        //Datos para empleado OBRA
-        startDate: empleado.startDate || '',
-        endDate: empleado.endDate || ''
-    };
-
-    const handleSubmit = async (values, { setSubmitting }) => {
-        const payload = {
-            ...values,
-            accounts: values.accounts.map(account => ({
-                bankId: Number(account.bankId),
-                accountNumber: account.accountNumber
-            })),
-            phones: values.phones.map(phone => ({
-                phone: phone.phone,
-                employeeId: Number(phone.employeeId),
-
-            })),
-            employeeType
-        };
-
-        try {
-            await onSave(payload);
-            console.log("Datos enviados:", payload)
-        } catch (error) {
-            console.error("Error al guardar los datos:", error);
-        } finally {
-            setSubmitting(false);
-        }
-    };
-
-    const validationSchema = Yup.object().shape({
-        name: Yup.string().required('El nombre es obligatorio'),
-        rfc: Yup.string()
-            .required('El RFC es obligatorio')
-            .matches(/^([A-ZÑ&]{3,4}) ?(?:-?(\d{2})(\d{2})(\d{2})) ?((?:[A-Z\d]{3}))$/, 'El RFC no es válido'),
-        email: Yup.string()
-            .email('El formato del correo no es válido')
-            .required('El email es obligatorio'),
-        hiringDate: Yup.string().required('La fecha es obligatoria'),
-        positionId: Yup.string().required('Selecciona un puesto'),
-        categoryId: Yup.string().required('Selecciona una categoría'),
-        accounts: Yup.array().of(
-            Yup.object().shape({
-                bankId: Yup.number().required('Selecciona un banco'),
-                accountNumber: Yup.string().required('Número de cuenta requerido')
-            })
-        ),
-        phones: Yup.array().of(
-            Yup.object().shape({
-                phone: Yup.string().required('El teléfono es obligatorio'),
-                employeeId: Yup.number()
-            })
-        ),
-        ...(employeeType === 'PLANTA' && {
-            department: Yup.string().required('El departamento es obligatorio'),
-            workHours: Yup.string().required('Las horas de trabajo son obligatorias'),
-            salary: Yup.string().required('El salario es obligatorio')
-        }),
-        ...(employeeType === 'OBRA' && {
-            startDate: Yup.string().required('La fecha de inicio es obligatoria'),
-            endDate: Yup.string().required('La fecha de finalización es obligatoria')
-        })
+  // Manejo de modales
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setEmpleadoEditadoP(null);
+    setNewEmpleadoP({
+      name: '',
+      rfc: '',
+      email: '',
+      hiringDate: '',
+      employeeType: 'PLANTA',
+      positionId: '',
+      accounts: [{ bankId: '', accountNumber: '' }],
+      phones: [{ phone: '', employeeId: '' }],
+      //empleado de planta
+      departmentId: '',
+      workingHours: '',
+      salary: '',
     });
+  };
 
-    return (
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-        //enableReinitialize={false}
-        >
-            {({ values, isSubmitting, setFieldValue }) => (
-                <Form>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* Datos generales */}
-                        <div>
-                            <label>Nombre</label>
-                            <Field
-                                minLength={0}
-                                maxLength={100}
-                                type="text" name="name" className="input" />
-                            <ErrorMessage name="name" component="div" className="text-red-500" />
-                        </div>
-                        <div>
-                            <label>RFC</label>
-                            <Field
-                                minLength={13}
-                                maxLength={13}
-                                type="text" name="rfc" className="input" />
-                            <ErrorMessage name="rfc" component="div" className="text-red-500" />
-                        </div>
-                        <div>
-                            <label>Email</label>
-                            <Field
-                                minLength={0}
-                                maxLength={100}
-                                type="email" name="email" className="input" />
-                            <ErrorMessage name="email" component="div" className="text-red-500" />
-                        </div>
-                        <div>
-                            <label>Teléfono</label>
-                            <Field
-                                minLength={10}
-                                maxLength={10}
-                                type="text" name="phones[0].phone" className="input" />
-                            <ErrorMessage name="phones[0].phone" component="div" className="text-red-500" />
-                        </div>
-                        <div>
-                            <label>Fecha</label>
-                            <Field
-                                type="date" name="hiringDate" className="input" />
-                            <ErrorMessage name="hiringdate" component="div" className="text-red-500" />
-                        </div>
-                        <div>
-                            <label>Puesto</label>
-                            <Field as="select" name="positionId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                <option value="">Selecciona un puesto</option>
-                                {puestos.map((puesto) => (
-                                    <option key={puesto.idPosition} value={puesto.idPosition}>
-                                        {puesto.name}
-                                    </option>
-                                ))}
-                            </Field>
-                            <ErrorMessage name="positionId" component="div" className="text-red-500" />
-                        </div>
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Categoría</label>
-                            <Field as="select" name="categoryId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                <option value="">Selecciona una categoria</option>
-                                {categorias.map((cat) => (
-                                    <option key={cat.idCategory} value={cat.idCategory}>
-                                        {cat.name}
-                                    </option>
-                                ))}
-                            </Field>
-                            <ErrorMessage name="categoryId" component="div" className="text-red-500" />
-                        </div>
-                        {values.accounts.map((_account, index) => (
-                            <div key={index} >
-                                <label>Banco</label>
-                                <Field as="select" name={`accounts[${index}].bankId`} className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                    <option value="">Selecciona un banco</option>
-                                    {banks.map((bank) => (
-                                        <option key={bank.idBank} value={bank.idBank}>
-                                            {bank.name}
-                                        </option>
-                                    ))}
-                                </Field>
-                                <ErrorMessage name={`accounts[${index}].bankId`} component="div" className="mt-1 text-red-500 text-sm" />
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setEmpleadoSeleccionadoP(null);
+  };
 
-                                <label>Número de cuenta</label>
-                                <Field type="text"
-                                    name={`accounts[${index}].accountNumber`}
-                                    className="input" />
-                                <ErrorMessage name={`accounts[${index}].accountNumber`} component="div" text-red-500 />
-                            </div>
-                        ))}
+  // Manejar cambios en los inputs
+  const handleInputChange = (e) => {
+    setNewEmpleadoP({ ...newEmpleadoP, [e.target.name]: e.target.value });
+  };
 
+  useEffect(() => {
+    fetchEmpleados();
+  }, []);
 
-                        {/* Tipo de empleado */}
-                        <div className="md:col-span-2">
-                            <label className="mt-1 block w-full px-3 py-0 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                <Field
-                                    type="checkbox"
-                                    name="employeeType"
-                                    value="PLANTA"
-                                    checked={employeeType === 'PLANTA'}
-                                    onChange={() => setEmployeeType('PLANTA')}
-                                />
-                                Planta
-                            </label>
-                            <label className="mt-1 block w-full px-3 py-0 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                <Field
-                                    type="checkbox"
-                                    name="employeeType"
-                                    value="OBRA"
-                                    checked={employeeType === 'OBRA'}
-                                    onChange={() => setEmployeeType('OBRA')}
-                                />
-                                Obra
-                            </label>
-                        </div>
+  return (
+    <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-white">
+      <h1 className="text-3xl font-bold mb-6">Gestión de Empleados</h1>
 
-                        {/* Campos adicionales */}
-                        {employeeType === 'PLANTA' && (
-                            <>
-                                <div>
-                                    <label>Departamento</label>
-                                    <Field as="select" name="departmentId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                        <option value="">Selecciona un departamento</option>
-                                        {departamentos.map((depa) => (
-                                            <option key={depa.id_departament} value={depa.id_departament}>
-                                                {depa.name}
-                                            </option>
-                                        ))}
-                                    </Field>
-                                    <ErrorMessage name="departmentId" component="div" className="text-red-500" />
-                                </div>
-                                <div>
-                                    <label>Horas de trabajo</label>
-                                    <Field type="text" name="workHours" className="input" />
-                                    <ErrorMessage name="workHours" component="div" className="text-red-500" />
-                                </div>
-                                <div>
-                                    <label>Salario</label>
-                                    <Field type="text" name="salary" className="input" />
-                                    <ErrorMessage name="salary" component="div" className="text-red-500" />
-                                </div>
-                            </>
-                        )}
+      <div>
+        <button
+          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition mb-4"
+          onClick={() => {
+            setModalType('add');
+            setIsModalOpen(true);
+          }}>
+          Agregar Empleado
+        </button>
+        <EmpleadoList
+          empleados={empleadosP}
+          setEmpleadoEditado={(empleado) => {
+            setEmpleadoEditadoP(empleado);
+            setNewEmpleadoP(empleado);
+            setModalType('edit');
+            setIsModalOpen(true);
+          }}
+          setEmpleadoSeleccionado={(empleado) => {
+            setEmpleadoSeleccionadoP(empleado);
+            setModalType('delete');
+            setIsDeleteModalOpen(true);
+          }}
+          setModalType={setModalType}
+        />
+      </div>
 
-                        {employeeType === 'OBRA' && (
-                            <>
-                                <div>
-                                    <label>Fecha de inicio</label>
-                                    <Field type="date" name="startDate" className="input" />
-                                    <ErrorMessage name="startDate" component="div" className="text-red-500" />
-                                </div>
-                                <div>
-                                    <label>Fecha de finalización</label>
-                                    <Field type="date" name="endDate" className="input" />
-                                    <ErrorMessage name="endDate" component="div" className="text-red-500" />
-                                </div>
-                            </>
-                        )}
-                    </div>
+      {isModalOpen && (modalType === 'add' || modalType === 'edit') && (
+        <Modal isOpen={isModalOpen} closeModal={closeModal}>
+          <EmpleadoForm
+            empleado={newEmpleadoP}
+            setEmpleados={setNewEmpleadoP}
+            onSave={saveEmpleado}
+            empleadoEditado={empleadoEditadoP}
+            handleInputChange={handleInputChange}
+            closeModal={closeModal}
+          />
+        </Modal>
+      )}
 
-                    <div className="mt-6 flex justify-end gap-4">
-                        <button
-                            type="button"
-                            className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600"
-                            onClick={closeModal}
-                        >
-                            Cancelar
-                        </button>
-                        <button
-                            type="submit"
-                            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? 'Guardando...' : 'Guardar'}
-                        </button>
-                    </div>
-                </Form>
-            )}
-        </Formik>
-    );
+      {isDeleteModalOpen && (
+        <Modal isOpen={isDeleteModalOpen} closeModal={closeDeleteModal}>
+          <p>¿Estás seguro de que deseas eliminar?</p>
+          <div className="flex justify-end mt-4">
+            <button
+              className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 mr-2"
+              onClick={deleteEmpleado}>
+              Eliminar
+            </button>
+            <button
+              className="bg-gray-300 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-400"
+              onClick={closeDeleteModal}>
+              Cancelar
+            </button>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
 };
 
-export default EmpleadoForm1;
+export default Empleados;

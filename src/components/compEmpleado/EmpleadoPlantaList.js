@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 
-function EmpleadoList({ empleados, setEmpleadoEditado, setModalType, setEmpleadoSeleccionado }) {
+function EmpleadoPlantaList({ empleadosP, setEmpleadoEditadoP, setModalType, setEmpleadoSeleccionadoP}) {
     const [filterText, setFilterText] = useState('');
-    const [filteredEmpleados, setFilteredEmpleados] = useState(empleados);
+    const [filteredEmpleados, setFilteredEmpleados] = useState([]);
 
     useEffect(() => {
-        const filteredData = empleados.filter(
-            (empleado) => empleado.name && empleado.name.toLowerCase().includes(filterText.toLowerCase())
+        const filteredData = empleadosP.filter(
+            (empleadoP) => 
+                empleadoP.employeeType === 'PLANTA' && 
+                empleadoP.name && 
+                empleadoP.name.toLowerCase().includes(filterText.toLowerCase())
         );
         setFilteredEmpleados(filteredData);
-    }, [filterText, empleados]);
+    }, [filterText, empleadosP]);
 
     const columns = [
         {
@@ -28,13 +31,11 @@ function EmpleadoList({ empleados, setEmpleadoEditado, setModalType, setEmpleado
             selector: (row) => row.email,
             sortable: true,
         },
-
         {
             name: 'Fecha Contratacion',
             selector: (row) => row.hiringDate,
             sortable: true,
         },
-
         {
             name: 'Tipo Empleado',
             selector: (row) => row.employeeType,
@@ -45,10 +46,9 @@ function EmpleadoList({ empleados, setEmpleadoEditado, setModalType, setEmpleado
             cell: (row) => (
                 <div className="flex space-x-2">
                     <button 
-                    disabled
                         className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 transition"
                         onClick={() => {
-                            setEmpleadoEditado(row);
+                            setEmpleadoEditadoP(row);
                             setModalType('edit');
                         }}
                     >
@@ -57,7 +57,7 @@ function EmpleadoList({ empleados, setEmpleadoEditado, setModalType, setEmpleado
                     <button
                         className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition"
                         onClick={() => {
-                            setEmpleadoSeleccionado(row);
+                            setEmpleadoSeleccionadoP(row);
                             setModalType('delete');
                         }}
                     >
@@ -91,4 +91,4 @@ function EmpleadoList({ empleados, setEmpleadoEditado, setModalType, setEmpleado
     );
 }
 
-export default EmpleadoList;
+export default EmpleadoPlantaList;

@@ -10,6 +10,11 @@ const VehiculosList = ({ vehiculos, setVehiculoEditado, setModalType, setVehicul
 
   const columns = [
     {
+      name: 'ID',
+      selector: (row) => row.id_vehicle,
+      sortable: true,
+    },
+    {
       name: 'Marca',
       selector: (row) => row.brand,
       sortable: true,

@@ -11,7 +11,7 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/v1/employees`)
       .then(response => setEmployees(response.data))
       .catch(error => console.error('Error fetching employees:', error));
-    
+
     if (maintenanceEditado) {
       setEditId(maintenanceEditado.idMaintenance);
     }
@@ -19,7 +19,7 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
 
   const initialValues = {
     relatedEntityId: maintenanceEditado ? maintenanceEditado.relatedEntityId : 0,
-    relatedEntityType: maintenanceEditado ? maintenanceEditado.relatedEntityType : 'VEHICLE',
+    relatedEntityType: maintenanceEditado ? maintenanceEditado.relatedEntityType : 'VEHICULO',
     employeeId: maintenanceEditado ? maintenanceEditado.employeeId : '',
     maintenanceType: maintenanceEditado ? maintenanceEditado.maintenanceType : '',
     description: maintenanceEditado ? maintenanceEditado.description : '',
@@ -75,8 +75,8 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
               name="relatedEntityType"
               className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
             >
-              <option value="VEHICLE">Vehículo</option>
-              <option value="MACHINARY">Maquinaria</option>
+              <option value="VEHICULO">Vehículo</option>
+              <option value="MAQUINARIA">Maquinaria</option>
             </Field>
             <ErrorMessage name="relatedEntityType" component="div" className="text-red-500 text-sm mt-1" />
           </div>
@@ -89,12 +89,17 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
               className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
             >
               <option value="">Seleccione un empleado</option>
-              {employees.map(emp => (
-                <option key={emp.idEmployee} value={emp.idEmployee}>{emp.name}</option>
-              ))}
+              {employees
+                .filter(emp => emp.employeeType === 'PLANTA') // Filtra solo empleados de tipo 'PLANTA'
+                .map(emp => (
+                  <option key={emp.idEmployee} value={emp.idEmployee}>
+                    {emp.name}
+                  </option>
+                ))}
             </Field>
             <ErrorMessage name="employeeId" component="div" className="text-red-500 text-sm mt-1" />
           </div>
+
 
           <div>
             <label className="block text-gray-700">Tipo de Mantenimiento</label>

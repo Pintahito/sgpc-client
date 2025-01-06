@@ -44,7 +44,7 @@ const ObrasForm = ({ obra, setObra, onSave, obraEditada, closeModal, tipoObra })
         actualStartDate: Yup.date().nullable(),
         actualEndDate: Yup.date().nullable(),
         allocatedBudget: Yup.number().required('El presupuesto asignado es obligatorio').min(0, 'Debe ser mayor o igual a 0'),
-        actualCost: Yup.number().required('El costo real es obligatorio').min(0, 'Debe ser mayor o igual a 0'),
+        actualCost: Yup.number().min(0, 'Debe ser mayor o igual a 0'),
         address: Yup.string().required('La dirección es obligatoria'),
         workTypeId: Yup.string().required('El tipo de obra es obligatorio'),
         longitude: Yup.number().required('La longitud es obligatoria').min(-180).max(180),

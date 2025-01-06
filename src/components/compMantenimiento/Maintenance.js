@@ -19,7 +19,7 @@ const Maintenance = () => {
 
   const [newMaintenance, setNewMaintenance] = useState({
     relatedEntityId: 0,
-    relatedEntityType: 'VEHICLE',
+    relatedEntityType: 'VEHICULO',
     employeeId: 0,
     maintenanceType: '',
     employeeName: '',
@@ -75,7 +75,7 @@ const Maintenance = () => {
     setMaintenanceEditado(null);
     setNewMaintenance({
       relatedEntityId: 0,
-      relatedEntityType: 'VEHICLE',
+      relatedEntityType: 'VEHICULO',
       employeeId: 0,
       employeeName: '',
       maintenanceType: '',

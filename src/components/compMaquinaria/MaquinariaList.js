@@ -11,6 +11,11 @@ function MaquinariaList({ maquinarias, setMaquinariaEditada, setModalType, setMa
   const columns = [
     {
       name: 'Nombre',
+      selector: (row) => row.id_machinery,
+      sortable: true,
+    },
+    {
+      name: 'Nombre',
       selector: (row) => row.name,
       sortable: true,
     },

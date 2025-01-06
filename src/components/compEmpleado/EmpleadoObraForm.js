@@ -6,17 +6,15 @@ import axios from 'axios';
 const apiUrl = process.env.REACT_APP_API_URL;
 console.log(apiUrl);
 
-const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeModal }) => {
-    const [employeeType, setEmployeeType] = useState('');
+const EmpleadoForm = ({ empleadoObra, setEmpleadoObra, onSave, empleadoEditadoObra, closeModal }) => {
+
     const [banks, setBanco] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [puestos, setPuestos] = useState([]);
-    const [departamentos, setDepartamento] = useState([]);
 
     useEffect(() => {
-        if (empleadoEditado) {
-            setEmpleado(empleadoEditado);
-            setEmployeeType(empleadoEditado.employeeType || '');
+        if (empleadoEditadoObra) {
+            setEmpleadoObra(empleadoEditadoObra);
         }
         // Obtener proveedores de la API
         const fetchBanco = async () => {
@@ -40,15 +38,6 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
         };
         fetchCategorias();
 
-        const fetchDepartamentos = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/api/v1/departments`);
-                setDepartamento(response.data);
-            } catch (error) {
-                console.error('Error al obtener el departamento:', error);
-            }
-        };
-        fetchDepartamentos();
 
         // Obtener todos los puestos
         const fetchPuestos = async () => {
@@ -62,78 +51,28 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
         fetchPuestos();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [empleadoEditado, setEmpleado]);
+    }, [empleadoEditadoObra, setEmpleadoObra]);
 
     const initialValues = {
-        name: empleado.name || '',
-        rfc: empleado.rfc || '',
-        email: empleado.email || '',
-        hiringDate: empleado.hiringDate || '',
-        positionId: empleado.positionId || '',
-        categoryId: empleado.categoryId || '',
+        name: empleadoObra.name || '',
+        rfc: empleadoObra.rfc || '',
+        email: empleadoObra.email || '',
+        hiringDate: empleadoObra.hiringDate || '',
+        positionId: empleadoObra.positionId || '',
+        categoryId: empleadoObra.categoryId || '',
         //Enviar el valor de tipo de empleado
-        employeeType: empleado.employeeType || '',
-
-        accounts: empleado.accounts || [{ bankId: '', accountNumber: '' }],
-        phones: empleado.phones || [{ phone: '', employeeId: '' }],
-        //Datos para empleado PLANTA
-        departmentId: empleado.departmentId || '',
-        workingHours: empleado.workingHours || '',
-        salary: empleado.salary || '',
-        //Datos para empleado OBRA
-        startDate: empleado.startDate || '',
-        endDate: empleado.endDate || ''
+        employeeType: empleadoObra.employeeType,
+        accounts: empleadoObra.accounts || [{ bankId: '', accountNumber: '' }],
+        phones: empleadoObra.phones || [{ phone: '', employeeId: '' }],
+        //empleado de obra
+        startDate: empleadoObra.startDate || '',
+        endDate: empleadoObra.endDate || ''
     };
 
     const handleSubmit = async (values, { setSubmitting }) => {
         let payload;
-
-        // Filtrar los datos según el tipo de empleado
-        if (employeeType === 'PLANTA') {
-            payload = {
-                name: values.name,
-                rfc: values.rfc,
-                email: values.email,
-                hiringDate: values.hiringDate,
-                positionId: values.positionId,
-                categoryId: values.categoryId,
-                accounts: values.accounts.map(account => ({
-                    bankId: Number(account.bankId),
-                    accountNumber: account.accountNumber
-                })),
-                phones: values.phones.map(phone => ({
-                    phone: phone.phone,
-                    employeeId: Number(phone.employeeId)
-                })),
-                employeeType: 'PLANTA',
-                departmentId: values.departmentId,
-                workingHours: values.workingHours,
-                salary: values.salary
-            };
-        } else if (employeeType === 'OBRA') {
-            payload = {
-                name: values.name,
-                rfc: values.rfc,
-                email: values.email,
-                hiringDate: values.hiringDate,
-                positionId: values.positionId,
-                categoryId: values.categoryId,
-                accounts: values.accounts.map(account => ({
-                    bankId: Number(account.bankId),
-                    accountNumber: account.accountNumber
-                })),
-                phones: values.phones.map(phone => ({
-                    phone: phone.phone,
-                    employeeId: Number(phone.employeeId)
-                })),
-                employeeType: 'OBRA',
-                startDate: values.startDate,
-                endDate: values.endDate
-            };
-        }
-
         try {
-            await onSave(values, payload);
+            await onSave(values);
             console.log("Datos enviados:", payload);
         } catch (error) {
             console.error("Error al guardar los datos:", error);
@@ -165,16 +104,9 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                 employeeId: Yup.number()
             })
         ),
-        ...(employeeType === 'PLANTA' && {
-            departmentId: Yup.string().required('El departamento es obligatorio'),
-            workingHours: Yup.number().required('Las horas de trabajo son obligatorias'),
-            salary: Yup.number().required('El salario es obligatorio')
-        }),
-        ...(employeeType === 'OBRA' && {
-            startDate: Yup.string().required('La fecha de inicio es obligatoria'),
-            endDate: Yup.string().required('La fecha de finalización es obligatoria')
-        })
-    });
+        startDate: Yup.string().required('La fecha es obligatoria'),
+        endDate: Yup.string().required('La fecha es obligatoria')
+    })
 
     return (
         <Formik
@@ -237,18 +169,30 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                             </Field>
                             <ErrorMessage name="positionId" component="div" className="text-red-500" />
                         </div>
+
                         <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Categoría</label>
-                            <Field as="select" name="categoryId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                <option value="">Selecciona una categoria</option>
+                            <label className="block text-gray-700 dark:text-gray-300">
+                                Categoría
+                            </label>
+                            <Field
+                                as="select"
+                                name="categoryId"
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                            >
+                                <option value="">Selecciona una categoría</option>
                                 {categorias.map((cat) => (
                                     <option key={cat.idCategory} value={cat.idCategory}>
                                         {cat.name}
                                     </option>
                                 ))}
                             </Field>
-                            <ErrorMessage name="categoryId" component="div" className="text-red-500" />
+                            <ErrorMessage
+                                name="categoryId"
+                                component="div"
+                                className="text-red-500 mt-1"
+                            />
                         </div>
+
                         {values.accounts.map((_account, index) => (
                             <div key={index} >
                                 <label>Banco</label>
@@ -269,74 +213,18 @@ const EmpleadoForm = ({ empleado, setEmpleado, onSave, empleadoEditado, closeMod
                                 <ErrorMessage name={`accounts[${index}].accountNumber`} component="div" text-red-500 />
                             </div>
                         ))}
-
-
-                        {/* Tipo de empleado */}
-                        <div className="md:col-span-2">
-                            <label className="mt-1 block w-full px-3 py-0 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
+                            <div>
+                                <label>Fecha Inicio</label>
                                 <Field
-                                    type="checkbox"
-                                    name="employeeType"
-                                    value="PLANTA"
-                                    checked={employeeType === 'PLANTA'}
-                                    onChange={() => setEmployeeType('PLANTA')}
-                                />
-                                Planta
-                            </label>
-                            <label className="mt-1 block w-full px-3 py-0 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
+                                    type="date" name="startDate" className="input" />
+                                <ErrorMessage name="startDate" component="div" className="text-red-500" />
+                            </div>
+                            <div>
+                                <label>Fecha Finalizacion</label>
                                 <Field
-                                    type="checkbox"
-                                    name="employeeType"
-                                    value="OBRA"
-                                    checked={employeeType === 'OBRA'}
-                                    onChange={() => setEmployeeType('OBRA')}
-                                />
-                                Obra
-                            </label>
-                        </div>
-
-                        {/* Campos adicionales */}
-                        {employeeType === 'PLANTA' && (
-                            <>
-                                <div>
-                                    <label className="block text-gray-700 dark:text-gray-300">Departamento</label>
-                                    <Field as="select" name="departmentId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
-                                        <option value="">Selecciona una categoria</option>
-                                        {departamentos.map((deparment) => (
-                                            <option key={deparment.idDepartment} value={deparment.idDepartment}>
-                                                {deparment.name}
-                                            </option>
-                                        ))}
-                                    </Field>
-                                    <ErrorMessage name="departmentId" component="div" className="text-red-500" />
-                                </div>
-                                <div>
-                                    <label>Horas de trabajo</label>
-                                    <Field type="number" name="workingHours" className="input" />
-                                    <ErrorMessage name="workingHours" component="div" className="text-red-500" />
-                                </div>
-                                <div>
-                                    <label>Salario</label>
-                                    <Field type="number" name="salary" className="input" />
-                                    <ErrorMessage name="salary" component="div" className="text-red-500" />
-                                </div>
-                            </>
-                        )}
-
-                        {employeeType === 'OBRA' && (
-                            <>
-                                <div>
-                                    <label>Fecha de inicio</label>
-                                    <Field type="date" name="startDate" className="input" />
-                                    <ErrorMessage name="startDate" component="div" className="text-red-500" />
-                                </div>
-                                <div>
-                                    <label>Fecha de finalización</label>
-                                    <Field type="date" name="endDate" className="input" />
-                                    <ErrorMessage name="endDate" component="div" className="text-red-500" />
-                                </div>
-                            </>
-                        )}
+                                    type="date" name="endDate" className="input" />
+                                <ErrorMessage name="endDate" component="div" className="text-red-500" />
+                            </div> 
                     </div>
 
                     <div className="mt-6 flex justify-end gap-4">
