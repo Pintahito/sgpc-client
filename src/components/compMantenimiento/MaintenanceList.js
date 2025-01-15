@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { FaEdit, FaTrash} from "react-icons/fa";
 
 function MaintenanceList({ maintenances, setMaintenanceEditado, setModalType, setMaintenanceSeleccionado }) {
   const [filterText, setFilterText] = useState('');
@@ -53,7 +54,7 @@ function MaintenanceList({ maintenances, setMaintenanceEditado, setModalType, se
               setModalType('edit');
             }}
           >
-            Editar
+            <FaEdit />
           </button>
           <button
             className="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600 transition"
@@ -62,7 +63,7 @@ function MaintenanceList({ maintenances, setMaintenanceEditado, setModalType, se
               setModalType('delete');
             }}
           >
-            Eliminar
+            <FaTrash />
           </button>
         </div>
       ),

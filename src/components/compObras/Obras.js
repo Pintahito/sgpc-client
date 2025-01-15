@@ -8,6 +8,7 @@ import ObrasDetails from "./ObrasDetails";
 import ScheduleForm from "./ScheduleForm";
 import AssignSupplierForm from "./AssignSupplierForm";
 import AssignClientForm from "./AssignClientForm";
+import ScheduleView from "./ScheduleView";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -18,7 +19,7 @@ const Obras = () => {
   const [obraEditada, setObraEditada] = useState(null);
   const [obraSeleccionada, setObraSeleccionada] = useState(null);
   const [viewMode, setViewMode] = useState("list");
-  const [suppliers, setSuppliers] = useState([]); 
+  const [suppliers, setSuppliers] = useState([]);
   const [selectedObra, setSelectedObra] = useState(null);
   const [newObra, setNewObra] = useState({
     name: "",
@@ -128,9 +129,25 @@ const Obras = () => {
     }
   };
 
+  //asignar para ver cronograma
+
+  /* const handleViewSchedule = () => {
+     console.log("Ver cronograma:", selectedObra.schedule);
+   };
+ */
+
+  const [selectedSchedule, setSelectedSchedule] = useState(null);
+
   const handleViewSchedule = () => {
-    console.log("Ver cronograma:", selectedObra.schedule);
+    if (selectedObra?.hasSchedule) {
+      setSelectedSchedule(selectedObra.hasSchedule);
+      setViewMode("schedule");
+      console.log('Ver cronograma:', selectedObra.hasSchedule);
+    } else {
+      Swal.fire("Esta obra no tiene un cronograma asignado.", "", "info");
+    }
   };
+
 
   // Manejo de asignación de proveedor
   const handleOpenAssignSupplierModal = async () => {
@@ -219,6 +236,7 @@ const Obras = () => {
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
     setObraSeleccionada(null);
+    setSelectedSchedule(null);
   };
 
   useEffect(() => {
@@ -350,6 +368,13 @@ const Obras = () => {
             </Modal>
           )}
         </>
+      )}
+      {viewMode === "schedule" && selectedSchedule && (
+        <ScheduleView
+          //schedule={selectedSchedule}
+          obra={selectedObra}
+          onBack={() => setViewMode("details")}
+        />
       )}
     </div>
   );

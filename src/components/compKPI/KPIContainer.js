@@ -16,6 +16,7 @@ const PerformanceCharts = () => {
     datasets: []
   });
   const [totalClients, setTotalClients] = useState(0);
+  const [totalSuppliers, setTotalSuppliers] = useState(0);
   const [totalMaintenance, setTotalMaintenance] = useState(0);
   const [totalMaintenanceCost, setTotalMaintenanceCost] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,7 @@ const PerformanceCharts = () => {
   useEffect(() => {
     fetchData();
     fetchMaintenanceData();
+    fetchSuppliersData();
   }, []);
 
   const fetchData = async () => {
@@ -39,7 +41,7 @@ const PerformanceCharts = () => {
       const totalClientsCount = clientsData.filter(client => client.idClient).length;
 
       setChartData({
-        labels: ['Total Precio Del Inventario'],
+        labels: ['Precio Total Del Inventario'],
         datasets: [
           {
             label: 'Precio Total',
@@ -102,6 +104,18 @@ const PerformanceCharts = () => {
     }
   };
 
+  const fetchSuppliersData = async () => {
+    try {
+      const suppliersResponse = await axios.get(`${apiUrl}/api/v1/suppliers`);
+      const suppliersData = suppliersResponse.data;
+      const totalSuppliersCount = suppliersData.filter(supplier => supplier.id_supplier).length;
+      setTotalSuppliers(totalSuppliersCount);
+    } catch (error) {
+      setError('Error al cargar los datos de proveedores');
+      setLoading(false);
+    }
+  };
+
   if (loading) return <p className="text-center mt-5">Cargando datos...</p>;
   if (error) return <p className="text-center mt-5 text-red-500">{error}</p>;
 
@@ -123,6 +137,10 @@ const PerformanceCharts = () => {
         <div className="p-4 bg-gray-100 rounded shadow">
           <h3 className="text-lg font-semibold">Total Clientes</h3>
           <p className="text-2xl font-bold">{totalClients}</p>
+        </div>
+        <div className="p-4 bg-gray-100 rounded shadow">
+          <h3 className="text-lg font-semibold">Total Proveedores</h3>
+          <p className="text-2xl font-bold">{totalSuppliers}</p>
         </div>
         <div className="p-4 bg-gray-100 rounded shadow">
           <h3 className="text-lg font-semibold">Total Mantenimientos</h3>

@@ -46,7 +46,7 @@ const BancoForm = ({ banco, setBanco, onSave, bancoEditado, closeModal }) => {
               <Field
                 type="text"
                 name="name"
-                maxlength="10"
+                maxlength="25"
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
               />
               <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />

@@ -33,6 +33,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
     const initialValues = {
         name: articulo.name || '',
         amount: articulo.amount || '',
+        unit: articulo.unit || '', // Nueva unidad de medida
         description: articulo.description || '',
         price: articulo.price || '',
         inputType: articulo.inputType || '',
@@ -59,6 +60,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
             .positive('La cantidad debe ser positiva')
             .integer('La cantidad debe ser un número entero'),
         description: Yup.string().required('La Descripcion es obligatoria'),
+        unit: Yup.string().required('La unidad de medida es obligatoria'), // Validación para la unidad
         price: Yup.number()
             .required('El precio es obligatorio')
             .positive('El precio debe ser positivo'),
@@ -73,7 +75,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
             onSubmit={handleSubmit}
             enableReinitialize={true}  // Permitir la reinicialización cuando el artículo editado cambie
         >
-            {({ isSubmitting, setFieldValue }) => (
+            {({isSubmitting, setFieldValue }) => (
                 <Form>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -86,6 +88,21 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
                             />
                             <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
+                        </div>
+                        <div>
+                            <label className="block text-gray-700 dark:text-gray-300">Unidad de Medida</label>
+                            <Field
+                                as="select"
+                                name="unit"
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            >
+                                <option value="" label="Seleccione una unidad" />
+                                <option value="Pza" label="Piezas" />
+                                <option value="KG" label="Kilogramos" />
+                                <option value="TN" label="Toneladas" />
+                                <option value="M" label="Metros" />
+                            </Field>
+                            <ErrorMessage name="unit" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Cantidad</label>
@@ -147,19 +164,13 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                             </Field>
                             <ErrorMessage name="wineryName" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
+
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Proveedor</label>
                             <Field
                                 as="select"
                                 name="supplierId"
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                                onChange={(e) => {
-                                    const selectedSupplier = proveedores.find(
-                                        (proveedor) => proveedor.id_supplier.toString() === e.target.value
-                                    );
-                                    setFieldValue("supplierId", e.target.value);
-                                    setFieldValue("supplierNames", selectedSupplier ? selectedSupplier.name : "");
-                                }}
                             >
                                 <option value="" label="Seleccione un proveedor" />
                                 {proveedores.map((proveedor) => (

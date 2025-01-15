@@ -9,7 +9,6 @@ const apiUrl = process.env.REACT_APP_API_URL;
 console.log(apiUrl);
 
 const Inventario = () => {
-  const [activeTab, setActiveTab] = useState("inventario");
   const [inventario, setInventario] = useState([]);
   const [articuloEditado, setArticuloEditado] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,7 +73,7 @@ const Inventario = () => {
         title: "Oops...",
         text: "!Hay otra tabla dependiendo de esta!",
       });
-      console.log('Datos:',articuloSeleccionado);
+      console.log('Datos:', articuloSeleccionado);
     }
   };
 
@@ -98,71 +97,17 @@ const Inventario = () => {
     setArticuloSeleccionado(null);
   };
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case "inventario":
-        return (
-          <div>
-            <button
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition mb-4"
-              onClick={() => {
-                setModalType('add');
-                setIsModalOpen(true);
-              }}>
-              Agregar Artículo
-            </button>
-            <InventarioList
-              inventario={inventario}
-              setArticuloEditado={(articulo) => {
-                setArticuloEditado(articulo);
-                setNewArticulo(articulo);
-                setModalType('edit');
-                setIsModalOpen(true);
-              }}
-              setArticuloSeleccionado={(articulo) => {
-                setArticuloSeleccionado(articulo);
-                setModalType('delete');
-                setIsDeleteModalOpen(true);
-              }}
-              setModalType={setModalType} // Pasar el setModalType
-            />
-          </div>
-        );
-      case "reportes":
-        return <div>Reportes: Aquí puedes ver reportes de inventario.</div>;
-      case "ajustes":
-        return <div>Ajustes: Aquí puedes ajustar configuraciones de inventario.</div>;
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-white">
       <h1 className="text-3xl font-bold mb-6">Gestión de Inventario</h1>
-
-      {/* Tabs de navegación centrados y con efecto hover */}
-      <div className="flex justify-center space-x-4 mb-6">
-        <button
-          className={`py-2 px-4 rounded-md transform transition-all duration-200 ${activeTab === 'inventario' ? 'bg-blue-500 text-white scale-105' : 'bg-gray-300 text-gray-800'} hover:scale-110`}
-          onClick={() => setActiveTab("inventario")}>
-          Inventario
-        </button>
-        <button
-          className={`py-2 px-4 rounded-md transform transition-all duration-200 ${activeTab === 'reportes' ? 'bg-blue-500 text-white scale-105' : 'bg-gray-300 text-gray-800'} hover:scale-110`}
-          onClick={() => setActiveTab("reportes")}>
-          Reportes
-        </button>
-        <button
-          className={`py-2 px-4 rounded-md transform transition-all duration-200 ${activeTab === 'ajustes' ? 'bg-blue-500 text-white scale-105' : 'bg-gray-300 text-gray-800'} hover:scale-110`}
-          onClick={() => setActiveTab("ajustes")}>
-          Ajustes
-        </button>
-      </div>
-
-      {/* Contenido de la pestaña activa */}
-      {renderContent()}
-
+      <button
+        className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition mb-4"
+        onClick={() => {
+          setModalType('add');
+          setIsModalOpen(true);
+        }}>
+        Agregar Artículo
+      </button>
       {/* Modales */}
       {isModalOpen && (modalType === 'add' || modalType === 'edit') && (
         <Modal closeModal={closeModal}>
@@ -195,6 +140,22 @@ const Inventario = () => {
           </div>
         </Modal>
       )}
+      <h2 className="text-2xl font-semibold mt-6 mb-4">Lista de Inventario</h2>
+      <InventarioList
+        inventario={inventario}
+        setArticuloEditado={(articulo) => {
+          setArticuloEditado(articulo);
+          setNewArticulo(articulo);
+          setModalType('edit');
+          setIsModalOpen(true);
+        }}
+        setArticuloSeleccionado={(articulo) => {
+          setArticuloSeleccionado(articulo);
+          setModalType('delete');
+          setIsDeleteModalOpen(true);
+        }}
+        setModalType={setModalType} // Pasar el setModalType
+      />
     </div>
   );
 };

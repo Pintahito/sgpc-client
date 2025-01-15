@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
+import { FaEdit, FaTrash} from "react-icons/fa";
 
 function CategoriaList({ categorias, setCategoriaEditada, setModalType, setCategoriaSeleccionada }) {
   const [filterText, setFilterText] = useState('');
@@ -34,7 +35,7 @@ function CategoriaList({ categorias, setCategoriaEditada, setModalType, setCateg
               setModalType('edit');
             }}
           >
-            Editar
+            <FaEdit />
           </button>
           <button
             className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition"
@@ -43,7 +44,7 @@ function CategoriaList({ categorias, setCategoriaEditada, setModalType, setCateg
               setModalType('delete');
             }}
           >
-            Eliminar
+            <FaTrash />
           </button>
         </div>
       ),

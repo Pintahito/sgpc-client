@@ -15,7 +15,6 @@ import Maquinaria from './components/compMaquinaria/Maquinaria';
 import Departamentos from './components/compDepartamento/Departamentos';
 import Proveedores from './components/Proveedor/Proveedores';
 import Banco from './components/compBanco/Banco';
-import DocDrive from './components/compDoc/FileManager';
 import KPIContainer from './components/compKPI/KPIContainer';
 import ConfigUsers from './components/compUsers/ConfigUsers';
 import Maintenance from './components/compMantenimiento/Maintenance';
@@ -101,8 +100,6 @@ const Dashboard = () => {
         return <Banco />;
       case 'proveedores':
         return <Proveedores />;
-      case 'documental':
-        return <DocDrive />;
       case 'kpi':
         return <KPIContainer />;
       case 'usuarios':

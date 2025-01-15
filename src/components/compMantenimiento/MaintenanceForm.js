@@ -59,7 +59,7 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
       {({ isSubmitting }) => (
         <Form className="space-y-4 p-4 border rounded shadow-md">
           <div>
-            <label className="block text-gray-700">ID de la Entidad Relacionada</label>
+            <label className="block text-gray-700">ID del Vehiculo o Maquinaria</label>
             <Field
               type="number"
               name="relatedEntityId"
@@ -99,12 +99,10 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
             </Field>
             <ErrorMessage name="employeeId" component="div" className="text-red-500 text-sm mt-1" />
           </div>
-
-
           <div>
             <label className="block text-gray-700">Tipo de Mantenimiento</label>
             <Field
-              type="text"
+              as="textarea"
               name="maintenanceType"
               className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
             />

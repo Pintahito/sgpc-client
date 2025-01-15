@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { FaEdit, FaTrash} from "react-icons/fa";
 
 function MaquinariaList({ maquinarias, setMaquinariaEditada, setModalType, setMaquinariaSeleccionada }) {
   const [filterText, setFilterText] = useState('');
@@ -10,7 +11,7 @@ function MaquinariaList({ maquinarias, setMaquinariaEditada, setModalType, setMa
 
   const columns = [
     {
-      name: 'Nombre',
+      name: 'ID',
       selector: (row) => row.id_machinery,
       sortable: true,
     },
@@ -50,7 +51,7 @@ function MaquinariaList({ maquinarias, setMaquinariaEditada, setModalType, setMa
               setModalType('edit');
             }}
           >
-            Editar
+            <FaEdit />
           </button>
           <button
             className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition"
@@ -59,7 +60,7 @@ function MaquinariaList({ maquinarias, setMaquinariaEditada, setModalType, setMa
               setModalType('delete');
             }}
           >
-            Eliminar
+            <FaTrash />
           </button>
         </div>
       ),

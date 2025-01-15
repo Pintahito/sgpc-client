@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { FaEdit, FaTrash} from "react-icons/fa";
 
 const VehiculosList = ({ vehiculos, setVehiculoEditado, setModalType, setVehiculoSeleccionado }) => {
   const [filterText, setFilterText] = useState('');
@@ -55,7 +56,7 @@ const VehiculosList = ({ vehiculos, setVehiculoEditado, setModalType, setVehicul
               setModalType('edit');
             }}
           >
-            Editar
+            <FaEdit />
           </button>
           <button
             className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition"
@@ -64,7 +65,7 @@ const VehiculosList = ({ vehiculos, setVehiculoEditado, setModalType, setVehicul
               setModalType('delete');
             }}
           >
-            Eliminar
+            <FaTrash />
           </button>
         </div>
       ),

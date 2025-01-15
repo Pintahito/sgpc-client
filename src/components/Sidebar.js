@@ -102,13 +102,6 @@ const Sidebar = ({ onNavigate, active}) => {
           Proveedores
         </button>
         <button
-          onClick={() => onNavigate('documental')}
-          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'documental' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-            } focus:outline-none focus:bg-iosBlue focus:text-white`}
-        >
-          Gestión Documental
-        </button>
-        <button
           onClick={() => onNavigate('kpi')}
           className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'kpi' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
             } focus:outline-none focus:bg-iosBlue focus:text-white`}
@@ -120,7 +113,7 @@ const Sidebar = ({ onNavigate, active}) => {
           className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'mant' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
             } focus:outline-none focus:bg-iosBlue focus:text-white`}
         >
-          Maintenance
+          Mantenimiento
         </button>
 
       </nav>

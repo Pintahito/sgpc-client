@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
 import DataTable from 'react-data-table-component';
+import { FaEdit, FaTrash} from "react-icons/fa";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 console.log(apiUrl);
@@ -21,7 +22,7 @@ function InventarioList({ inventario, setArticuloEditado, setModalType, setArtic
     },
     {
       name: 'Cantidad',
-      selector: (row) => row.amount,
+      selector: (row) => `${row.amount} ${row.unit || ''}`, // Combinar cantidad y unidad
       sortable: true,
     },
     {
@@ -54,20 +55,20 @@ function InventarioList({ inventario, setArticuloEditado, setModalType, setArtic
       cell: (row) => (
         <div className="flex space-x-2">
           <button
-            className="bg-blue-500 text-white py-1 px-1 rounded-md hover:bg-blue-600 transition"
+            className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 transition"
             onClick={() => {
               setArticuloEditado(row);
               setModalType('edit');
             }}>
-            Editar
+            <FaEdit />
           </button>
           <button
-            className="bg-red-500 text-white py-1 px-1 rounded-md hover:bg-red-600 transition"
+            className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition"
             onClick={() => {
               setArticuloSeleccionado(row);
               setModalType('delete');
             }}>
-            Eliminar
+            <FaTrash />
           </button>
         </div>
       ),
