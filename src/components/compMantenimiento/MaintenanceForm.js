@@ -59,21 +59,21 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
       {({ isSubmitting }) => (
         <Form className="space-y-4 p-4 border rounded shadow-md">
           <div>
-            <label className="block text-gray-700">ID del Vehiculo o Maquinaria</label>
+            <label className="block text-gray-700 dark:text-gray-300">ID del Vehiculo o Maquinaria</label>
             <Field
               type="number"
               name="relatedEntityId"
-              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
             />
             <ErrorMessage name="relatedEntityId" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
           <div>
-            <label className="block text-gray-700">Tipo de Entidad Relacionada</label>
+            <label className="block text-gray-700 dark:text-gray-300">Tipo de Entidad Relacionada</label>
             <Field
               as="select"
               name="relatedEntityType"
-              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
             >
               <option value="VEHICULO">Vehículo</option>
               <option value="MAQUINARIA">Maquinaria</option>
@@ -82,11 +82,11 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
           </div>
 
           <div>
-            <label className="block text-gray-700">Empleado</label>
+            <label className="block text-gray-700 dark:text-gray-300">Empleado</label>
             <Field
               as="select"
               name="employeeId"
-              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
             >
               <option value="">Seleccione un empleado</option>
               {employees
@@ -100,51 +100,51 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
             <ErrorMessage name="employeeId" component="div" className="text-red-500 text-sm mt-1" />
           </div>
           <div>
-            <label className="block text-gray-700">Tipo de Mantenimiento</label>
+            <label className="block text-gray-700 dark:text-gray-300">Tipo de Mantenimiento</label>
             <Field
               as="textarea"
               name="maintenanceType"
-              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
             />
             <ErrorMessage name="maintenanceType" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
           <div>
-            <label className="block text-gray-700">Descripción</label>
+            <label className="block text-gray-700 dark:text-gray-300">Descripción</label>
             <Field
               as="textarea"
               name="description"
-              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
             />
             <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
           <div>
-            <label className="block text-gray-700">Costo</label>
+            <label className="block text-gray-700 dark:text-gray-300">Costo</label>
             <Field
               type="number"
               name="cost"
-              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
             />
             <ErrorMessage name="cost" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
           <div>
-            <label className="block text-gray-700">Fecha de Realización</label>
+            <label className="block text-gray-700 dark:text-gray-300">Fecha de Realización</label>
             <Field
               type="date"
               name="realizationDate"
-              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
             />
             <ErrorMessage name="realizationDate" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
           <div>
-            <label className="block text-gray-700">Próxima Fecha</label>
+            <label className="block text-gray-700 dark:text-gray-300">Próxima Fecha</label>
             <Field
               type="date"
               name="nextDate"
-              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
             />
             <ErrorMessage name="nextDate" component="div" className="text-red-500 text-sm mt-1" />
           </div>

@@ -57,7 +57,10 @@ const MaquinariaForm = ({ maquinaria, setMaquinaria, onSave, maquinariaEditada, 
                             <Field 
                             minLength={0}
                             maxLength={100}
-                            type="text" name="name" className="input-field" />
+                            type="text" 
+                            name="name" 
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            />
                             <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
@@ -65,7 +68,10 @@ const MaquinariaForm = ({ maquinaria, setMaquinaria, onSave, maquinariaEditada, 
                             <Field 
                             minLength={0}
                             maxLength={50}
-                            type="text" name="brand" className="input-field" />
+                            type="text" 
+                            name="brand" 
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md" 
+                            />
                             <ErrorMessage name="brand" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
@@ -73,7 +79,10 @@ const MaquinariaForm = ({ maquinaria, setMaquinaria, onSave, maquinariaEditada, 
                             <Field 
                             minLength={4}
                             maxLength={4}
-                            type="text" name="model" className="input-field" />
+                            type="text" 
+                            name="model" 
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            />
                             <ErrorMessage name="model" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
@@ -83,14 +92,17 @@ const MaquinariaForm = ({ maquinaria, setMaquinaria, onSave, maquinariaEditada, 
                             maxLength={17}
                             type="text" 
                             name="serial" 
-                            className="input-field" 
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
                             />
 
                             <ErrorMessage name="serial" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Fecha de Adquisición</label>
-                            <Field type="date" name="acquisitionDate" className="input-field" />
+                            <Field type="date" 
+                            name="acquisitionDate" 
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            />
                             <ErrorMessage name="acquisitionDate" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>

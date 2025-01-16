@@ -119,46 +119,61 @@ const EmpleadoForm = ({ empleadoObra, setEmpleadoObra, onSave, empleadoEditadoOb
                 <Form>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Datos generales */}
-                        <div>
-                            <label>Nombre</label>
+                        <div >
+                            <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
                             <Field
                                 minLength={0}
                                 maxLength={100}
-                                type="text" name="name" className="input" />
+                                type="text" 
+                                name="name" 
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                />
                             <ErrorMessage name="name" component="div" className="text-red-500" />
                         </div>
                         <div>
-                            <label>RFC</label>
+                            <label className="block text-gray-700 dark:text-gray-300">RFC</label>
                             <Field
                                 minLength={13}
                                 maxLength={13}
-                                type="text" name="rfc" className="input" />
+                                type="text" 
+                                name="rfc" 
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                />
                             <ErrorMessage name="rfc" component="div" className="text-red-500" />
                         </div>
                         <div>
-                            <label>Email</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Email</label>
                             <Field
                                 minLength={0}
                                 maxLength={100}
-                                type="email" name="email" className="input" />
+                                type="email" 
+                                name="email" 
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                />
                             <ErrorMessage name="email" component="div" className="text-red-500" />
                         </div>
                         <div>
-                            <label>Teléfono</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Teléfono</label>
                             <Field
                                 minLength={10}
                                 maxLength={10}
-                                type="text" name="phones[0].phone" className="input" />
+                                type="text" 
+                                name="phones[0].phone" 
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                />
                             <ErrorMessage name="phones[0].phone" component="div" className="text-red-500" />
                         </div>
                         <div>
-                            <label>Fecha</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Fecha</label>
                             <Field
-                                type="date" name="hiringDate" className="input" />
+                                type="date" 
+                                name="hiringDate" 
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                />
                             <ErrorMessage name="hiringdate" component="div" className="text-red-500" />
                         </div>
                         <div>
-                            <label>Puesto</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Puesto</label>
                             <Field as="select" name="positionId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <option value="">Selecciona un puesto</option>
                                 {puestos.map((puesto) => (
@@ -195,7 +210,7 @@ const EmpleadoForm = ({ empleadoObra, setEmpleadoObra, onSave, empleadoEditadoOb
 
                         {values.accounts.map((_account, index) => (
                             <div key={index} >
-                                <label>Banco</label>
+                                <label className="block text-gray-700 dark:text-gray-300">Banco</label>
                                 <Field as="select" name={`accounts[${index}].bankId`} className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                     <option value="">Selecciona un banco</option>
                                     {banks.map((bank) => (
@@ -206,23 +221,30 @@ const EmpleadoForm = ({ empleadoObra, setEmpleadoObra, onSave, empleadoEditadoOb
                                 </Field>
                                 <ErrorMessage name={`accounts[${index}].bankId`} component="div" className="mt-1 text-red-500 text-sm" />
 
-                                <label>Número de cuenta</label>
+                                <label className="block text-gray-700 dark:text-gray-300">Número de cuenta</label>
                                 <Field type="text"
                                     name={`accounts[${index}].accountNumber`}
-                                    className="input" />
+                                    className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                    />
                                 <ErrorMessage name={`accounts[${index}].accountNumber`} component="div" text-red-500 />
                             </div>
                         ))}
                             <div>
-                                <label>Fecha Inicio</label>
+                                <label className="block text-gray-700 dark:text-gray-300">Fecha Inicio</label>
                                 <Field
-                                    type="date" name="startDate" className="input" />
+                                    type="date"
+                                    name="startDate" 
+                                    className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                    />
                                 <ErrorMessage name="startDate" component="div" className="text-red-500" />
                             </div>
                             <div>
-                                <label>Fecha Finalizacion</label>
+                                <label className="block text-gray-700 dark:text-gray-300">Fecha Finalizacion</label>
                                 <Field
-                                    type="date" name="endDate" className="input" />
+                                    type="date" 
+                                    name="endDate" 
+                                    className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                    />
                                 <ErrorMessage name="endDate" component="div" className="text-red-500" />
                             </div> 
                     </div>

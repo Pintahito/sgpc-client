@@ -52,17 +52,26 @@ const VehiculoForm = ({ vehiculo, setVehiculo, onSave, vehiculoEditado, closeMod
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                             <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
-                            <Field type="text" name="name" className="input-field" />
+                            <Field type="text" 
+                            name="name" 
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            />
                             <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Marca</label>
-                            <Field type="text" name="brand" className="input-field" />
+                            <Field type="text" 
+                            name="brand" 
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            />
                             <ErrorMessage name="brand" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Modelo</label>
-                            <Field type="text" name="model" className="input-field" />
+                            <Field type="text" 
+                            name="model" 
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            />
                             <ErrorMessage name="model" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 
@@ -73,13 +82,17 @@ const VehiculoForm = ({ vehiculo, setVehiculo, onSave, vehiculoEditado, closeMod
                             maxLength={8}
                             type="text" 
                             name="plates" 
-                            className="input-field" />
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            />
                             <ErrorMessage name="plates" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Color</label>
-                            <Field type="text" name="color" className="input-field" />
+                            <Field type="text" 
+                            name="color" 
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            />
                             <ErrorMessage name="color" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 
@@ -88,7 +101,10 @@ const VehiculoForm = ({ vehiculo, setVehiculo, onSave, vehiculoEditado, closeMod
                             <Field 
                             minLength={17}
                             maxLength={17}
-                            type="text" name="serial" className="input-field" />
+                            type="text" 
+                            name="serial" 
+                            className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                            />
                             <ErrorMessage name="serial" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 

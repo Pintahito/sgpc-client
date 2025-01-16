@@ -10,9 +10,13 @@ function App() {
       <Routes>
         {/* Redirigir desde la raíz "/" a "/login" */}
         <Route path="/" element={<Navigate to="/login" />} />
+
+        {/* Ruta de inicio de sesión */}
         <Route path="/login" element={<Login />} />
+
+        {/* Rutas protegidas dentro del Dashboard */}
         <Route
-          path="/dashboard"
+          path="/dashboard/*"
           element={
             <PrivateRoute>
               <Dashboard />

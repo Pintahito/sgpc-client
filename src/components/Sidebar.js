@@ -1,121 +1,175 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { FaHome, FaUsers, FaToolbox, FaChartBar, FaClipboardList, FaTruck, FaWarehouse, FaCogs} from "react-icons/fa";
+import { BiSolidBank } from "react-icons/bi";
 
-const Sidebar = ({ onNavigate, active}) => {
+const Sidebar = () => {
   const [isHRDropdownOpen, setIsHRDropdownOpen] = useState(false);
+  const location = useLocation(); // Para obtener la ruta actual.
 
   const toggleHRDropdown = () => {
     setIsHRDropdownOpen(!isHRDropdownOpen);
   };
 
-  
+  // Función para determinar si la ruta está activa.
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="w-64 h-full bg-iosBackground dark:bg-iosDarkBackground p-4 shadow-lg overflow-y-auto">
-      {/* Imagen superior ocupando todo el ancho */}
-      <div className="mb-0">
+    <div className="w-64 h-full bg-gray-900 text-white dark:bg-gray-800 dark:text-gray-300 shadow-lg overflow-y-auto transition-all">
+      {/* Logo e imagen superior */}
+      <div className="flex items-center justify-center py-6">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYOyln4kwaggy0dR6EWDsh9Kfvs6OiE7-Dhg&s"
           alt="Logo"
-          className="w-full h-25 object-cover"
+          className="w-32 h-auto rounded-lg"
         />
       </div>
 
-      <nav className="flex flex-col space-y-0">
-        <button
-          onClick={() => onNavigate('home')}
-          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'home' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-            } focus:outline-none focus:bg-iosBlue focus:text-white`}
+      {/* Opciones de navegación */}
+      <nav className="flex flex-col space-y-2 px-4">
+        <Link
+          to="/dashboard"
+          className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+            isActive("/dashboard")
+              ? "bg-blue-600 text-white"
+              : "hover:bg-blue-700 dark:hover:bg-blue-600"
+          }`}
         >
+          <FaHome className="mr-3" />
           Gestión De Proyectos
-        </button>
-       
+        </Link>
+
+        {/* Dropdown de Recursos Humanos */}
         <button
           onClick={toggleHRDropdown}
-          className={`w-full py-2 px-4 text-left flex justify-between items-center rounded-none border-b transition-transform transform hover:scale-105 ${active === 'recursoshumanos' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-            } focus:outline-none focus:bg-iosBlue focus:text-white`}
+          className={`flex items-center justify-between w-full py-3 px-4 rounded-lg transition-all ${
+            location.pathname.includes("/dashboard/recursoshumanos")
+              ? "bg-blue-600 text-white"
+              : "hover:bg-blue-700 dark:hover:bg-blue-600"
+          }`}
         >
-          Recursos Humanos
-          <span className={`transition-transform duration-300 ${isHRDropdownOpen ? 'rotate-180' : 'rotate-0'}`}>
-            ▼
-          </span>
+          <div className="flex items-center">
+            <FaUsers className="mr-3" />
+            Recursos Humanos
+          </div>
+          <span className={`transition-transform ${isHRDropdownOpen ? "rotate-180" : ""}`}>▼</span>
         </button>
 
         {isHRDropdownOpen && (
-          <div className="ml-4 space-y-0">
-            <button
-              onClick={() => onNavigate('empleados')}
-              className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'empleados' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-                } focus:outline-none focus:bg-iosBlue focus:text-white`}
+          <div className="ml-6 space-y-2">
+            <Link
+              to="/dashboard/empleados"
+              className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+                isActive("/dashboard/empleados")
+                  ? "bg-blue-600 text-white"
+                  : "hover:bg-blue-700 dark:hover:bg-blue-600"
+              }`}
             >
+              <FaUsers className="mr-3" />
               Gestión Empleados
-            </button>
-            <button
-              onClick={() => onNavigate('categoria')}
-              className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'categoria' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-                } focus:outline-none focus:bg-iosBlue focus:text-white`}
+            </Link>
+            <Link
+              to="/dashboard/categoria"
+              className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+                isActive("/dashboard/categoria")
+                  ? "bg-blue-600 text-white"
+                  : "hover:bg-blue-700 dark:hover:bg-blue-600"
+              }`}
             >
-              Gestión Categoria
-            </button>
-            <button
-              onClick={() => onNavigate('puestoemp')}
-              className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'puestoemp' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-                } focus:outline-none focus:bg-iosBlue focus:text-white`}
+              <FaClipboardList className="mr-3" />
+              Gestión Categoría
+            </Link>
+            <Link
+              to="/dashboard/puestoemp"
+              className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+                isActive("/dashboard/puestoemp")
+                  ? "bg-blue-600 text-white"
+                  : "hover:bg-blue-700 dark:hover:bg-blue-600"
+              }`}
             >
+              <FaToolbox className="mr-3" />
               Gestión Puestos
-            </button>
-            <button
-              onClick={() => onNavigate('departamento')}
-              className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'departamento' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-                } focus:outline-none focus:bg-iosBlue focus:text-white`}
+            </Link>
+            <Link
+              to="/dashboard/departamento"
+              className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+                isActive("/dashboard/departamento")
+                  ? "bg-blue-600 text-white"
+                  : "hover:bg-blue-700 dark:hover:bg-blue-600"
+              }`}
             >
+              <FaWarehouse className="mr-3" />
               Gestión Departamento
-            </button>
-            <button
-              onClick={() => onNavigate('banco')}
-              className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'banco' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-                } focus:outline-none focus:bg-iosBlue focus:text-white`}
+            </Link>
+            <Link
+              to="/dashboard/banco"
+              className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+                isActive("/dashboard/banco")
+                  ? "bg-blue-600 text-white"
+                  : "hover:bg-blue-700 dark:hover:bg-blue-600"
+              }`}
             >
-              Banco
-            </button>
+              <BiSolidBank className="mr-3" />
+              Bancos
+            </Link>
           </div>
         )}
 
-        <button
-          onClick={() => onNavigate('inventario')}
-          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'inventario' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-            } focus:outline-none focus:bg-iosBlue focus:text-white`}
+        <Link
+          to="/dashboard/inventario"
+          className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+            isActive("/dashboard/inventario")
+              ? "bg-blue-600 text-white"
+              : "hover:bg-blue-700 dark:hover:bg-blue-600"
+          }`}
         >
+          <FaClipboardList className="mr-3" />
           Gestión Inventario
-        </button>
-        <button
-          onClick={() => onNavigate('maquinaria')}
-          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'maquinaria' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-            } focus:outline-none focus:bg-iosBlue focus:text-white`}
+        </Link>
+        <Link
+          to="/dashboard/maquinaria"
+          className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+            isActive("/dashboard/maquinaria")
+              ? "bg-blue-600 text-white"
+              : "hover:bg-blue-700 dark:hover:bg-blue-600"
+          }`}
         >
-          Gestión Maquinaria y Vehiculos
-        </button>
-        <button
-          onClick={() => onNavigate('proveedores')}
-          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'proveedores' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-            } focus:outline-none focus:bg-iosBlue focus:text-white`}
+          <FaTruck className="mr-3" />
+          Gestión Maquinaria
+        </Link>
+        <Link
+          to="/dashboard/proveedores"
+          className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+            isActive("/dashboard/proveedores")
+              ? "bg-blue-600 text-white"
+              : "hover:bg-blue-700 dark:hover:bg-blue-600"
+          }`}
         >
+          <FaWarehouse className="mr-3" />
           Proveedores
-        </button>
-        <button
-          onClick={() => onNavigate('kpi')}
-          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'kpi' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-            } focus:outline-none focus:bg-iosBlue focus:text-white`}
+        </Link>
+        <Link
+          to="/dashboard/kpi"
+          className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+            isActive("/dashboard/kpi")
+              ? "bg-blue-600 text-white"
+              : "hover:bg-blue-700 dark:hover:bg-blue-600"
+          }`}
         >
+          <FaChartBar className="mr-3" />
           Panel KPI
-        </button>
-        <button
-          onClick={() => onNavigate('mant')}
-          className={`w-full py-2 px-4 text-left rounded-none border-b transition-transform transform hover:scale-105 ${active === 'mant' ? 'bg-iosBlue text-white' : 'text-iosText dark:text-gray-300 hover:bg-iosHover'
-            } focus:outline-none focus:bg-iosBlue focus:text-white`}
+        </Link>
+        <Link
+          to="/dashboard/mant"
+          className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+            isActive("/dashboard/mant")
+              ? "bg-blue-600 text-white"
+              : "hover:bg-blue-700 dark:hover:bg-blue-600"
+          }`}
         >
+          <FaCogs className="mr-3" />
           Mantenimiento
-        </button>
-
+        </Link>
       </nav>
     </div>
   );
