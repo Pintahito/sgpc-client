@@ -97,10 +97,13 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
                             >
                                 <option value="" label="Seleccione una unidad" />
-                                <option value="Pza" label="Piezas" />
+                                <option value="PZA" label="Piezas" />
                                 <option value="KG" label="Kilogramos" />
                                 <option value="TN" label="Toneladas" />
                                 <option value="M" label="Metros" />
+                                <option value="P" label="Pulgadas" />
+                                <option value="CM" label="Centimetros" />
+                                <option value="G" label="Gramos" />
                             </Field>
                             <ErrorMessage name="unit" component="div" className="text-red-500 text-sm mt-1" />
                         </div>

@@ -57,8 +57,8 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
       enableReinitialize={true}
     >
       {({ isSubmitting }) => (
-        <Form className="space-y-4 p-4 border rounded shadow-md">
-          <div>
+        <Form className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div >
             <label className="block text-gray-700 dark:text-gray-300">ID del Vehiculo o Maquinaria</label>
             <Field
               type="number"
@@ -149,7 +149,7 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
             <ErrorMessage name="nextDate" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
-          <div className="mt-6 flex justify-end gap-4">
+          <div className="mt-16 flex justify-end gap-6">
             <button
               type="button"
               className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition"

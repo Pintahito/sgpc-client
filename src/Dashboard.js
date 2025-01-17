@@ -53,8 +53,88 @@ const Dashboard = () => {
         }
       );
       localStorage.removeItem("token");
-      Swal.fire("¡Cerraste sesión correctamente!");
       navigate("/login"); // Redirigir al login.
+      //Animación cerrar sesión con contador de porcentaje
+      let timerInterval;
+      Swal.fire({
+        title: 'Estas Saliendo Del Sistema',
+        html: `
+        Cerrando sesión en <b>0%</b>. <br>
+        Por favor espera...`,
+        timer: 2000, // Duración total en milisegundos
+        timerProgressBar: true,
+        background: '#f8d7da',
+        color: '#721c24',
+        icon: 'warning',
+        iconColor: '#f5c6cb',
+        showClass: {
+          popup: 'animated fadeInDown faster'
+        },
+        hideClass: {
+          popup: 'animated fadeOutUp faster'
+        },
+        didOpen: () => {
+          Swal.showLoading();
+          const percentage = Swal.getHtmlContainer().querySelector('b');
+          const totalTime = Swal.getTimerLeft(); // Tiempo inicial del temporizador
+          timerInterval = setInterval(() => {
+            const timeLeft = Swal.getTimerLeft();
+            const percentComplete = Math.round(((totalTime - timeLeft) / totalTime) * 100);
+            percentage.textContent = `${percentComplete}%`;
+          }, 100); // Actualización cada 100ms
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log('La alerta se cerró automáticamente.');
+          // Aquí puedes añadir el código para redirigir al usuario o cerrar sesión
+        }
+      });
+
+      // Añade CSS para las animaciones
+      const styles = document.createElement('style');
+      styles.innerHTML = `
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translate3d(0, -100%, 0);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      @keyframes fadeOutUp {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+          transform: translate3d(0, -100%, 0);
+        }
+      }
+
+      .animated {
+        animation-duration: 0.5s;
+        animation-fill-mode: both;
+      }
+
+      .faster {
+        animation-duration: 0.3s;
+      }
+
+      .fadeInDown {
+        animation-name: fadeInDown;
+      }
+
+      .fadeOutUp {
+        animation-name: fadeOutUp;
+      }
+      `;
+      document.head.appendChild(styles);
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
@@ -77,7 +157,7 @@ const Dashboard = () => {
             >
               {isSidebarOpen ? <FaTimes /> : <FaBars />}
             </button>
-            <h1 className="text-6xl font-bold text-iosText dark:text-white">
+            <h1 className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-red-500 drop-shadow-lg dark:drop-shadow-xl hover:scale-105 transition-transform duration-300">
               Grupo Ingenios
             </h1>
 
@@ -85,15 +165,13 @@ const Dashboard = () => {
             <div className="flex items-center">
               {/* Toggle de Modo Oscuro */}
               <div
-                className={`w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 duration-300 ${
-                  darkMode ? "bg-blue-600" : "bg-gray-300"
-                }`}
+                className={`w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 duration-300 ${darkMode ? "bg-blue-600" : "bg-gray-300"
+                  }`}
                 onClick={() => setDarkMode(!darkMode)}
               >
                 <div
-                  className={`bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ${
-                    darkMode ? "translate-x-6" : ""
-                  }`}
+                  className={`bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ${darkMode ? "translate-x-6" : ""
+                    }`}
                 ></div>
               </div>
               <span className="ml-3 text-xl">

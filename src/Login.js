@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "./api/axios"; // Importa Axios configurado
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaUser } from "react-icons/fa";
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const [username, setUsername] = useState("");
@@ -15,6 +16,29 @@ const Login = () => {
             const response = await axios.post("/api/auth/login", { username, password });
             localStorage.setItem("token", response.data.token);
             navigate("/dashboard");
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: '#333',
+                color: '#fff',
+                iconColor: '#4caf50',
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: 'success',
+                title: 'Has Iniciado Sesión',
+                customClass: { popup: 'colored-toast' }
+            }); 
+            // Añade CSS para la clase customClass 
+            const styles = document.createElement('style'); 
+            styles.innerHTML = ` .swal2-toast .swal2-title { font-size: 1.5em; } .swal2-toast { box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); } .colored-toast { border-radius: 10px; } `; 
+            document.head.appendChild(styles);
         } catch (err) {
             setError("Credenciales inválidas o acceso denegado");
         }

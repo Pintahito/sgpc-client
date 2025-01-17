@@ -74,12 +74,14 @@ const Home = () => {
               <FaChevronRight size={24} />
             </button>
           </div>
-          <button
-            className="mt-6 px-8 py-4 bg-iosBlue text-white text-lg font-semibold rounded-full shadow-md hover:bg-iosBlueHover dark:bg-iosDarkBlue dark:hover:bg-iosDarkBlueHover transition-all"
-            onClick={() => navigate(buttons[activeIndex].route)} // Navegación directa.
-          >
-            {buttons[activeIndex].label}
-          </button>
+          <div className="flex justify-center mt-6">
+            <button
+              className="flex items-center bg-gradient-to-r from-red-500 to-pink-500 hover:from-pink-500 hover:to-red-500 text-white font-semibold py-4 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out"
+              onClick={() => navigate(buttons[activeIndex].route)} // Navegación directa.
+            >
+              {buttons[activeIndex].label}
+            </button>
+          </div>
         </div>
       </div>
     </div>
