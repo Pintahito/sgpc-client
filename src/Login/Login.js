@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "./api/axios"; // Importa Axios configurado
+import axios from "../api/axios"; // Importa Axios configurado
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaUser } from "react-icons/fa";
 import Swal from 'sweetalert2';

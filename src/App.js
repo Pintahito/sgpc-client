@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./Login";
+import Login from "./Login/Login";
 import Dashboard from "./Dashboard";
-import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "./RoutePrivate/PrivateRoute";
 
 function App() {
   return (
