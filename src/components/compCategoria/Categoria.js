@@ -35,10 +35,18 @@ const Categoria = () => {
     try {
       if (categoriaEditada) {
         await axios.put(`${apiUrl}/api/v1/categories/${categoriaEditada.idCategory}`, values);
-        Swal.fire("¡Categoria editada con éxito!");
+        Swal.fire({
+          title: "¡Categoria editada con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/categories`, values);
-        Swal.fire("¡Categoria agregada con éxito!");
+        Swal.fire({
+          title: "¡Categoria agregada con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchCategorias();
       closeModal();
@@ -55,7 +63,21 @@ const Categoria = () => {
   const deleteCategoria = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/categories/${categoriaSeleccionada.idCategory}`);
-      Swal.fire("¡Categoria eliminada con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchCategorias();
       closeDeleteModal();
     } catch (error) {

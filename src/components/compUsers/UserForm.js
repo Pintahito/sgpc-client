@@ -78,7 +78,7 @@ const UserForm = ({ user, setUser, onSave, userEditado, closeModal }) => {
               <ErrorMessage name="rolId" component="div" className="text-red-500 text-sm mt-1" />
             </div>
             <div>
-              <label className="block text-gray-700 dark:text-gray-300">ID del Rol</label>
+              <label className="block text-gray-700 dark:text-gray-300">Rol</label>
               <Field
                 type="text"
                 name="rolName"

@@ -157,7 +157,7 @@ const Dashboard = () => {
             >
               {isSidebarOpen ? <FaTimes /> : <FaBars />}
             </button>
-            <h1 className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-red-500 drop-shadow-lg dark:drop-shadow-xl hover:scale-105 transition-transform duration-300">
+            <h1 className="text-6xl p-3 font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-red-500 drop-shadow-lg dark:drop-shadow-xl hover:scale-105 transition-transform duration-300">
               Grupo Ingenios
             </h1>
 
@@ -208,20 +208,20 @@ const Dashboard = () => {
               <Route path="/" element={<Home />} />
               <Route path="/clientes" element={<Clientes />} />
               <Route path="/empleados" element={<Empleados />} />
-              <Route path="/categoria" element={<Categoria />} />
-              <Route path="/puestoemp" element={<PuestoEmp />} />
+              <Route path="/categorias" element={<Categoria />} />
+              <Route path="/puestos" element={<PuestoEmp />} />
               <Route path="/inventario" element={<Inventario />} />
               <Route path="/maquinaria" element={<Maquinaria />} />
-              <Route path="/departamento" element={<Departamentos />} />
+              <Route path="/departamentos" element={<Departamentos />} />
               <Route path="/banco" element={<Banco />} />
               <Route path="/proveedores" element={<Proveedores />} />
               <Route path="/kpi" element={<KPIContainer />} />
               <Route path="/usuarios" element={<ConfigUsers />} />
-              <Route path="/mant" element={<Maintenance />} />
+              <Route path="/mantenimientos" element={<Maintenance />} />
               <Route path="/obras" element={<Obras />} />
-              <Route path="/typeobra" element={<TipoObra />} />
-              <Route path="/actividad" element={<Actividad />} />
-              <Route path="/etapa" element={<Etapa />} />
+              <Route path="/tiposobra" element={<TipoObra />} />
+              <Route path="/actividades" element={<Actividad />} />
+              <Route path="/etapas" element={<Etapa />} />
             </Routes>
           </main>
         </div>

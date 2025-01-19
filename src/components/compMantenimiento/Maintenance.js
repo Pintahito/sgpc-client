@@ -42,10 +42,18 @@ const Maintenance = () => {
     try {
       if (maintenanceEditado) {
         await axios.put(`${apiUrl}/api/v1/maintenance/${maintenanceEditado.idMaintenance}`, values);
-        Swal.fire('¡Mantenimiento editado con éxito!');
+        Swal.fire({
+          title: "¡Mantenimiento editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/maintenance`, values);
-        Swal.fire('¡Mantenimiento agregado con éxito!');
+        Swal.fire({
+          title: "¡Mantenimiento agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchMaintenances();
       closeModal();
@@ -62,7 +70,21 @@ const Maintenance = () => {
   const deleteMaintenance = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/maintenance/${maintenanceSeleccionado.idMaintenance}`);
-      Swal.fire('¡Mantenimiento eliminado con éxito!');
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchMaintenances();
       closeDeleteModal();
     } catch (error) {

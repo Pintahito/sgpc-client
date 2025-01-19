@@ -37,10 +37,18 @@ const Etapa = () => {
     try {
       if (etapaEditada) {
         await axios.put(`${apiUrl}/api/v1/stages/${etapaEditada.idStage}`, values);
-        Swal.fire("¡Etapa editada con éxito!");
+        Swal.fire({
+          title: "¡Etapa editada con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/stages`, values);
-        Swal.fire("¡Etapa agregada con éxito!");
+        Swal.fire({
+          title: "¡Etapa agregada con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchEtapas();
       closeModal();
@@ -57,7 +65,21 @@ const Etapa = () => {
   const deleteEtapa = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/stages/${etapaSeleccionada.idStage}`);
-      Swal.fire("¡Etapa eliminada con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchEtapas();
       closeDeleteModal();
     } catch (error) {

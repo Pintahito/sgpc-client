@@ -19,17 +19,17 @@ const Home = () => {
     },
     {
       label: "Tipos De Obra",
-      route: "/dashboard/typeobra",
+      route: "/dashboard/tiposobra",
       image: "https://q-ver.com/wp-content/uploads/2021/01/estudios_integrales_4-2048x1388.jpg",
     },
     {
       label: "Actividades",
-      route: "/dashboard/actividad",
+      route: "/dashboard/actividades",
       image: "https://media.electroinstalador.com/p/c851f829345ab3900a695f0b14767bfe/adjuntos/232/imagenes/000/026/0000026591/1200x0/smart/img-construccion-00jpg.jpg",
     },
     {
       label: "Etapas",
-      route: "/dashboard/etapa",
+      route: "/dashboard/etapas",
       image: "https://www.cdt.cl/wp-content/uploads/2023/02/1675221061lUzXC6Pt.jpg",
     },
   ];

@@ -45,7 +45,7 @@ const PuestoForm = ({ puesto, setPuesto, onSave, puestoEditado, closeModal }) =>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Nombre */}
             <div>
-              <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
+              <label className="block text-gray-700 dark:text-gray-300">Nombre Del Puesto</label>
               <Field
                 minLength={0}
                 maxLength={100}

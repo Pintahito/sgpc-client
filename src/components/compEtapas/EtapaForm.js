@@ -38,10 +38,10 @@ const EtapaForm = ({ etapa, setEtapa, onSave, etapaEditada, closeModal }) => {
         >
             {({ isSubmitting }) => (
                 <Form>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                         {/* Nombre */}
                         <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Nombre De La Etapa</label>
                             <Field
                                 type="text"
                                 name="name"

@@ -36,7 +36,7 @@ const Sidebar = () => {
           }`}
         >
           <FaHome className="mr-3" />
-          Gestión De Proyectos
+          Gestión De Obras
         </Link>
 
         {/* Dropdown de Recursos Humanos */}
@@ -69,9 +69,9 @@ const Sidebar = () => {
               Gestión Empleados
             </Link>
             <Link
-              to="/dashboard/categoria"
+              to="/dashboard/categorias"
               className={`flex items-center py-3 px-4 rounded-lg transition-all ${
-                isActive("/dashboard/categoria")
+                isActive("/dashboard/categorias")
                   ? "bg-blue-600 text-white"
                   : "hover:bg-blue-700 dark:hover:bg-blue-600"
               }`}
@@ -80,9 +80,9 @@ const Sidebar = () => {
               Gestión Categoría
             </Link>
             <Link
-              to="/dashboard/puestoemp"
+              to="/dashboard/puestos"
               className={`flex items-center py-3 px-4 rounded-lg transition-all ${
-                isActive("/dashboard/puestoemp")
+                isActive("/dashboard/puestos")
                   ? "bg-blue-600 text-white"
                   : "hover:bg-blue-700 dark:hover:bg-blue-600"
               }`}
@@ -91,9 +91,9 @@ const Sidebar = () => {
               Gestión Puestos
             </Link>
             <Link
-              to="/dashboard/departamento"
+              to="/dashboard/departamentos"
               className={`flex items-center py-3 px-4 rounded-lg transition-all ${
-                isActive("/dashboard/departamento")
+                isActive("/dashboard/departamentos")
                   ? "bg-blue-600 text-white"
                   : "hover:bg-blue-700 dark:hover:bg-blue-600"
               }`}
@@ -160,9 +160,9 @@ const Sidebar = () => {
           Panel KPI
         </Link>
         <Link
-          to="/dashboard/mant"
+          to="/dashboard/mantenimientos"
           className={`flex items-center py-3 px-4 rounded-lg transition-all ${
-            isActive("/dashboard/mant")
+            isActive("/dashboard/mantenimientos")
               ? "bg-blue-600 text-white"
               : "hover:bg-blue-700 dark:hover:bg-blue-600"
           }`}

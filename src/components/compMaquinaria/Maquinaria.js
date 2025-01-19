@@ -60,10 +60,18 @@ const Maquinaria = () => {
     try {
       if (maquinariaEditada) {
         await axios.put(`${apiUrl}/api/v1/machinery/${maquinariaEditada.id_machinery}`, values);
-        Swal.fire("¡Maquinaria editada con éxito!");
+        Swal.fire({
+          title: "¡Maquinaria editada con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/machinery`, values);
-        Swal.fire("¡Maquinaria agregada con éxito!");
+        Swal.fire({
+          title: "¡Maquinaria agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchMaquinarias();
       closeModal();
@@ -80,7 +88,21 @@ const Maquinaria = () => {
   const deleteMaquinaria = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/machinery/${maquinariaSeleccionada.id_machinery}`);
-      Swal.fire("¡Maquinaria eliminada con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchMaquinarias();
       closeDeleteModal();
     } catch (error) {
@@ -102,10 +124,18 @@ const Maquinaria = () => {
     try {
       if (vehiculoEditado) {
         await axios.put(`${apiUrl}/api/v1/vehicles/${vehiculoEditado.id_vehicle}`, values);
-        Swal.fire("¡Vehículo editado con éxito!");
+        Swal.fire({
+          title: "¡Vehículo editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/vehicles`, values);
-        Swal.fire("¡Vehículo agregado con éxito!");
+        Swal.fire({
+          title: "¡Vehículo agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchVehiculos();
       closeModal();
@@ -122,7 +152,21 @@ const Maquinaria = () => {
   const deleteVehiculo = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/vehicles/${vehiculoSeleccionado.id_vehicle}`);
-      Swal.fire("¡Vehículo eliminado con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchVehiculos();
       closeDeleteModal();
     } catch (error) {

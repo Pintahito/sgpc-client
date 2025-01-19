@@ -35,7 +35,7 @@ function MaintenanceList({ maintenances, setMaintenanceEditado, setModalType, se
     },
     {
       name: 'Costo',
-      selector: (row) => row.cost,
+      selector: (row) => `$${row.cost.toFixed(2)}`,
       sortable: true,
     },
     {

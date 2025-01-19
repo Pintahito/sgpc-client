@@ -50,10 +50,18 @@ const Empleados = () => {
     try {
       if (empleadoEditadoO) {
         await axios.put(`${apiUrl}/api/v1/employees/${empleadoEditadoO.idEmployee}`, values);
-        Swal.fire("¡Empleado editado con éxito!");
+        Swal.fire({
+          title: "¡Empleado editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/employees`, values);
-        Swal.fire("¡Empleado agregado con éxito!");
+        Swal.fire({
+          title: "¡Empleado agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchEmpleadosO();
       closeModal();
@@ -70,7 +78,21 @@ const Empleados = () => {
   const deleteObra = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/employees/${empleadoSeleccionadoO.idEmployee}`);
-      Swal.fire("¡Empleado eliminado con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchEmpleadosO();
       closeDeleteModal();
     } catch (error) {
@@ -111,10 +133,18 @@ const Empleados = () => {
     try {
       if (empleadoEditadoP) {
         await axios.put(`${apiUrl}/api/v1/employees/${empleadoEditadoP.idEmployee}`, values);
-        Swal.fire("¡Empleado editado con éxito!");
+        Swal.fire({
+          title: "¡Empleado editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/employees`, values);
-        Swal.fire("¡Empleado agregado con éxito!");
+        Swal.fire({
+          title: "¡Empleado agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchEmpleadosP();
       closeModal();
@@ -131,7 +161,21 @@ const Empleados = () => {
   const deletePlanta = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/employees/${empleadoSeleccionadoP.idEmployee}`);
-      Swal.fire("¡Empleado eliminado con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchEmpleadosP();
       closeDeleteModal();
     } catch (error) {

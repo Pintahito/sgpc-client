@@ -16,8 +16,7 @@ const Actividad = () => {
   const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
   const [newActividad, setNewActividad] = useState({
     name: '',
-    description: '',
-    idStage: ''
+    description: ''
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -46,10 +45,18 @@ const Actividad = () => {
     try {
       if (actividadEditada) {
         await axios.put(`${apiUrl}/api/v1/activities/${actividadEditada.idActivity}`, values);
-        Swal.fire("¡Actividad editada con éxito!");
+        Swal.fire({
+          title: "¡Actividad editada con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/activities`, values);
-        Swal.fire("¡Actividad agregada con éxito!");
+        Swal.fire({
+          title: "¡Actividad agregada con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchActividades();
       closeModal();
@@ -66,7 +73,21 @@ const Actividad = () => {
   const deleteActividad = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/activities/${actividadSeleccionada.idActivity}`);
-      Swal.fire("¡Actividad eliminada con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchActividades();
       closeDeleteModal();
     } catch (error) {
@@ -79,8 +100,7 @@ const Actividad = () => {
     setIsModalOpen(false);
     setNewActividad({
       name: '',
-      description: '',
-      idStage: ''
+      description: ''
     });
   };
 

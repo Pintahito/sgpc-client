@@ -48,10 +48,18 @@ const ConfigUsers = () => {
     try {
       if (roleEditado) {
         await axios.put(`${apiUrl}/api/v1/roles/${roleEditado.id_rol}`, values);
-        Swal.fire('¡Rol editado con éxito!');
+        Swal.fire({
+          title: "¡Rol editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/roles`, values);
-        Swal.fire('¡Rol agregado con éxito!');
+        Swal.fire({
+          title: "¡Rol agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchRoles();
       closeModal();
@@ -69,7 +77,21 @@ const ConfigUsers = () => {
   const deleteRole = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/roles/${roleSeleccionado.id_rol}`);
-      Swal.fire('¡Rol eliminado con éxito!');
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchRoles();
       closeDeleteModal();
     } catch (error) {
@@ -111,10 +133,18 @@ const ConfigUsers = () => {
     try {
       if (userEditado) {
         await axios.put(`${apiUrl}/api/v1/users/${userEditado.id_user}`, values);
-        Swal.fire('¡Usuario editado con éxito!');
+        Swal.fire({
+          title: "¡Usuario editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/users`, values);
-        Swal.fire('¡Usuario agregado con éxito!');
+        Swal.fire({
+          title: "¡Usuario agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchUsers();
       closeModal();
@@ -132,7 +162,21 @@ const ConfigUsers = () => {
   const deleteUser = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/users/${userSeleccionado.id_user}`);
-      Swal.fire('¡Usuario eliminado con éxito!');
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchUsers();
       closeDeleteModal();
     } catch (error) {

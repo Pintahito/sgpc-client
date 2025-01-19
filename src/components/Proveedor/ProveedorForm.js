@@ -56,7 +56,7 @@ const ProveedorForm = ({ proveedor, setProveedor, onSave, proveedorEditado, clos
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Nombre */}
             <div>
-              <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
+              <label className="block text-gray-700 dark:text-gray-300">Nombre Del Proveedor</label>
               <Field
                 minLength={0}
                 maxLength={100}
@@ -72,7 +72,7 @@ const ProveedorForm = ({ proveedor, setProveedor, onSave, proveedorEditado, clos
               <Field
                 minLength={0}
                 maxLength={100}
-                type="text"
+                as="textarea"
                 name="address"
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
               />

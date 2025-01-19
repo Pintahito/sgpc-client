@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
+import { FaEdit, FaTrash} from "react-icons/fa";
 
 function EmpleadoPlantaList({ empleadosP, setEmpleadoEditadoP, setModalType, setEmpleadoSeleccionadoP}) {
     const [filterText, setFilterText] = useState('');
@@ -46,13 +47,14 @@ function EmpleadoPlantaList({ empleadosP, setEmpleadoEditadoP, setModalType, set
             cell: (row) => (
                 <div className="flex space-x-2">
                     <button 
+                    disabled
                         className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 transition"
                         onClick={() => {
                             setEmpleadoEditadoP(row);
                             setModalType('edit');
                         }}
                     >
-                        Editar
+                        <FaEdit />
                     </button>
                     <button
                         className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition"
@@ -61,7 +63,7 @@ function EmpleadoPlantaList({ empleadosP, setEmpleadoEditadoP, setModalType, set
                             setModalType('delete');
                         }}
                     >
-                        Eliminar
+                        <FaTrash />
                     </button>
                 </div>
             ),

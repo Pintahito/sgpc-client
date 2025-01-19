@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
+import { FaEdit, FaTrash } from "react-icons/fa";
 
-function EmpleadoList({ empleadosO, setEmpleadoEditadoO, setModalType, setEmpleadoSeleccionadoO}) {
+function EmpleadoList({ empleadosO, setEmpleadoEditadoO, setModalType, setEmpleadoSeleccionadoO }) {
     const [filterText, setFilterText] = useState('');
     const [filteredEmpleados, setFilteredEmpleados] = useState([]);
 
     useEffect(() => {
         const filteredData = empleadosO.filter(
-            (empleadoO) => 
-                empleadoO.employeeType === 'OBRA' && 
-                empleadoO.name && 
+            (empleadoO) =>
+                empleadoO.employeeType === 'OBRA' &&
+                empleadoO.name &&
                 empleadoO.name.toLowerCase().includes(filterText.toLowerCase())
         );
         setFilteredEmpleados(filteredData);
@@ -45,14 +46,15 @@ function EmpleadoList({ empleadosO, setEmpleadoEditadoO, setModalType, setEmplea
             name: 'Acciones',
             cell: (row) => (
                 <div className="flex space-x-2">
-                    <button 
+                    <button
+                    disabled
                         className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 transition"
                         onClick={() => {
                             setEmpleadoEditadoO(row);
                             setModalType('edit');
                         }}
                     >
-                        Editar
+                        <FaEdit />
                     </button>
                     <button
                         className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition"
@@ -61,7 +63,7 @@ function EmpleadoList({ empleadosO, setEmpleadoEditadoO, setModalType, setEmplea
                             setModalType('delete');
                         }}
                     >
-                        Eliminar
+                        <FaTrash />
                     </button>
                 </div>
             ),

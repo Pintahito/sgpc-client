@@ -40,10 +40,18 @@ const PuestoEmp = () => {
     try {
       if (puestoEditado) {
         await axios.put(`${apiUrl}/api/v1/positions/${puestoEditado.idPosition}`, values);
-        Swal.fire("¡Puesto editado con éxito!");
+        Swal.fire({
+          title: "¡Puesto editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/positions`, values);
-        Swal.fire("¡Puesto agregado con éxito!");
+        Swal.fire({
+          title: "¡Puesto agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchPuestos();
       closeModal();
@@ -61,7 +69,23 @@ const PuestoEmp = () => {
   const deletePuesto = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/positions/${puestoSeleccionado.idPosition}`);
-      Swal.fire("¡Puesto eliminado con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
+      
+
       fetchPuestos();
       closeDeleteModal();
     } catch (error) {

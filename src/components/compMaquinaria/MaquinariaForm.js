@@ -53,7 +53,7 @@ const MaquinariaForm = ({ maquinaria, setMaquinaria, onSave, maquinariaEditada, 
                 <Form>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Nombre De Maquinaria</label>
                             <Field 
                             minLength={0}
                             maxLength={100}

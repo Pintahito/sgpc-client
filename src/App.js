@@ -16,7 +16,7 @@ function App() {
 
         {/* Rutas protegidas dentro del Dashboard */}
         <Route
-          path="/dashboard/*"
+          path="/dashboard/*" 
           element={
             <PrivateRoute>
               <Dashboard />

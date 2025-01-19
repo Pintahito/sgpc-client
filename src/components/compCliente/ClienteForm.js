@@ -61,7 +61,7 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Nombre */}
             <div>
-              <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
+              <label className="block text-gray-700 dark:text-gray-300">Nombre Del Cliente</label>
               <Field
                 minLength={0}
                 maxLength={100}
@@ -76,8 +76,8 @@ const ClienteForm = ({ cliente, setCliente, onSave, clienteEditado, closeModal }
               <label className="block text-gray-700 dark:text-gray-300">Dirección</label>
               <Field
                 minLength={0}
-                maxLength={100}
-                type="text"
+                maxLength={255}
+                as="textarea"
                 name="address"
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
               />

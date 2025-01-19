@@ -51,7 +51,7 @@ const VehiculoForm = ({ vehiculo, setVehiculo, onSave, vehiculoEditado, closeMod
                 <Form>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Nombre Del Vehículo</label>
                             <Field type="text" 
                             name="name" 
                             className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"

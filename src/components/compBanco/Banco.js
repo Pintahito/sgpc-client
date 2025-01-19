@@ -36,10 +36,18 @@ const Banco = () => {
     try {
       if (bancoEditado) {
         await axios.put(`${apiUrl}/api/v1/banks/${bancoEditado.idBank}`, values);
-        Swal.fire("¡Banco editado con éxito!");
+        Swal.fire({
+          title: "¡Banco editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/banks`, values);
-        Swal.fire("¡Banco agregado con éxito!");
+        Swal.fire({
+          title: "¡Banco agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchBancos();
       closeModal();
@@ -57,7 +65,21 @@ const Banco = () => {
   const deleteBanco = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/banks/${bancoSeleccionado.idBank}`);
-      Swal.fire("¡Banco eliminado con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchBancos();
       closeDeleteModal();
     } catch (error) {

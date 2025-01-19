@@ -44,13 +44,19 @@ const Clientes = () => {
   const saveCliente = async (values) => {
     try {
       if (clienteEditado) {
-        await axios.put(`${apiUrl}/api/v1/clients/${clienteEditado.id_client}`, values);
-       // window.alert('Cliente editado con éxito');
-        Swal.fire("!Cliente editado con exito!");
+        await axios.put(`${apiUrl}/api/v1/clients/${clienteEditado.idClient}`, values);
+        Swal.fire({
+          title: "¡Cliente agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/clients`, values);
-        //window.alert('Cliente agregado con éxito');
-        Swal.fire("!Cliente agregado con exito!");
+        Swal.fire({
+          title: "¡Cliente agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchClientes();
       //revisar modal
@@ -70,9 +76,22 @@ const Clientes = () => {
   // Eliminar un cliente
   const deleteCliente = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/clients/${clienteSeleccionado.id_client}`);
-      //window.alert('Cliente eliminado con éxito');
-      Swal.fire("!Cliente eliminado con exito!");
+      await axios.delete(`${apiUrl}/api/v1/clients/${clienteSeleccionado.idClient}`);
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchClientes();
       closeDeleteModal();
     } catch (error) {

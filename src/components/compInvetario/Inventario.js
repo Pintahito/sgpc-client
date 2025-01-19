@@ -18,6 +18,7 @@ const Inventario = () => {
   const [newArticulo, setNewArticulo] = useState({
     name: '',
     amount: 0,
+    unit:'',
     description: '',
     price: 0,
     inputType: '',
@@ -43,10 +44,18 @@ const Inventario = () => {
     try {
       if (articuloEditado) {
         await axios.put(`${apiUrl}/api/v1/inventories/${articuloEditado.id_inventory}`, values);
-        Swal.fire("¡Artículo editado con éxito!");
+        Swal.fire({
+          title: "¡Articulo editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/inventories`, values);
-        Swal.fire("¡Artículo agregado con éxito!");
+        Swal.fire({
+          title: "¡Articulo agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchInventario();
       closeModal();
@@ -63,7 +72,22 @@ const Inventario = () => {
   const deleteArticulo = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/inventory/${articuloSeleccionado.id_inventory}`);
-      Swal.fire("¡Artículo eliminado con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
+
       fetchInventario();
       closeDeleteModal();
     } catch (error) {
@@ -83,6 +107,7 @@ const Inventario = () => {
     setNewArticulo({
       name: '',
       amount: 0,
+      unit:'',
       description: '',
       price: 0,
       inputType: '',

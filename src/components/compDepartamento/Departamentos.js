@@ -40,10 +40,18 @@ const Departamentos = () => {
     try {
       if (departamentoEditado) {
         await axios.put(`${apiUrl}/api/v1/departments/${departamentoEditado.idDepartment}`, values);
-        Swal.fire("¡Departamento editado con éxito!");
+        Swal.fire({
+          title: "¡Departamento editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/departments`, values);
-        Swal.fire("¡Departamento agregado con éxito!");
+        Swal.fire({
+          title: "¡Departamento agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchDepartamentos();
       closeModal();
@@ -61,7 +69,21 @@ const Departamentos = () => {
   const deleteDepartamento = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/departments/${departamentoSeleccionado.idDepartment}`);
-      Swal.fire("¡Departamento eliminado con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchDepartamentos();
       closeDeleteModal();
     } catch (error) {

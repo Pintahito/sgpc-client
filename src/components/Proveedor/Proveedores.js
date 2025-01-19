@@ -47,10 +47,18 @@ const Proveedores = () => {
     try {
       if (proveedorEditado) {
         await axios.put(`${apiUrl}/api/v1/suppliers/${proveedorEditado.id_supplier}`, values);
-        Swal.fire('¡Proveedor editado con éxito!');
+        Swal.fire({
+          title: "¡Proveedor editado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/suppliers`, values);
-        Swal.fire('¡Proveedor agregado con éxito!');
+        Swal.fire({
+          title: "¡Proveedor agregado con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchProveedores();
       closeModal();
@@ -68,11 +76,29 @@ const Proveedores = () => {
   const deleteProveedor = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/suppliers/${proveedorSeleccionado.id_supplier}`);
-      Swal.fire('¡Proveedor eliminado con éxito!');
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchProveedores();
       closeDeleteModal();
     } catch (error) {
-      Swal.fire('¡Hay otra tabla dependiendo de esta!');
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "!Hay otra tabla dependiendo de esta!",
+            });
       console.error('Error al eliminar proveedor:', error);
     }
   };

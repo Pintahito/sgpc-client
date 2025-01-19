@@ -132,7 +132,7 @@ const EmpleadoPlantaForm = ({ empleadoPlanta, setEmpleadoPlanta, onSave, emplead
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Datos generales */}
                         <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Nombre Del Empleado</label>
                             <Field
                                 minLength={0}
                                 maxLength={100}
@@ -176,7 +176,7 @@ const EmpleadoPlantaForm = ({ empleadoPlanta, setEmpleadoPlanta, onSave, emplead
                             <ErrorMessage name="phones[0].phone" component="div" className="text-red-500" />
                         </div>
                         <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Fecha</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Fecha De Contratación</label>
                             <Field
                                 type="date" 
                                 name="hiringDate" 
@@ -188,7 +188,8 @@ const EmpleadoPlantaForm = ({ empleadoPlanta, setEmpleadoPlanta, onSave, emplead
                             <label className="block text-gray-700 dark:text-gray-300">Puesto</label>
                             <Field as="select" name="positionId" className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md">
                                 <option value="">Selecciona un puesto</option>
-                                {puestos.map((puesto) => (
+                                {puestos.filter(puesto => puesto.statusType === 'ACTIVO')
+                                .map((puesto) => (
                                     <option key={puesto.idPosition} value={puesto.idPosition}>
                                         {puesto.name}
                                     </option>

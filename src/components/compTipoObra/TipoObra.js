@@ -36,10 +36,18 @@ const TipoObra = () => {
     try {
       if (obraEditada) {
         await axios.put(`${apiUrl}/api/v1/workTypes/${obraEditada.idWorkType}`, values);
-        Swal.fire("¡Obra editada con éxito!");
+        Swal.fire({
+          title: "¡Tipo De Obra editada con éxito!",
+          icon: "success",
+          draggable: true
+        });
       } else {
         await axios.post(`${apiUrl}/api/v1/workTypes`, values);
-        Swal.fire("¡Obra agregada con éxito!");
+        Swal.fire({
+          title: "¡Tipo De Obra agregada con éxito!",
+          icon: "success",
+          draggable: true
+        });
       }
       fetchObras();
       closeModal();
@@ -56,7 +64,21 @@ const TipoObra = () => {
   const deleteObra = async () => {
     try {
       await axios.delete(`${apiUrl}/api/v1/workTypes/${obraSeleccionada.idWorkType}`);
-      Swal.fire("¡Obra eliminada con éxito!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning", // Cambiado para reflejar una acción de eliminación
+        title: "Eliminación realizada con éxito" // Mensaje actualizado para eliminación
+      });
       fetchObras();
       closeDeleteModal();
     } catch (error) {
@@ -93,7 +115,7 @@ const TipoObra = () => {
           setModalType('add');
           setIsModalOpen(true);
         }}>
-        Agregar Obra
+        Agregar Tipo Obra
       </button>
 
       {/* Modal para agregar o editar obra */}

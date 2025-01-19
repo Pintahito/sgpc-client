@@ -79,7 +79,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                 <Form>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Nombre</label>
+                            <label className="block text-gray-700 dark:text-gray-300">Nombre Del Articulo</label>
                             <Field
                                 minLength={0}
                                 maxLength={100}
@@ -168,26 +168,27 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                             <ErrorMessage name="wineryName" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
 
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Proveedor</label>
-                            <Field
-                                as="select"
-                                name="supplierId"
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                            >
-                                <option value="" label="Seleccione un proveedor" />
-                                {proveedores.map((proveedor) => (
-                                    <option key={proveedor.id_supplier} value={proveedor.id_supplier}>
-                                        {proveedor.name}
-                                    </option>
-                                ))}
-                            </Field>
-                            <ErrorMessage
-                                name="supplierId"
-                                component="div"
-                                className="text-red-500 text-sm mt-1"
-                            />
-                        </div>
+                            <div>
+                                <label className="block text-gray-700 dark:text-gray-300">Proveedor</label>
+                                <Field
+                                    as="select"
+                                    name={`supplierId`}
+                                    className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                                >
+                                    <option value="" label="Seleccione un proveedor" />
+                                    {proveedores.map((proveedor) => (
+                                        <option key={proveedor.id_supplier} value={proveedor.id_supplier}>
+                                            {proveedor.name}
+                                        </option>
+                                    ))}
+                                </Field>
+                                <ErrorMessage
+                                    name="supplierId"
+                                    component="div"
+                                    className="text-red-500 text-sm mt-1"
+                                />
+                            </div>
+
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Tipo Insumo</label>
                             <Field
