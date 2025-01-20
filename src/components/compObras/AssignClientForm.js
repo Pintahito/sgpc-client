@@ -68,28 +68,40 @@ const AssignClientForm = ({ workId, onSave, closeModal, apiUrl, initialData = nu
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
         {initialData ? "Editar Cliente" : "Asignar Cliente"}
       </h2>
+  
+      {/* Cliente */}
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">Cliente</label>
+        <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+          Cliente
+        </label>
         <select
-          className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
           value={selectedClient}
           onChange={(e) => setSelectedClient(Number(e.target.value))}
         >
           <option value="">Seleccione un cliente</option>
           {clients.map((client) => (
-            <option key={client.idClient} value={client.idClient}>
+            <option
+              key={client.idClient}
+              value={client.idClient}
+              className="p-2"
+            >
               {client.name}
             </option>
           ))}
         </select>
       </div>
+  
+      {/* Rol */}
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">Rol</label>
+        <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+          Rol
+        </label>
         <select
-          className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
           value={role}
           onChange={(e) => setRole(e.target.value)}
         >
@@ -97,10 +109,14 @@ const AssignClientForm = ({ workId, onSave, closeModal, apiUrl, initialData = nu
           <option value="SECUNDARIO">SECUNDARIO</option>
         </select>
       </div>
+  
+      {/* Estado */}
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">Estado</label>
+        <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+          Estado
+        </label>
         <select
-          className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
@@ -108,15 +124,17 @@ const AssignClientForm = ({ workId, onSave, closeModal, apiUrl, initialData = nu
           <option value="INACTIVO">INACTIVO</option>
         </select>
       </div>
+  
+      {/* Botones */}
       <div className="flex justify-end gap-4">
         <button
-          className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition"
+          className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition"
           onClick={closeModal}
         >
           Cancelar
         </button>
         <button
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
+          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
           onClick={handleAssign}
         >
           {initialData ? "Guardar Cambios" : "Asignar"}

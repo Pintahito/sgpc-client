@@ -65,19 +65,21 @@ const ClientWorkList = ({ apiUrl, workId, reloadClientWorks, onEditClientWork })
       cell: (row) => (
         <div className="flex space-x-2">
           <button
-            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+            className="bg-blue-500 text-white p-1 rounded-md hover:bg-blue-600 transition flex items-center justify-center"
             onClick={() => onEditClientWork(row)} // Llama la función para editar
+            title="Editar"
           >
             <FaEdit />
           </button>
           <button
-            className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600"
+            className="bg-red-500 text-white p-1 rounded-md hover:bg-red-600 transition flex items-center justify-center"
             onClick={() =>
               setDeleteModal({
                 isOpen: true,
                 clientWork: row,
               })
-            } // Abre el modal de confirmación
+            } 
+            title="Borrar"
           >
             <FaTrash />
           </button>
@@ -88,11 +90,11 @@ const ClientWorkList = ({ apiUrl, workId, reloadClientWorks, onEditClientWork })
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4 text-center">Asignación Cliente-Obra</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center text-gray-800 dark:text-white">Asignación Cliente-Obra</h2>
       <div className="mb-4">
         <input
           type="text"
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-2 border border-gray-300 rounded-md text-black dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           placeholder="Buscar cliente u obra..."
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}

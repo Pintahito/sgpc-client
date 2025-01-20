@@ -5,6 +5,8 @@ import { FaSun, FaMoon, FaBars, FaTimes } from "react-icons/fa";
 import { CiLogin } from "react-icons/ci";
 import { GrUserSettings } from "react-icons/gr";
 import Swal from "sweetalert2";
+import { jwtDecode } from "jwt-decode";
+
 
 import Home from "./components/Home";
 import Clientes from "./components/compCliente/Clientes";
@@ -34,15 +36,60 @@ const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate(); // Para navegación programática.
 
-  // Función para cerrar sesión.
   const logout = async () => {
     const token = localStorage.getItem("token");
+  
     if (!token) {
       console.error("No token found, cannot logout.");
       return;
     }
-
+  
     try {
+      // Decodificar el token para verificar la expiración
+      const decodedToken = jwtDecode(token);
+  
+      // Verificar si el token ha expirado
+      const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
+      if (decodedToken.exp && decodedToken.exp < currentTime) {
+        // Si el token ha expirado, cerrar sesión automáticamente
+        Swal.fire({
+          title: "Sesión Expirada",
+          html: `
+          Cerrando sesión en <b>0%</b>. <br>
+          Por favor espera...`,
+          timer: 2000,
+          timerProgressBar: true,
+          background: "#f8d7da",
+          color: "#721c24",
+          icon: "warning",
+          iconColor: "#f5c6cb",
+          showClass: {
+            popup: "animated fadeInDown faster",
+          },
+          hideClass: {
+            popup: "animated fadeOutUp faster",
+          },
+          didOpen: () => {
+            Swal.showLoading();
+            const percentage = Swal.getHtmlContainer().querySelector("b");
+            const totalTime = Swal.getTimerLeft();
+            let timerInterval = setInterval(() => {
+              const timeLeft = Swal.getTimerLeft();
+              const percentComplete = Math.round(
+                ((totalTime - timeLeft) / totalTime) * 100
+              );
+              percentage.textContent = `${percentComplete}%`;
+            }, 100);
+            Swal.willClose = () => clearInterval(timerInterval);
+          },
+        }).then(() => {
+          localStorage.removeItem("token");
+          navigate("/login");
+        });
+        return;
+      }
+  
+      // Si el token aún es válido, realizar la llamada de cierre de sesión
       await axios.post(
         "/api/auth/logout",
         {},
@@ -52,49 +99,50 @@ const Dashboard = () => {
           },
         }
       );
-      localStorage.removeItem("token");
-      navigate("/login"); // Redirigir al login.
-      //Animación cerrar sesión con contador de porcentaje
+  
+      // Animación de porcentaje para cierre de sesión
       let timerInterval;
       Swal.fire({
-        title: 'Estas Saliendo Del Sistema',
+        title: "Estas Saliendo Del Sistema",
         html: `
         Cerrando sesión en <b>0%</b>. <br>
         Por favor espera...`,
-        timer: 2000, // Duración total en milisegundos
+        timer: 2000,
         timerProgressBar: true,
-        background: '#f8d7da',
-        color: '#721c24',
-        icon: 'warning',
-        iconColor: '#f5c6cb',
+        background: "#f8d7da",
+        color: "#721c24",
+        icon: "warning",
+        iconColor: "#f5c6cb",
         showClass: {
-          popup: 'animated fadeInDown faster'
+          popup: "animated fadeInDown faster",
         },
         hideClass: {
-          popup: 'animated fadeOutUp faster'
+          popup: "animated fadeOutUp faster",
         },
         didOpen: () => {
           Swal.showLoading();
-          const percentage = Swal.getHtmlContainer().querySelector('b');
-          const totalTime = Swal.getTimerLeft(); // Tiempo inicial del temporizador
+          const percentage = Swal.getHtmlContainer().querySelector("b");
+          const totalTime = Swal.getTimerLeft();
           timerInterval = setInterval(() => {
             const timeLeft = Swal.getTimerLeft();
-            const percentComplete = Math.round(((totalTime - timeLeft) / totalTime) * 100);
+            const percentComplete = Math.round(
+              ((totalTime - timeLeft) / totalTime) * 100
+            );
             percentage.textContent = `${percentComplete}%`;
-          }, 100); // Actualización cada 100ms
+          }, 100);
         },
         willClose: () => {
           clearInterval(timerInterval);
-        }
+        },
       }).then((result) => {
         if (result.dismiss === Swal.DismissReason.timer) {
-          console.log('La alerta se cerró automáticamente.');
-          // Aquí puedes añadir el código para redirigir al usuario o cerrar sesión
+          localStorage.removeItem("token");
+          navigate("/login");
         }
       });
-
-      // Añade CSS para las animaciones
-      const styles = document.createElement('style');
+  
+      // Añadir animaciones CSS
+      const styles = document.createElement("style");
       styles.innerHTML = `
       @keyframes fadeInDown {
         from {
@@ -106,7 +154,7 @@ const Dashboard = () => {
           transform: none;
         }
       }
-
+  
       @keyframes fadeOutUp {
         from {
           opacity: 1;
@@ -116,20 +164,20 @@ const Dashboard = () => {
           transform: translate3d(0, -100%, 0);
         }
       }
-
+  
       .animated {
         animation-duration: 0.5s;
         animation-fill-mode: both;
       }
-
+  
       .faster {
         animation-duration: 0.3s;
       }
-
+  
       .fadeInDown {
         animation-name: fadeInDown;
       }
-
+  
       .fadeOutUp {
         animation-name: fadeOutUp;
       }

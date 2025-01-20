@@ -39,33 +39,37 @@ const ScheduleForm = ({ schedule, setSchedule, onSave, closeModal }) => {
           <div className="grid grid-cols-1 gap-4">
             {/* Nombre del cronograma */}
             <div>
-              <label className="block text-gray-700">Nombre del Cronograma</label>
+              <label className="block text-gray-700 dark:text-gray-300">Nombre del Cronograma</label>
               <Field
                 type="text"
                 name="name"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                minLength={0}
+                maxLength={50}
+                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
               />
               <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
             {/* Descripción */}
             <div>
-              <label className="block text-gray-700">Descripción</label>
+              <label className="block text-gray-700 dark:text-gray-300">Descripción</label>
               <Field
                 as="textarea"
                 name="description"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                minLength={0}
+                maxLength={255}
+                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
               />
               <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
             {/* Estado */}
             <div>
-              <label className="block text-gray-700">Estado</label>
+              <label className="block text-gray-700 dark:text-gray-300">Estado</label>
               <Field
                 as="select"
                 name="status"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
               >
                 <option value="PENDIENTE">Pendiente</option>
                 <option value="EN_PROGRESO">En Progreso</option>

@@ -30,23 +30,35 @@ const AssignSupplierForm = ({ workId, onSave, closeModal, apiUrl }) => {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Asignar Proveedor</h2>
-      <select
-        className="block w-full p-2 border border-gray-300 rounded-md mb-10"
-        value={selectedSupplier}
-        onChange={(e) => setSelectedSupplier(Number(e.target.value))} // Convertir a número
-      >
-        <option value="">Seleccione un proveedor</option>
-        {suppliers.map((supplier) => (
-          <option key={supplier.id_supplier} value={supplier.id_supplier}>
-            {supplier.name}
-          </option>
-        ))}
-      </select>
+    <div className="max-w-lg mx-auto">
+      <h2 className="text-xl font-bold mb-8 text-gray-800 dark:text-white">
+        Asignar Proveedor
+      </h2>
+
+      <div className="mb-8">
+        <label
+          htmlFor="supplier-select"
+          className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Seleccione un proveedor
+        </label>
+        <select
+          className="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md  bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+          value={selectedSupplier}
+          onChange={(e) => setSelectedSupplier(Number(e.target.value))} // Convertir a número
+        >
+          <option value="">Seleccione un proveedor</option>
+          {suppliers.map((supplier) => (
+            <option key={supplier.id_supplier} value={supplier.id_supplier}>
+              {supplier.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="flex justify-end gap-4">
         <button
-          className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600"
+          className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition"
           onClick={closeModal}
         >
           Cancelar

@@ -7,8 +7,9 @@ import Swal from "sweetalert2";
 import ObrasDetails from "./ObrasDetails";
 import ScheduleForm from "./ScheduleForm";
 import AssignSupplierForm from "./AssignSupplierForm";
-import AssignClientForm from "./AssignClientForm";
 import ScheduleView from "./ScheduleView";
+import ScheduledActivityDetails from "../compSchedule/ScheduledActivityDetails";
+
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -21,6 +22,7 @@ const Obras = () => {
   const [viewMode, setViewMode] = useState("list");
   const [suppliers, setSuppliers] = useState([]);
   const [selectedObra, setSelectedObra] = useState(null);
+  const [selectedActivity, setSelectedActivity] = useState(null); // Nueva: actividad seleccionada
   const [newObra, setNewObra] = useState({
     name: "",
     description: "",
@@ -47,9 +49,7 @@ const Obras = () => {
     status: "PENDIENTE",
   });
 
-  // Estado para asignar/editar cliente
-  const [isClientModalOpen, setIsClientModalOpen] = useState(false);
-  const [editingClientWork, setEditingClientWork] = useState(null);
+  
 
   // Estado para asignar proveedor
   const [isSupplierModalOpen, setIsSupplierModalOpen] = useState(false);
@@ -73,6 +73,7 @@ const Obras = () => {
     }
   };
 
+  // Fetch para obras details
   const fetchObraDetails = async (idWork) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/works/${idWork}`);
@@ -129,6 +130,44 @@ const Obras = () => {
     }
   };
 
+  const [selectedSchedule, setSelectedSchedule] = useState(null);
+
+  // Ver detalles del cronograma
+  const fetchScheduleDetails = async (idWork) => {
+    try {
+      const response = await axios.get(
+        `${apiUrl}/api/v1/works/${idWork}/schedule`
+      );
+      setSelectedObra((prevObra) => ({
+        ...prevObra,
+        schedule: response.data, // Opcional: añade el cronograma a selectedObra
+      }));
+      setSelectedSchedule(response.data); // Almacena el cronograma específico
+      setViewMode("schedule"); // Cambia la vista al cronograma
+    } catch (error) {
+      console.error("Error al obtener los detalles del cronograma:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudieron cargar los detalles del cronogramaaa.",
+      });
+    }
+  };
+
+
+  // Función para ver los detalles de una actividad
+  const handleActivityView = (activity) => {
+    setSelectedActivity(activity); // Guardar actividad seleccionada
+    setViewMode("scheduledActivityDetails"); // Cambiar vista a detalles de actividad
+  };
+
+  // Función para regresar a la vista del cronograma
+  const closeActivityDetails = () => {
+    setSelectedActivity(null);
+    setViewMode("schedule");
+  };
+
+
   //asignar para ver cronograma
 
   /* const handleViewSchedule = () => {
@@ -136,18 +175,7 @@ const Obras = () => {
    };
  */
 
-  const [selectedSchedule, setSelectedSchedule] = useState(null);
-
-  const handleViewSchedule = () => {
-    if (selectedObra?.hasSchedule) {
-      setSelectedSchedule(selectedObra.hasSchedule);
-      setViewMode("schedule");
-      console.log('Ver cronograma:', selectedObra.hasSchedule);
-    } else {
-      Swal.fire("Esta obra no tiene un cronograma asignado.", "", "info");
-    }
-  };
-
+ 
 
   // Manejo de asignación de proveedor
   const handleOpenAssignSupplierModal = async () => {
@@ -192,28 +220,7 @@ const Obras = () => {
   };
 
   // Asignar/editar cliente
-  const assignClient = async (requestData) => {
-    try {
-      if (requestData.id) {
-        await axios.put(
-          `${apiUrl}/api/v1/works/${requestData.workId}/work-client/${requestData.id}`,
-          requestData
-        );
-        Swal.fire("¡Cliente actualizado con éxito!", "", "success");
-      } else {
-        await axios.post(
-          `${apiUrl}/api/v1/works/${requestData.workId}/work-client`,
-          requestData
-        );
-        Swal.fire("¡Cliente asignado con éxito!", "", "success");
-      }
-      setIsClientModalOpen(false);
-      fetchObraDetails(requestData.workId);
-    } catch (error) {
-      Swal.fire("Error al guardar el cliente.", "", "error");
-      console.error("Error al guardar el cliente:", error);
-    }
-  };
+  
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -233,6 +240,7 @@ const Obras = () => {
     });
   };
 
+
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
     setObraSeleccionada(null);
@@ -248,7 +256,7 @@ const Obras = () => {
     <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-white">
       {viewMode === "list" && (
         <>
-          <h1 className="text-3xl font-bold mb-6">Gestión de Obras</h1>
+          <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">Gestión de Obras</h1>
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
             onClick={() => {
@@ -256,7 +264,7 @@ const Obras = () => {
               setIsModalOpen(true);
             }}
           >
-            Agregar
+            Agregar Obra
           </button>
 
           {isModalOpen && (modalType === "add" || modalType === "edit") && (
@@ -278,7 +286,7 @@ const Obras = () => {
           {isDeleteModalOpen && modalType === "delete" && (
             <Modal closeModal={closeDeleteModal}>
               <div className="text-center">
-                <p className="mb-4">
+                <p className="mb-4 mt-4">
                   ¿Estás seguro de que deseas eliminar la obra,{" "}
                   {obraSeleccionada?.name}?
                 </p>
@@ -300,7 +308,7 @@ const Obras = () => {
             </Modal>
           )}
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4">Lista de Obras</h2>
+          <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800 dark:text-white">Lista de Obras</h2>
           <ObrasList
             obras={obras}
             setObraEditada={(obra) => {
@@ -327,12 +335,8 @@ const Obras = () => {
             obra={selectedObra}
             onBack={() => setViewMode("list")}
             onOpenScheduleModal={() => setIsScheduleModalOpen(true)}
-            onViewSchedule={handleViewSchedule}
+            onViewSchedule={() => fetchScheduleDetails(selectedObra.idWork)} // Aquí se conecta directamente fetchScheduleDetails
             onOpenAssignSupplierModal={handleOpenAssignSupplierModal}
-            onOpenAssignClientModal={(clientWork) => {
-              setEditingClientWork(clientWork);
-              setIsClientModalOpen(true);
-            }}
             apiUrl={apiUrl}
           />
           {isScheduleModalOpen && (
@@ -356,24 +360,25 @@ const Obras = () => {
               />
             </Modal>
           )}
-          {isClientModalOpen && (
-            <Modal closeModal={() => setIsClientModalOpen(false)}>
-              <AssignClientForm
-                workId={editingClientWork?.workId || selectedObra.idWork}
-                initialData={editingClientWork}
-                onSave={assignClient}
-                closeModal={() => setIsClientModalOpen(false)}
-                apiUrl={apiUrl}
-              />
-            </Modal>
-          )}
+          
         </>
       )}
       {viewMode === "schedule" && selectedSchedule && (
         <ScheduleView
-          //schedule={selectedSchedule}
-          obra={selectedObra}
-          onBack={() => setViewMode("details")}
+          schedule={selectedSchedule} // Pasa el cronograma como prop
+          obra={selectedObra} // Opcional: pasa información de la obra
+          onBack={() => setViewMode("details")} // Función para volver a la vista anterior
+          apiUrl={apiUrl}
+          onActivityView={handleActivityView} // Nueva prop para manejar "Ver actividad"
+        />
+      )}
+
+      {/* Vista de detalles de actividad programada */}
+      {viewMode === "scheduledActivityDetails" && selectedActivity && (
+        <ScheduledActivityDetails
+          activity={selectedActivity}
+          onBack={closeActivityDetails} // Regresa al cronograma
+          apiUrl={apiUrl}
         />
       )}
     </div>

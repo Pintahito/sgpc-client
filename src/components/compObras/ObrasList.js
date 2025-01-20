@@ -103,7 +103,7 @@ function ObrasList({
         fixedHeader
         highlightOnHover
         noDataComponent={
-          <p className="text-center text-gray-500 dark:text-gray-400">
+          <p className="text-center text-gray-500 dark:text-gray-400 ">
             No hay obras registradas.
           </p>
         }

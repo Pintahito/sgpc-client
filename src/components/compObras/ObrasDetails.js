@@ -9,8 +9,13 @@ import {
   FaPlus,
   FaEye,
   FaUserPlus,
+  FaBarcode,
 } from "react-icons/fa";
 import ClientWorkList from "./ClientWorkList";
+import Swal from "sweetalert2";
+import axios from "axios";
+import Modal from "./Modal";
+import AssignClientForm from "./AssignClientForm";
 
 const ObrasDetails = ({
   obra,
@@ -22,18 +27,45 @@ const ObrasDetails = ({
   apiUrl,
 }) => {
   const [reloadClientWorks, setReloadClientWorks] = useState(false);
-  
+
+  // Estado para asignar/editar cliente
+  const [isClientModalOpen, setIsClientModalOpen] = useState(false);
+  const [editingClientWork, setEditingClientWork] = useState(null);
 
   const handleClientAdded = () => {
     setReloadClientWorks((prev) => !prev); // Cambia el estado para forzar la recarga
   };
   const handleEditClientWork = (clientWork) => {
-    onOpenAssignClientModal(clientWork); // Pasar datos al modal
+    setEditingClientWork(clientWork); // Almacena el cliente que se está editando
+    setIsClientModalOpen(true); // Abre el modal
   };
 
-  const handleOpenAssignClientModal = () => {
-    // Llama a la función que abre el modal de asignación de cliente y pasa handleClientAdded
-    onOpenAssignClientModal(handleClientAdded);
+  const handleOpenAssignClientModal = (clientWork = null) => {
+    setEditingClientWork(null); // Establece el cliente seleccionado para editar
+    setIsClientModalOpen(true); // Abre el modal
+  };
+
+  const assignClient = async (requestData) => {
+    try {
+      if (requestData.id) {
+        await axios.put(
+          `${apiUrl}/api/v1/works/${requestData.workId}/work-client/${requestData.id}`,
+          requestData
+        );
+        Swal.fire("¡Cliente actualizado con éxito!", "", "success");
+      } else {
+        await axios.post(
+          `${apiUrl}/api/v1/works/${requestData.workId}/work-client`,
+          requestData
+        );
+        Swal.fire("¡Cliente asignado con éxito!", "", "success");
+      }
+      setIsClientModalOpen(false);
+      handleClientAdded(); // Cambia reloadClientWorks
+    } catch (error) {
+      Swal.fire("Error al guardar el cliente.", "", "error");
+      console.error("Error al guardar el cliente:", error);
+    }
   };
 
   if (!obra) {
@@ -41,20 +73,14 @@ const ObrasDetails = ({
       <div className="p-6 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white min-h-screen flex flex-col items-center justify-center">
         <h1 className="text-3xl font-bold mb-4">Detalles de la Obra</h1>
         <p className="text-lg">No se encontró la obra seleccionada.</p>
-        <button
-          className="mt-4 bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 transition flex items-center gap-2"
-          onClick={onBack}
-        >
-          <FaArrowLeft /> Volver al listado
-        </button>
       </div>
     );
   }
 
   return (
-    <div className="p-6 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white min-h-screen">
+    <div className="p-6 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white min-h-screen">
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
-        <h1 className="text-3xl font-bold mb-6 text-center border-b pb-4">
+        <h1 className="text-3xl font-bold mb-6 text-center border-b pb-4 text-gray-800 dark:text-white">
           Detalles de la Obra
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -144,37 +170,53 @@ const ObrasDetails = ({
           </div>
           <div>
             <p className="text-lg font-semibold flex items-center">
-              <FaMapMarkerAlt className="mr-2 text-red-500" /> Ubicación
-              (Latitud, Longitud):
+              <FaMapMarkerAlt className="mr-2 text-red-500" /> Ubicación:
             </p>
-            <p className="mb-4 text-gray-700 dark:text-gray-300">
-              {obra.latitude}, {obra.longitude}
-            </p>
+            <a
+              href={`https://www.google.com/maps?q=${obra.latitude},${obra.longitude}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              Ver en Google Maps
+            </a>
           </div>
 
           {/* Proveedores */}
-          <div className="col-span-2">
-            <p className="text-lg font-semibold flex items-center">
-              <FaListUl className="mr-2 text-indigo-500" /> Proveedores:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300">
-              {obra.supplierNames?.length > 0 ? (
-                obra.supplierNames.map((supplier, index) => (
-                  <li key={index}>{supplier}</li>
-                ))
-              ) : (
-                <p>No se encontraron proveedores asociados.</p>
-              )}
-            </ul>
+          <div>
+            <div className="col-span-2">
+              <p className="text-lg font-semibold flex items-center">
+                <FaListUl className="mr-2 text-indigo-500" /> Proveedores:
+              </p>
+              <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300">
+                {obra.supplierNames?.length > 0 ? (
+                  obra.supplierNames.map((supplier, index) => (
+                    <li key={index}>{supplier}</li>
+                  ))
+                ) : (
+                  <p>No se encontraron proveedores asociados.</p>
+                )}
+              </ul>
+            </div>
           </div>
+
+          <div>
+            <p className="text-lg font-semibold flex items-center">
+              <FaBarcode className="mr-2 text-blue-500" /> Código de la obra:
+            </p>
+            <p className="mb-4 text-gray-700 dark:text-gray-300">
+              {obra.workCode}
+            </p>
+          </div>
+          
 
           {/* Relaciones Cliente-Obra */}
           <div className="col-span-2 mt-6">
-          <ClientWorkList
+            <ClientWorkList
               apiUrl={apiUrl}
               workId={obra.idWork}
               reloadClientWorks={reloadClientWorks}
-              onEditClientWork={handleEditClientWork} 
+              onEditClientWork={handleEditClientWork}
             />
           </div>
         </div>
@@ -218,6 +260,19 @@ const ObrasDetails = ({
             Asignar Cliente
           </button>
         </div>
+
+        
+        {isClientModalOpen && (
+          <Modal closeModal={() => setIsClientModalOpen(false)}>
+            <AssignClientForm
+              workId={editingClientWork?.workId || obra.idWork} // Cambiar selectedObra por obra
+              initialData={editingClientWork}
+              onSave={assignClient}
+              closeModal={() => setIsClientModalOpen(false)}
+              apiUrl={apiUrl}
+            />
+          </Modal>
+        )}
       </div>
     </div>
   );

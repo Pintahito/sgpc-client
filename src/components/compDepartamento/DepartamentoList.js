@@ -55,7 +55,7 @@ function DepartamentoList({ departamentos, setDepartamentoEditado, setModalType,
       <div className="mb-4">
         <input
           type="text"
-          className="w-full p-2 border border-gray-300 rounded-md text-black"
+          className="w-full p-2 border border-gray-300 rounded-md text-black dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           placeholder="Buscar por nombre..."
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}
