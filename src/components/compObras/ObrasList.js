@@ -43,7 +43,7 @@ function ObrasList({
     },
     {
       name: "Presupuesto asignado",
-      selector: (row) => row.allocatedBudget,
+      selector: (row) => `$${row.allocatedBudget.toFixed(2)}`,
       sortable: true,
     },
     {

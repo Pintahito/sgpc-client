@@ -26,6 +26,11 @@ function ActividadList({ actividades, setActividadEditada, setModalType, setActi
       sortable: true,
     },
     {
+      name: 'Nombre Etapa',
+      selector: (row) => row.stageName,
+      sortable: true,
+    },
+    {
       name: 'Fecha De Creación',
       selector: (row) => row.createdDate,
       sortable: true,
