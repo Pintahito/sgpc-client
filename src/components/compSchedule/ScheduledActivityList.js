@@ -230,7 +230,10 @@ const ScheduledActivityList = ({ apiUrl, workId, reloadActivities, onActivityVie
       {editModal.isOpen && (
         <Modal closeModal={() => setEditModal({ isOpen: false, activity: null })}>
           <ScheduledActivityForm
-            activity={editModal.activity} // Pasar actividad seleccionada para editar
+            scheduledActivity={editModal.activity} // Pasar actividad seleccionada para editar
+            setScheduledActivity={(updatedActivity) =>
+              setEditModal((prev) => ({ ...prev, activity: updatedActivity }))
+            }
             onSave={handleSaveEdit} // Función para guardar cambios
             closeModal={() => setEditModal({ isOpen: false, activity: null })} // Cerrar modal
             apiUrl={apiUrl} // Asegúrate de pasar `apiUrl`

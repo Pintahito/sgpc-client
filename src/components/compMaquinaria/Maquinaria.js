@@ -326,7 +326,7 @@ const Maquinaria = () => {
 
       {isDeleteModalOpen && (
         <Modal isOpen={isDeleteModalOpen} closeModal={closeDeleteModal}>
-          <p>¿Estás seguro de que deseas eliminar este artículo?</p>
+          <p>¿Estás seguro de que deseas eliminar?</p>
           <div className="flex justify-end mt-4">
             <button
               className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 mr-2"

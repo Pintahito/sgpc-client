@@ -15,6 +15,15 @@ import Swal from "sweetalert2";
 const ScheduleView = ({ onBack, schedule, obra, apiUrl, onActivityView }) => {
   const [reloadActivities, setReloadActivities] = useState(false);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [newScheduledActivity, setNewScheduledActivity] = useState({
+    estimatedStartDate: "",
+    estimatedEndDate: "",
+    actualStartDate: null,
+    actualEndDate: null,
+    priority: 1,
+    status: "PLANIFICADA",
+    activityId: "",
+  });
 
   const formatDate = (date) => {
     if (!date) return "No disponible";
@@ -120,7 +129,18 @@ const ScheduleView = ({ onBack, schedule, obra, apiUrl, onActivityView }) => {
             <div className="flex justify-between items-center">
               <button
                 className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition flex items-center gap-2"
-                onClick={() => setIsFormModalOpen(true)}
+                onClick={() => {
+                  setNewScheduledActivity({
+                    estimatedStartDate: "",
+                    estimatedEndDate: "",
+                    actualStartDate: null,
+                    actualEndDate: null,
+                    priority: 1,
+                    status: "PLANIFICADA",
+                    activityId: "",
+                  });
+                  setIsFormModalOpen(true);
+                }}
               >
                 <FaPlus /> Agregar Actividad
               </button>
@@ -148,8 +168,8 @@ const ScheduleView = ({ onBack, schedule, obra, apiUrl, onActivityView }) => {
       {isFormModalOpen && (
         <Modal closeModal={() => setIsFormModalOpen(false)}>
           <ScheduledActivityForm
-            activity={{}}
-            setActivity={() => {}}
+            scheduledActivity={newScheduledActivity}
+            setScheduledActivity={setNewScheduledActivity}
             onSave={handleAddActivity}
             closeModal={() => setIsFormModalOpen(false)}
             apiUrl={apiUrl}

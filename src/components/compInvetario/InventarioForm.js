@@ -137,20 +137,6 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
                             />
                             <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
                         </div>
-
-                        <div>
-                            <label className="block text-gray-700 dark:text-gray-300">Recu Proveedor</label>
-                            <Field
-                                type="text"
-                                name="supplierNames"
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-                                disabled
-                            />
-
-                            <ErrorMessage name="supplierNames" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
-
-
                         <div>
                             <label className="block text-gray-700 dark:text-gray-300">Bodega</label>
                             <Field

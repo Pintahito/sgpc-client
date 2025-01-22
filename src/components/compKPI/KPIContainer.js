@@ -121,7 +121,7 @@ const PerformanceCharts = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">Gráficas de Rendimiento</h2>
+      <h2 className="text-2xl font-bold  text-iosText dark:text-white mb-4">Gráficas de Rendimiento</h2>
       <div className="bg-white p-4 rounded shadow-md">
         <div style={{ width: '100%', height: '400px' }}>
           <Bar data={chartData} />

@@ -4,20 +4,19 @@ import * as Yup from "yup";
 import axios from "axios";
 
 const ScheduledActivityForm = ({
-  activity,
-  setActivity,
+  scheduledActivity,
+  setScheduledActivity,
   onSave,
-  activityEdited,
   closeModal,
   apiUrl,
 }) => {
   const [activities, setActivities] = useState([]); // Estado para almacenar actividades
 
   useEffect(() => {
-    if (activityEdited) {
-      setActivity(activityEdited);
+    if (scheduledActivity) {
+      setScheduledActivity(scheduledActivity);
     }
-  }, [activityEdited, setActivity]);
+  }, [scheduledActivity, setScheduledActivity]);
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -32,17 +31,19 @@ const ScheduledActivityForm = ({
   }, [apiUrl]);
 
   const initialValues = {
-    estimatedStartDate: activity?.estimatedStartDate || "",
-    estimatedEndDate: activity?.estimatedEndDate || "",
-    actualStartDate: activity?.actualStartDate || "",
-    actualEndDate: activity?.actualEndDate || "",
-    priority: activity?.priority || 1,
-    status: activity?.status || "PLANIFICADA",
-    idActivity: activity?.idActivity || "",
+    estimatedStartDate: scheduledActivity?.estimatedStartDate || "",
+    estimatedEndDate: scheduledActivity?.estimatedEndDate || "",
+    actualStartDate: scheduledActivity?.actualStartDate || "",
+    actualEndDate: scheduledActivity?.actualEndDate || "",
+    priority: scheduledActivity?.priority || 1,
+    status: scheduledActivity?.status || "PLANIFICADA",
+    activityId: scheduledActivity?.activityId || "",
   };
 
   const validationSchema = Yup.object().shape({
-    estimatedStartDate: Yup.date().required("La fecha estimada de inicio es obligatoria"),
+    estimatedStartDate: Yup.date().required(
+      "La fecha estimada de inicio es obligatoria"
+    ),
     estimatedEndDate: Yup.date()
       .required("La fecha estimada de finalización es obligatoria")
       .min(
@@ -65,23 +66,27 @@ const ScheduledActivityForm = ({
         ["PLANIFICADA", "EN_PROGRESO", "COMPLETADA", "CANCELADA"],
         "Estado inválido"
       ),
-    idActivity: Yup.string()
+    activityId: Yup.string()
       .required("Debe seleccionar una actividad")
       .min(1, "Debe seleccionar una actividad válida"),
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    let payload;
     try {
-      await onSave(values, payload); 
+      // Mapea los datos del formulario al formato esperado por el backend
+      const payload = {
+        ...values,
+        idActivity: values.activityId, // Mapea activityId a idActivity
+      };
+  
+      console.log("Payload enviado:", payload); // Verifica el payload antes de enviarlo
+      await onSave(payload); // Envía los datos al backend
     } catch (error) {
       console.error("Error al guardar los datos:", error);
-      console.log("Datos:", payload)
     } finally {
       setSubmitting(false);
     }
   };
-
   return (
     <Formik
       initialValues={initialValues}
@@ -206,7 +211,7 @@ const ScheduledActivityForm = ({
               </label>
               <Field
                 as="select"
-                name="idActivity"
+                name="activityId"
                 className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
               >
                 <option value="">Selecciona una actividad</option>
@@ -217,7 +222,7 @@ const ScheduledActivityForm = ({
                 ))}
               </Field>
               <ErrorMessage
-                name="idActivity"
+                name="activityId"
                 component="div"
                 className="text-red-500 text-sm mt-1"
               />
