@@ -83,7 +83,7 @@ const ScheduleForm = ({ schedule, setSchedule, onSave, closeModal }) => {
           <div className="mt-6 flex justify-end gap-4">
             <button
               type="button"
-              className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition"
+              className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition"
               onClick={closeModal}
             >
               Cancelar

@@ -25,6 +25,8 @@ import TipoObra from "./components/compTipoObra/TipoObra";
 import Etapa from "./components/compEtapas/Etapa";
 import Actividad from "./components/compActividades/Actividad";
 import Obras from "./components/compObras/Obras";
+import Schedule from "./components/compSchedule/Schedule";
+
 
 import axios from "./api/axios"; // Configura Axios para manejar peticiones.
 
@@ -270,6 +272,7 @@ const Dashboard = () => {
               <Route path="/tiposobra" element={<TipoObra />} />
               <Route path="/actividades" element={<Actividad />} />
               <Route path="/etapas" element={<Etapa />} />
+              <Route path="/schedule" element={<Schedule />} />
             </Routes>
           </main>
         </div>

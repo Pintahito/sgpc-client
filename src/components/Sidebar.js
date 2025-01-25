@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaHome, FaUsers, FaToolbox, FaChartBar, FaClipboardList, FaTruck, FaWarehouse, FaCogs} from "react-icons/fa";
+import { FaHome, FaUsers, FaToolbox, FaChartBar, FaClipboardList, FaTruck, FaWarehouse, FaCogs, FaRegCalendarAlt} from "react-icons/fa";
 import { BiSolidBank } from "react-icons/bi";
 
 const Sidebar = () => {
@@ -38,6 +38,19 @@ const Sidebar = () => {
           <FaHome className="mr-3" />
           Gestión De Obras
         </Link>
+
+        <Link
+          to="/dashboard/schedule"
+          className={`flex items-center py-3 px-4 rounded-lg transition-all ${
+            isActive("/dashboard/schedule")
+              ? "bg-blue-600 text-white"
+              : "hover:bg-blue-700 dark:hover:bg-blue-600"
+          }`}
+        >
+          <FaRegCalendarAlt className="mr-3" />
+          Cronogramas
+        </Link>
+
 
         {/* Dropdown de Recursos Humanos */}
         <button

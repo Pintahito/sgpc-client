@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
-function EmpleadoList({
-  empleadosO,
-  setEmpleadoEditadoO,
-  setModalType,
-  setEmpleadoSeleccionadoO,
-  fetchEmpleadoDetails, // Función para obtener detalles del empleado
-}) {
+function ScheduleList({ schedules, setScheduleEditada, setModalType, setScheduleSeleccionada }) {
   const [filterText, setFilterText] = useState("");
-  const [filteredEmpleados, setFilteredEmpleados] = useState([]);
+  const [filteredSchedules, setFilteredSchedules] = useState(schedules);
 
+  // Filtrar datos según el texto de búsqueda
   useEffect(() => {
-    const filteredData = empleadosO.filter(
-      (empleadoO) =>
-        empleadoO.employeeType === "OBRA" &&
-        empleadoO.name &&
-        empleadoO.name.toLowerCase().includes(filterText.toLowerCase())
+    const filteredData = schedules.filter(
+      (schedule) =>
+        schedule.name &&
+        schedule.name.toLowerCase().includes(filterText.toLowerCase())
     );
-    setFilteredEmpleados(filteredData);
-  }, [filterText, empleadosO]);
+    setFilteredSchedules(filteredData);
+  }, [filterText, schedules]);
 
+  // Definir columnas de la tabla
   const columns = [
     {
       name: "Nombre",
@@ -29,56 +24,46 @@ function EmpleadoList({
       sortable: true,
     },
     {
-      name: "RFC",
-      selector: (row) => row.rfc,
+      name: "Descripción",
+      selector: (row) => row.description,
       sortable: true,
     },
     {
-      name: "Email",
-      selector: (row) => row.email,
+      name: "Estatus",
+      selector: (row) => row.status,
       sortable: true,
     },
     {
-      name: "Fecha Contratación",
-      selector: (row) => row.hiringDate,
+      name: "Fecha de Creación",
+      selector: (row) => new Date(row.created_at).toLocaleDateString(),
       sortable: true,
     },
     {
-      name: "Tipo Empleado",
-      selector: (row) => row.employeeType,
+      name: "Fecha de Modificación",
+      selector: (row) => new Date(row.lastModifiedDate).toLocaleDateString(),
       sortable: true,
     },
     {
       name: "Acciones",
       cell: (row) => (
         <div className="flex space-x-2">
-          {/* Botón Editar */}
           <button
             className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 transition"
             onClick={() => {
-              setEmpleadoEditadoO(row);
+              setScheduleEditada(row);
               setModalType("edit");
             }}
           >
             <FaEdit />
           </button>
-          {/* Botón Eliminar */}
           <button
             className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition"
             onClick={() => {
-              setEmpleadoSeleccionadoO(row);
+              setScheduleSeleccionada(row);
               setModalType("delete");
             }}
           >
             <FaTrash />
-          </button>
-          {/* Botón Ver */}
-          <button
-            className="bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 transition"
-            onClick={() => fetchEmpleadoDetails(row.idEmployee)}
-            title="Ver detalles"
-          >
-            <FaEye />
           </button>
         </div>
       ),
@@ -98,13 +83,13 @@ function EmpleadoList({
       </div>
       <DataTable
         columns={columns}
-        data={filteredEmpleados}
+        data={filteredSchedules}
         pagination
         fixedHeader
         highlightOnHover
         noDataComponent={
           <p className="text-center text-gray-500 dark:text-gray-400">
-            No hay empleados registrados.
+            No hay horarios registrados.
           </p>
         }
       />
@@ -112,4 +97,4 @@ function EmpleadoList({
   );
 }
 
-export default EmpleadoList;
+export default ScheduleList;
