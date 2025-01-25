@@ -1,0 +1,53 @@
+/* Modo oscuro: Personalizar el título del calendario */
+body.dark .fc .fc-toolbar-title {
+    color: #ffffff !important; /* Asegurar texto blanco */
+  }
+  
+  /* Cambiar el color de fondo del toolbar */
+  body.dark .fc .fc-toolbar {
+    background-color: #1a202c !important; /* Fondo oscuro */
+  }
+  
+  html.dark .fc.fc-toolbar-title {
+    color: #ffffff !important;
+  }
+
+  /* Modo oscuro para el título del calendario */
+.dark .fc .fc-toolbar-title {
+    color: #ffffff !important; /* Texto blanco */
+  }
+  
+  .light .fc .fc-toolbar-title {
+    color: #000000 !important; /* Texto negro */
+  }
+
+  .custom-calendar .fc-toolbar-title {
+    color: #ffffff !important;
+  }
+
+  /* Botones del toolbar */
+  body.dark .fc .fc-button {
+    background-color: #374151 !important; /* Gris oscuro */
+    color: #ffffff !important; /* Blanco */
+    border: 1px solid #4a5568 !important; /* Borde gris */
+  }
+  body.dark .fc .fc-button:hover {
+    background-color: #4a5568 !important; /* Gris más claro */
+    color: #e2e8f0 !important; /* Texto más claro */
+  }
+  
+  /* Texto de los días */
+  body.dark .fc .fc-daygrid-day-number {
+    color: #e2e8f0 !important; /* Texto claro */
+  }
+  
+  /* Personalizar eventos */
+  body.dark .fc .fc-event {
+    background-color: #2563eb !important; /* Azul Tailwind */
+    color: #ffffff !important; /* Blanco */
+  }
+  
+  /* Fondo de los días */
+  body.dark .fc .fc-daygrid-day {
+    background-color: #1a202c !important; /* Fondo oscuro */
+  }

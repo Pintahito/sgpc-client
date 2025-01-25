@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaEye  } from "react-icons/fa";
 
-function ScheduleList({ schedules, setScheduleEditada, setModalType, setScheduleSeleccionada }) {
+function ScheduleList({ schedules, setScheduleEditada, setModalType, setScheduleSeleccionada, fetchScheduledActivities, }) {
   const [filterText, setFilterText] = useState("");
   const [filteredSchedules, setFilteredSchedules] = useState(schedules);
 
@@ -65,6 +65,16 @@ function ScheduleList({ schedules, setScheduleEditada, setModalType, setSchedule
           >
             <FaTrash />
           </button>
+
+             {/* Botón Ver */}
+          <button
+            className="bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 transition"
+            onClick={() => fetchScheduledActivities(row.idSchedule)} // Llama a la función para obtener actividades
+            title="Ver actividades"
+          >
+            <FaEye />
+          </button>
+           
         </div>
       ),
     },

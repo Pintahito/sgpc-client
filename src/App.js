@@ -3,10 +3,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from "./Login/Login";
 import Dashboard from "./Dashboard";
 import PrivateRoute from "./RoutePrivate/PrivateRoute";
+import TokenManager from "./TokenManager"; // Asegúrate de importar el gestor de tokens si lo usas
 
 function App() {
   return (
     <Router>
+      {/* TokenManager se puede usar aquí para manejar la expiración del token globalmente */}
+      <TokenManager />
+
       <Routes>
         {/* Redirigir desde la raíz "/" a "/login" */}
         <Route path="/" element={<Navigate to="/login" />} />
@@ -16,7 +20,7 @@ function App() {
 
         {/* Rutas protegidas dentro del Dashboard */}
         <Route
-          path="/dashboard/*" 
+          path="/dashboard/*"
           element={
             <PrivateRoute>
               <Dashboard />

@@ -97,9 +97,8 @@ const EmployeeDetails = ({ employee, onBack }) => {
               <p className="text-lg font-semibold flex items-center">
                 <FaMoneyCheckAlt className="mr-2 text-yellow-500" /> Salario:
               </p>
-              <p className="mb-4 text-gray-700 dark:text-gray-300">
-                <span className="mb-4 text-gray-700 dark:text-gray-300">${employee.salary.toFixed(2)}</span>
-              </p>
+              <p className="mb-4 text-gray-700 dark:text-gray-300">{employee.salary}</p>
+
               <p className="text-lg font-semibold flex items-center">
                 <FaUserTie className="mr-2 text-purple-500" /> Departamento:
               </p>
