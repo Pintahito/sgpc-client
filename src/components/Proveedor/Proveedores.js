@@ -94,12 +94,30 @@ const Proveedores = () => {
       fetchProveedores();
       closeDeleteModal();
     } catch (error) {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "!Hay otra tabla dependiendo de esta!",
-            });
-      console.error('Error al eliminar proveedor:', error);
+      if(error.response){
+        const { data } = error.response;
+        Swal.fire({
+          icon: "error",
+          title: "Error al eliminar",
+          text: data.message || "No se pudo eliminar el cronograma. Verifica si está siendo usado en otro lugar.",
+          confirmButtonText: "Entendido",
+        });
+      } else if (error.request) {
+        Swal.fire({
+          icon: "error",
+          title: "Error de red",
+          text: "No se pudo establecer comunicación con el servidor. Verifica tu conexión a internet.",
+          confirmButtonText: "Entendido",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error inesperado",
+          text: "Ocurrió un error inesperado. Por favor, intenta nuevamente.",
+          confirmButtonText: "Entendido",
+        });
+      }
+      console.error("Error al eliminar el cronograma:", error);
     }
   };
 

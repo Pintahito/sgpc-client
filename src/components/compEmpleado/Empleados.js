@@ -411,7 +411,7 @@ const Empleados = () => {
 
       {isDeleteModalOpen && (
         <Modal isOpen={isDeleteModalOpen} closeModal={closeDeleteModal}>
-          <p>¿Estás seguro de que deseas eliminar?</p>
+          <p>¿Estás seguro de que deseas eliminar al empleado?</p>
           <div className="flex justify-end mt-4">
             <button
               className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 mr-2"

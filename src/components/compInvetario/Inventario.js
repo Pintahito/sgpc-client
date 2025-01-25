@@ -18,7 +18,7 @@ const Inventario = () => {
   const [newArticulo, setNewArticulo] = useState({
     name: '',
     amount: 0,
-    unit:'',
+    unit: '',
     description: '',
     price: 0,
     inputType: '',
@@ -92,12 +92,30 @@ const Inventario = () => {
       closeDeleteModal();
     } catch (error) {
       console.error('Error al eliminar artículo:', error);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "!Hay otra tabla dependiendo de esta!",
-      });
-      console.log('Datos:', articuloSeleccionado);
+      if (error.response) {
+        const { data } = error.response;
+        Swal.fire({
+          icon: "error",
+          title: "Error al eliminar",
+          text: data.message || "No se pudo eliminar el articulo. Verifica si está siendo usado en otro lugar.",
+          confirmButtonText: "Entendido",
+        });
+      } else if (error.request) {
+        Swal.fire({
+          icon: "error",
+          title: "Error de red",
+          text: "No se pudo establecer comunicación con el servidor. Verifica tu conexión a internet.",
+          confirmButtonText: "Entendido",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error inesperado",
+          text: "Ocurrió un error inesperado. Por favor, intenta nuevamente.",
+          confirmButtonText: "Entendido",
+        });
+      }
+      console.error("Error al eliminar el cronograma:", error);
     }
   };
 
@@ -107,7 +125,7 @@ const Inventario = () => {
     setNewArticulo({
       name: '',
       amount: 0,
-      unit:'',
+      unit: '',
       description: '',
       price: 0,
       inputType: '',

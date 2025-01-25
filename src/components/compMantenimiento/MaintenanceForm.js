@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -6,6 +7,8 @@ import axios from 'axios';
 const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
   const [employees, setEmployees] = useState([]);
   const [editId, setEditId] = useState(null);
+  const [entityOptions, setEntityOptions] = useState([]);
+
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/v1/employees`)
@@ -17,8 +20,31 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
     }
   }, [maintenanceEditado]);
 
+  useEffect(() => {
+    // Cargar opciones de entidades relacionadas según el tipo
+    const fetchEntities = async () => {
+      const relatedEntityType = maintenanceEditado
+        ? maintenanceEditado.relatedEntityType
+        : 'VEHICULO';
+
+      const apiUrl =
+        relatedEntityType === 'VEHICULO'
+          ? '/api/v1/vehicles'
+          : '/api/v1/machinery';
+
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}${apiUrl}`);
+        setEntityOptions(response.data);
+      } catch (error) {
+        console.error(`Error fetching ${relatedEntityType}:`, error);
+      }
+    };
+
+    fetchEntities();
+  }, [maintenanceEditado]);
+
   const initialValues = {
-    relatedEntityId: maintenanceEditado ? maintenanceEditado.relatedEntityId : 0,
+    relatedEntityId: maintenanceEditado ? maintenanceEditado.relatedEntityId : '',
     relatedEntityType: maintenanceEditado ? maintenanceEditado.relatedEntityType : 'VEHICULO',
     employeeId: maintenanceEditado ? maintenanceEditado.employeeId : '',
     maintenanceType: maintenanceEditado ? maintenanceEditado.maintenanceType : '',
@@ -29,8 +55,10 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
   };
 
   const validationSchema = Yup.object().shape({
-    relatedEntityId: Yup.number().required('El ID de la entidad relacionada es obligatorio'),
-    relatedEntityType: Yup.string().required('El tipo de entidad es obligatorio'),
+    relatedEntityId: Yup.string().required('Seleccione una entidad relacionada'),
+    relatedEntityType: Yup.string()
+    .oneOf(['VEHICULO', 'MAQUINARIA'], 'Tipo de entidad no válido')
+    .required('El tipo de entidad es obligatorio'),
     employeeId: Yup.number().required('El empleado es obligatorio'),
     maintenanceType: Yup.string().required('El tipo de mantenimiento es obligatorio'),
     description: Yup.string().required('La descripción es obligatoria'),
@@ -42,6 +70,7 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       await onSave(values, editId);
+      console.log("Datos enviados:", values);
     } catch (error) {
       console.error("Error al guardar los datos:", error);
     } finally {
@@ -56,24 +85,28 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
       onSubmit={handleSubmit}
       enableReinitialize={true}
     >
-      {({ isSubmitting }) => (
+      {({ values, setFieldValue,isSubmitting }) => (
         <Form className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div >
-            <label className="block text-gray-700 dark:text-gray-300">ID del Vehiculo o Maquinaria</label>
-            <Field
-              type="number"
-              name="relatedEntityId"
-              className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
-            />
-            <ErrorMessage name="relatedEntityId" component="div" className="text-red-500 text-sm mt-1" />
-          </div>
-
+          {/* Tipo de Entidad Relacionada */}
           <div>
             <label className="block text-gray-700 dark:text-gray-300">Tipo de Entidad Relacionada</label>
             <Field
               as="select"
               name="relatedEntityType"
               className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+              onChange={(e) => {
+                setFieldValue('relatedEntityType', e.target.value);
+                setFieldValue('relatedEntityId', ''); // Reinicia la selección de entidad
+                const apiUrl =
+                  e.target.value === 'VEHICULO'
+                    ? '/api/v1/vehicles'
+                    : '/api/v1/machinery';
+
+                axios
+                  .get(`${process.env.REACT_APP_API_URL}${apiUrl}`)
+                  .then((response) => setEntityOptions(response.data))
+                  .catch((error) => console.error(`Error fetching ${e.target.value}:`, error));
+              }}
             >
               <option value="VEHICULO">Vehículo</option>
               <option value="MAQUINARIA">Maquinaria</option>
@@ -81,6 +114,35 @@ const MaintenanceForm = ({ onSave, maintenanceEditado, closeModal }) => {
             <ErrorMessage name="relatedEntityType" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
+          {/* Entidad Relacionada */}
+          <div>
+            <label className="block text-gray-700 dark:text-gray-300">Entidad Relacionada</label>
+            <Field
+              as="select"
+              name="relatedEntityId"
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+            >
+              <option value="">Seleccione una opción</option>
+              {entityOptions.map((option) => (
+                <option
+                  key={
+                    values.relatedEntityType === 'VEHICULO'
+                      ? option.id_vehicle
+                      : option.id_machinery
+                  }
+                  value={
+                    values.relatedEntityType === 'VEHICULO'
+                      ? option.id_vehicle
+                      : option.id_machinery
+                  }
+                >
+                  {option.name}
+                </option>
+              ))}
+            </Field>
+            <ErrorMessage name="relatedEntityId" component="div" className="text-red-500 text-sm mt-1" />
+          </div>
+          
           <div>
             <label className="block text-gray-700 dark:text-gray-300">Empleado</label>
             <Field
