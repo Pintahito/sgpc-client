@@ -71,7 +71,7 @@ const Inventario = () => {
 
   const deleteArticulo = async () => {
     try {
-      await axios.delete(`${apiUrl}/api/v1/inventory/${articuloSeleccionado.id_inventory}`);
+      await axios.delete(`${apiUrl}/api/v1/inventories/${articuloSeleccionado.id_inventory}`);
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -91,7 +91,6 @@ const Inventario = () => {
       fetchInventario();
       closeDeleteModal();
     } catch (error) {
-      console.error('Error al eliminar artículo:', error);
       if (error.response) {
         const { data } = error.response;
         Swal.fire({
@@ -115,7 +114,7 @@ const Inventario = () => {
           confirmButtonText: "Entendido",
         });
       }
-      console.error("Error al eliminar el cronograma:", error);
+      console.error("Error al eliminar el articulo:", error);
     }
   };
 
