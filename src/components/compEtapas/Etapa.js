@@ -83,7 +83,15 @@ const Etapa = () => {
       fetchEtapas();
       closeDeleteModal();
     } catch (error) {
-      console.error('Error al eliminar etapa:', error);
+      if (error.response) {
+        const { data } = error.response;
+        Swal.fire({
+          icon: "error",
+          title: "Error al eliminar",
+          text: data.message || "No se pudo agregar al cliente",
+          confirmButtonText: "Entendido",
+        });
+      }
     }
   };
 
@@ -108,7 +116,7 @@ const Etapa = () => {
 
   return (
     <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-white">
-      <h1 className="text-3xl font-bold mb-6">Gestión de Etapas</h1>
+      <h1 className="text-3xl font-bold text-iosText dark:text-white mb-6">Gestión de Etapas</h1>
 
       <button
         className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
@@ -154,7 +162,7 @@ const Etapa = () => {
         </Modal>
       )}
 
-      <h2 className="text-2xl font-semibold mt-6 mb-4">Lista de Etapas</h2>
+      
       <EtapaList
         etapas={etapas}
         setEtapaEditada={(etapa) => {

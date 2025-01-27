@@ -102,11 +102,15 @@ const Obras = () => {
       fetchObras();
       closeModal();
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Error al guardar la obra.",
-      });
+      if (error.response) {
+        const { data } = error.response;
+        Swal.fire({
+          icon: "error",
+          title: "Error al agregar obra",
+          text: data.message || "No se pudo agregar al cliente",
+          confirmButtonText: "Entendido",
+        });
+      }
       console.error("Error al guardar obra:", error);
     }
   };
@@ -215,6 +219,15 @@ const Obras = () => {
       fetchObras();
       closeDeleteModal();
     } catch (error) {
+      if (error.response) {
+        const { data } = error.response;
+        Swal.fire({
+          icon: "error",
+          title: "Error al eliminar obra",
+          text: data.message || "No se pudo agregar al cliente",
+          confirmButtonText: "Entendido",
+        });
+      }
       console.error("Error al eliminar obra:", error);
     }
   };

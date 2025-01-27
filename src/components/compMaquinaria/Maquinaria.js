@@ -328,7 +328,7 @@ const renderContent = () => {
 
 return (
   <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-white">
-    <h1 className="text-3xl font-bold mb-6">Gestión de Maquinaria y Vehículos</h1>
+    <h1 className="text-3xl font-bold text-iosText dark:text-white mb-6">Gestión de Maquinaria y Vehículos</h1>
 
     <div className="flex justify-center space-x-4 mb-6">
       <button

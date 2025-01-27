@@ -229,7 +229,7 @@ const ConfigUsers = () => {
               }}>
               Agregar Usuarios
             </button>
-            <h2 className="text-2xl font-semibold mt-6 mb-4">Lista de Usuarios</h2>
+            <h2 className="text-2xl font-semibold mt-6 text-iosText dark:text-white mb-4">Lista de Usuarios</h2>
             <UserList
               users={users}
               setUserEditado={(user) => {
@@ -258,7 +258,7 @@ const ConfigUsers = () => {
               }}>
               Agregar Roles
             </button>
-            <h2 className="text-2xl font-semibold mt-6 mb-4">Lista de Roles</h2>
+            <h2 className="text-2xl font-semibold mt-6 text-iosText dark:text-white mb-4">Lista de Roles</h2>
             <RoleList
               roles={roles}
               setRoleEditado={(role) => {
@@ -283,7 +283,7 @@ const ConfigUsers = () => {
 
   return (
     <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-white">
-      <h1 className="text-3xl font-bold mb-6">Gestión De Usuarios Y Roles</h1>
+      <h1 className="text-3xl font-bold text-iosText dark:text-white mb-6">Gestión De Usuarios Y Roles</h1>
       <div className="flex items-center justify-center space-x-3 mb-6">
         <div className="relative w-64 h-12 bg-gray-300 rounded-full p-1 flex justify-between items-center cursor-pointer">
           <div className={`absolute top-1 bottom-1 w-32 bg-blue-500 rounded-full transition-transform duration-300 

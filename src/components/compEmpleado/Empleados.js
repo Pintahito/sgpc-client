@@ -89,12 +89,15 @@ const Empleados = () => {
       fetchEmpleadosO();
       closeModal();
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Error al guardar el empleado.",
-      });
-      console.error("Error al guardar empleado:", error);
+      if (error.response) {
+        const { data } = error.response;
+        Swal.fire({
+          icon: "error",
+          title: "Error al agregar empleado",
+          text: data.message || "No se pudo agregar al empleado",
+          confirmButtonText: "Entendido",
+        });
+      }
     }
   };
 
@@ -177,12 +180,15 @@ const Empleados = () => {
       fetchEmpleadosP();
       closeModal();
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Error al guardar el empleado.",
-      });
-      console.error("Error al guardar empleado:", error);
+      if (error.response) {
+        const { data } = error.response;
+        Swal.fire({
+          icon: "error",
+          title: "Error al agregar empleado",
+          text: data.message || "No se pudo agregar al empleado",
+          confirmButtonText: "Entendido",
+        });
+      }
     }
   };
 
@@ -290,7 +296,7 @@ const Empleados = () => {
             >
               Agregar Empleado Obra
             </button>
-            <h2 className="text-2xl font-semibold mt-6 mb-4">
+            <h2 className="text-2xl font-semibold mt-6 text-iosText dark:text-white mb-4">
               Lista Empleados Obra
             </h2>
             <EmpleadoObraList
@@ -323,7 +329,7 @@ const Empleados = () => {
             >
               Agregar Empleado Planta
             </button>
-            <h2 className="text-2xl font-semibold mt-6 mb-4">
+            <h2 className="text-2xl font-semibold mt-6  text-iosText dark:text-white mb-4">
               Lista Empleados Planta
             </h2>
             <EmpleadoPlantaList
@@ -351,7 +357,7 @@ const Empleados = () => {
 
   return (
     <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-white">
-      <h1 className="text-3xl font-bold mb-6">Gestión De Empleados</h1>
+      <h1 className="text-3xl font-bold  text-iosText dark:text-white mb-6">Gestión De Empleados</h1>
 
       {viewMode === "list" && (
         <div className="flex items-center justify-center space-x-3 mb-6">

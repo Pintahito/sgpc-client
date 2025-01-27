@@ -111,7 +111,7 @@ const PerformanceCharts = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-3xl font-bold text-center  text-iosText dark:text-white mb-6">Panel de KPI</h2>
+      <h2 className="text-3xl font-bold text-center text-iosText dark:text-white mb-6">Panel de KPI</h2>
       <div className="grid grid-cols-4 gap-4 mb-6">
         {[
           { icon: FaUsers, label: 'Clientes', value: totalClients, color: 'bg-blue-500' },

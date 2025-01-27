@@ -59,6 +59,7 @@ const InventarioForm = ({ articulo, setArticulo, onSave, articuloEditado, closeM
             .required('La cantidad es obligatoria')
             .positive('La cantidad debe ser positiva')
             .integer('La cantidad debe ser un número entero'),
+        wineryName: Yup.string().required('La bodega debe ser obligatorio'),
         description: Yup.string().required('La Descripcion es obligatoria'),
         unit: Yup.string().required('La unidad de medida es obligatoria'), // Validación para la unidad
         price: Yup.number()

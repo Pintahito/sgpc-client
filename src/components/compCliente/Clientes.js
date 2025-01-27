@@ -62,14 +62,15 @@ const Clientes = () => {
       //revisar modal
       closeModal();
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Verifica Tu Datos!",
-        footer: '<a href="#">Why do I have this issue?</a>'
-      });
-      //window.alert('Debes Completar el formulario',error);
-      console.error('Error al guardar cliente:', error);
+      if (error.response) {
+        const { data } = error.response;
+        Swal.fire({
+          icon: "error",
+          title: "Error al agregar cliente",
+          text: data.message || "No se pudo agregar al cliente",
+          confirmButtonText: "Entendido",
+        });
+      }
     }
   };
 
@@ -95,6 +96,15 @@ const Clientes = () => {
       fetchClientes();
       closeDeleteModal();
     } catch (error) {
+      if (error.response) {
+        const { data } = error.response;
+        Swal.fire({
+          icon: "error",
+          title: "Error al eliminar cliente",
+          text: data.message || "No se pudo agregar al cliente",
+          confirmButtonText: "Entendido",
+        });
+      }
       console.error('Error al eliminar cliente:', error);
     }
   };
@@ -120,7 +130,7 @@ const Clientes = () => {
   return (
     //color texto del modal
     <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-white">
-      <h1 className="text-3xl font-bold mb-6">Gestión de Clientes</h1>
+      <h1 className="text-3xl font-bold  text-iosText dark:text-white mb-6">Gestión de Clientes</h1>
 
       <button
         className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
@@ -180,7 +190,6 @@ const Clientes = () => {
         </Modal>
       )}
 
-      <h2 className="text-2xl font-semibold mt-6 mb-4">Lista de Clientes</h2>
       <ClienteList
         clientes={clientes}
         setClienteEditado={(cliente) => {
